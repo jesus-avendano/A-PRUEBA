@@ -1218,6 +1218,10 @@ a.red:not([href]) { opacity: .5; cursor: not-allowed; pointer-events: none; }
 
   .nav__lista { display: flex; align-items: center; gap: 28px; }
   .nav__lista a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px; /* área táctil */
     font-size: var(--t-nav);
     line-height: var(--lh-nav);
     font-weight: 700;
@@ -1225,7 +1229,21 @@ a.red:not([href]) { opacity: .5; cursor: not-allowed; pointer-events: none; }
     text-decoration: none;
     transition: color var(--dur-rapida) var(--ease-out);
   }
-  .nav__lista a:hover { color: var(--blanco); }
+  /* el texto crece en su propio <span> para no mover el layout;
+     la línea va en ::after y crece desde el centro (motion.css) */
+  .nav__texto { display: inline-block; }
+  .nav__lista a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--celeste-400);
+    transform: scaleX(0);
+    transform-origin: center;
+  }
 
   /* Hero */
   .hero { padding-block: 150px var(--seccion-y); }

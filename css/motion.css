@@ -240,3 +240,47 @@
   .dialogo[open]::backdrop { animation-duration: 150ms; animation-timing-function: linear; }
   .dialogo[open].dialogo--cerrando::backdrop { animation-duration: 150ms; }
 }
+
+/* ===========================================================
+   Nav (CAMBIOS-INTERACCION §4)
+   Enlaces: línea de 2px que crece desde el centro y texto a 1.06.
+   Botón "Regístrate gratis": crece y menea en hover; late al clic
+   (js/main.js agrega .late y baja a #entradas al terminar).
+   =========================================================== */
+
+@keyframes latido-cta {
+  0%, 100% { transform: scale(var(--escala, 1)); }
+  50%      { transform: scale(1.12); }
+}
+
+.nav__texto,
+.nav__lista a::after { transition: transform var(--dur-rapida) var(--ease-out); }
+
+.nav__lista a:focus-visible { color: var(--blanco); }
+.nav__lista a:focus-visible::after { transform: scaleX(1); }
+.nav__lista a:focus-visible .nav__texto { transform: scale(1.06); }
+
+.nav__cta { transform: scale(var(--escala, 1)); }
+
+@media (hover: hover) and (pointer: fine) {
+  .nav__lista a:hover { color: var(--blanco); }
+  .nav__lista a:hover::after { transform: scaleX(1); }
+  .nav__lista a:hover .nav__texto { transform: scale(1.06); }
+
+  .nav__cta:hover { --escala: 1.06; animation: menear 600ms var(--ease-out); }
+}
+
+/* el latido gana aunque el puntero siga encima */
+.nav__cta.late,
+.nav__cta.late:hover { animation: latido-cta 400ms var(--ease-spring); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* solo la línea, sin escala y sin crecer */
+  .nav__lista a::after { transition: none; }
+  .nav__lista a .nav__texto,
+  .nav__lista a:hover .nav__texto,
+  .nav__lista a:focus-visible .nav__texto { transform: none; }
+  .nav__cta,
+  .nav__cta:hover,
+  .nav__cta.late { --escala: 1; animation: none; }
+}

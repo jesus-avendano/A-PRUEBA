@@ -98,11 +98,27 @@ function deshabilitarEnlace(el) {
 function conectarCTAs() {
   const entradas = document.getElementById('entradas');
   if (!entradas) return;
+  const reducido = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   document.querySelectorAll('[data-ir-entradas]').forEach((cta) => {
     cta.addEventListener('click', (e) => {
       e.preventDefault();
-      irA(entradas);
-      saludar();
+      const ir = () => {
+        irA(entradas);
+        saludar();
+      };
+      // el botón de la nav (data-latido) late primero y después baja
+      if (!cta.hasAttribute('data-latido') || reducido()) {
+        ir();
+        return;
+      }
+      cta.classList.remove('late');
+      void cta.offsetWidth; // reinicia la animación si se pulsa dos veces
+      cta.classList.add('late');
+      setTimeout(() => {
+        cta.classList.remove('late');
+        ir();
+      }, 400);
     });
   });
 }
