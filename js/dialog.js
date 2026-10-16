@@ -70,10 +70,17 @@ export function openDialog({ id, origin = null, variant = 'estacion', focus = nu
   return animarEntrada(actual, rectOrigen);
 }
 
-/** Cierra el diálogo abierto con su animación de salida. */
-export function closeDialog() {
+/**
+ * Cierra el diálogo abierto con su animación de salida.
+ * Con { inmediato: true } se cierra sin animar (p. ej. para dejar paso a Luma).
+ */
+export function closeDialog({ inmediato = false } = {}) {
   if (!actual || actual.cerrando) return Promise.resolve();
   const a = actual;
+  if (inmediato) {
+    cerrarSinAnimar(a);
+    return Promise.resolve();
+  }
   a.cerrando = true;
   a.dialogo.classList.add('dialogo--cerrando');
   return animarSalida(a).then(() => terminar(a));

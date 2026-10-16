@@ -27,8 +27,8 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 
 - Lighthouse móvil contra el presupuesto (no se ha corrido todavía).
 - Safari iOS y Android reales. Dos cosas a mirar ahí:
-  - `transition` sobre `grid-template-rows` (la apertura del panel). Donde no esté soportado, el panel
-    abre y cierra igual, pero de golpe.
+  - Los diálogos: `<dialog>` con `showModal()`, `backdrop-filter` en `::backdrop` y las animaciones
+    con la Web Animations API. Si el desenfoque no está soportado, el fondo igual se oscurece.
   - El bloqueo de scroll (menú móvil y diálogos, en `js/dialog.js`) usa `overflow: hidden` en
     `<html>` más un `padding-right` del ancho de la barra. Funciona en iOS 16+, pero conviene
     confirmarlo en un aparato real.
@@ -41,12 +41,13 @@ Decisiones que conviene no deshacer sin querer:
 - **Las fuentes no bloquean.** La hoja de Google Fonts se carga con `media="print"` y se activa al
   llegar, porque una hoja externa bloquea la ejecución de los módulos: si Google Fonts tarda, la
   página se queda sin JS. Hay `<noscript>` de respaldo.
-- **El panel de entradas** vive dentro de `#panel-envoltorio` (grid `0fr → 1fr`) y `.panel-recorte`,
-  que recorta en vertical pero tiene padding lateral para no cortar las muescas ni la flecha. Cerrado
-  lleva `inert` + `aria-hidden`, no `hidden`, para poder animarlo.
+- **Las entradas se abren en `#dialogo-boleto`** (variante `ticket` de `js/dialog.js`), que crece desde
+  el boleto con FLIP. **Al tocar el botón de Luma el diálogo se cierra al instante:** un `<dialog>` modal
+  vive en el top layer, por encima de cualquier z-index, y deja inerte todo lo de fuera; el overlay de
+  Luma quedaría tapado y sin poder usarse. Está probado con un overlay falso de z-index máximo.
 - **Un transform por elemento.** El boleto flota y `.boleto__interior` crece y menea; el nodo flota y
   `.estacion__nodo-circulo` crece y late. Todas las escalas se componen con la variable `--escala`,
-  así el hover, el saludo y el estado atenuado no se pisan.
+  así el hover y el saludo no se pisan.
 - **La nav** alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
 - **Los enlaces que dependen de CONFIG** salen del HTML sin `href`; `main.js` se los pone si el campo
   tiene valor y si no los deja deshabilitados con `title="Próximamente"` (y, si son botones, además

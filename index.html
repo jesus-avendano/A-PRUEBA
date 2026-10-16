@@ -216,7 +216,7 @@
 
     <div class="entradas__selector">
       <div class="boletos">
-        <button class="boleto boleto--presencial" type="button" id="boleto-presencial" data-modalidad="presencial" aria-expanded="false" aria-controls="panel-entrada">
+        <button class="boleto boleto--presencial" type="button" id="boleto-presencial" data-modalidad="presencial" aria-haspopup="dialog">
           <span class="boleto__interior">
             <span class="boleto__burbuja">
               <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/></svg>
@@ -231,7 +231,7 @@
           </span>
         </button>
 
-        <button class="boleto boleto--virtual" type="button" id="boleto-virtual" data-modalidad="virtual" aria-expanded="false" aria-controls="panel-entrada">
+        <button class="boleto boleto--virtual" type="button" id="boleto-virtual" data-modalidad="virtual" aria-haspopup="dialog">
           <span class="boleto__interior">
             <span class="boleto__burbuja">
               <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
@@ -249,70 +249,67 @@
 
       <p class="entradas__ayuda small">Toca una opción para ver de qué se trata</p>
 
-      <div class="panel-envoltorio" id="panel-envoltorio">
-       <div class="panel-recorte">
-      <div class="panel-entrada" id="panel-entrada" role="region" aria-labelledby="panel-titulo-presencial" data-activa="presencial" aria-hidden="true" inert>
-        <span class="panel-entrada__flecha" aria-hidden="true"></span>
-        <button class="panel-entrada__cerrar" type="button" aria-label="Cerrar la entrada">
-          <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
+      <dialog class="dialogo dialogo--ticket" id="dialogo-boleto" aria-labelledby="panel-titulo-presencial" aria-describedby="panel-desc-presencial" data-modalidad="presencial">
+        <div class="dialogo__caja panel-entrada">
+          <button class="dialogo__cerrar" type="button" data-cerrar-dialogo aria-label="Cerrar">
+            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
 
-        <div class="panel-entrada__contenido" data-modalidad="presencial">
-          <div class="panel-entrada__info">
-            <p class="badge badge--naranja">Experiencia presencial</p>
-            <h3 class="panel-entrada__titulo" id="panel-titulo-presencial" tabindex="-1">Vívelo en el campus</h3>
-            <p class="panel-entrada__cupos"><span class="panel-entrada__numero" data-cupos="presencial">200</span> cupos</p>
-            <p class="panel-entrada__desc">Recorre las 4 estaciones en el Auditorio Norte y la Explanada de UCSUR Sede Norte, con especialistas y profesionales a tu lado.</p>
-            <ul class="beneficios">
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Diagnóstico vocacional con especialistas</li>
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Retos prácticos en mesas de trabajo</li>
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Mentores de la industria en vivo</li>
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Networking y validación al instante</li>
-            </ul>
+          <div class="panel-entrada__contenido" data-modalidad="presencial">
+            <div class="panel-entrada__info">
+              <p class="badge badge--naranja">Experiencia presencial</p>
+              <h3 class="panel-entrada__titulo" id="panel-titulo-presencial" tabindex="-1" data-foco-inicial>Vívelo en el campus</h3>
+              <p class="panel-entrada__cupos"><span class="panel-entrada__numero" data-cupos="presencial">200</span> cupos</p>
+              <p class="panel-entrada__desc" id="panel-desc-presencial">Recorre las 4 estaciones en el Auditorio Norte y la Explanada de UCSUR Sede Norte, con especialistas y profesionales a tu lado.</p>
+              <ul class="beneficios">
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Diagnóstico vocacional con especialistas</li>
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Retos prácticos en mesas de trabajo</li>
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Mentores de la industria en vivo</li>
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Networking y validación al instante</li>
+              </ul>
+            </div>
+
+            <div class="panel-entrada__accion">
+              <p class="panel-entrada__subtitulo">Así funciona</p>
+              <ol class="pasos">
+                <li><span class="pasos__num">1</span><span class="pasos__texto">Regístrate gratis con tus datos.</span></li>
+                <li><span class="pasos__num">2</span><span class="pasos__texto">Recibe tu Pasaporte (QR) en tu correo.</span></li>
+                <li><span class="pasos__num">3</span><span class="pasos__texto">Preséntalo el martes 17 de noviembre en UCSUR Sede Norte.</span></li>
+              </ol>
+              <button class="boton boton--naranja boton--ancho" type="button" data-luma="presencial" disabled>Inscripciones muy pronto</button>
+              <p class="panel-entrada__nota small">Cupos limitados por orden de inscripción</p>
+              <p class="panel-entrada__cambio small">¿Prefieres conectarte desde casa? <button class="enlace" type="button" data-cambiar="virtual">Ver experiencia virtual</button></p>
+            </div>
           </div>
 
-          <div class="panel-entrada__accion">
-            <p class="panel-entrada__subtitulo">Así funciona</p>
-            <ol class="pasos">
-              <li><span class="pasos__num">1</span><span class="pasos__texto">Regístrate gratis con tus datos.</span></li>
-              <li><span class="pasos__num">2</span><span class="pasos__texto">Recibe tu Pasaporte (QR) en tu correo.</span></li>
-              <li><span class="pasos__num">3</span><span class="pasos__texto">Preséntalo el martes 17 de noviembre en UCSUR Sede Norte.</span></li>
-            </ol>
-            <button class="boton boton--naranja boton--ancho" type="button" data-luma="presencial" disabled>Inscripciones muy pronto</button>
-            <p class="panel-entrada__nota small">Cupos limitados por orden de inscripción</p>
-            <p class="panel-entrada__cambio small">¿Prefieres conectarte desde casa? <button class="enlace" type="button" data-cambiar="virtual">Ver experiencia virtual</button></p>
+          <div class="panel-entrada__contenido" data-modalidad="virtual" hidden>
+            <div class="panel-entrada__info">
+              <p class="badge badge--azul">Experiencia virtual</p>
+              <h3 class="panel-entrada__titulo" id="panel-titulo-virtual" tabindex="-1" data-foco-inicial>Vívelo desde donde estés</h3>
+              <p class="panel-entrada__cupos"><span class="panel-entrada__numero" data-cupos="virtual">800</span> cupos</p>
+              <p class="panel-entrada__desc" id="panel-desc-virtual">Conéctate desde tu celular o computadora a una experiencia pensada para lo virtual: no es una simple transmisión, tiene dinámicas propias.</p>
+              <ul class="beneficios">
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Diagnóstico digital desde tu celular</li>
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Experiencias dinámicas guiadas</li>
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Retos colaborativos en equipos online</li>
+                <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Conversatorios y salas interactivas</li>
+              </ul>
+            </div>
+
+            <div class="panel-entrada__accion">
+              <p class="panel-entrada__subtitulo">Así funciona</p>
+              <ol class="pasos">
+                <li><span class="pasos__num">1</span><span class="pasos__texto">Regístrate gratis con tus datos.</span></li>
+                <li><span class="pasos__num">2</span><span class="pasos__texto">Recibe tu enlace privado en tu correo.</span></li>
+                <li><span class="pasos__num">3</span><span class="pasos__texto">Conéctate el martes 17 de noviembre a las 9:00 a.m.</span></li>
+              </ol>
+              <button class="boton boton--azul boton--ancho" type="button" data-luma="virtual" disabled>Inscripciones muy pronto</button>
+              <p class="panel-entrada__nota small">Recibirás el enlace privado de acceso en tu correo</p>
+              <p class="panel-entrada__cambio small">¿Prefieres vivirlo en el campus? <button class="enlace" type="button" data-cambiar="presencial">Ver experiencia presencial</button></p>
+            </div>
           </div>
         </div>
-
-        <div class="panel-entrada__contenido" data-modalidad="virtual" hidden>
-          <div class="panel-entrada__info">
-            <p class="badge badge--azul">Experiencia virtual</p>
-            <h3 class="panel-entrada__titulo" id="panel-titulo-virtual" tabindex="-1">Vívelo desde donde estés</h3>
-            <p class="panel-entrada__cupos"><span class="panel-entrada__numero" data-cupos="virtual">800</span> cupos</p>
-            <p class="panel-entrada__desc">Conéctate desde tu celular o computadora a una experiencia pensada para lo virtual: no es una simple transmisión, tiene dinámicas propias.</p>
-            <ul class="beneficios">
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Diagnóstico digital desde tu celular</li>
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Experiencias dinámicas guiadas</li>
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Retos colaborativos en equipos online</li>
-              <li><span class="beneficios__check"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Conversatorios y salas interactivas</li>
-            </ul>
-          </div>
-
-          <div class="panel-entrada__accion">
-            <p class="panel-entrada__subtitulo">Así funciona</p>
-            <ol class="pasos">
-              <li><span class="pasos__num">1</span><span class="pasos__texto">Regístrate gratis con tus datos.</span></li>
-              <li><span class="pasos__num">2</span><span class="pasos__texto">Recibe tu enlace privado en tu correo.</span></li>
-              <li><span class="pasos__num">3</span><span class="pasos__texto">Conéctate el martes 17 de noviembre a las 9:00 a.m.</span></li>
-            </ol>
-            <button class="boton boton--azul boton--ancho" type="button" data-luma="virtual" disabled>Inscripciones muy pronto</button>
-            <p class="panel-entrada__nota small">Recibirás el enlace privado de acceso en tu correo</p>
-            <p class="panel-entrada__cambio small">¿Prefieres vivirlo en el campus? <button class="enlace" type="button" data-cambiar="presencial">Ver experiencia presencial</button></p>
-          </div>
-        </div>
-      </div>
-       </div>
-      </div>
+      </dialog>
     </div>
 
     <p class="entradas__nota">

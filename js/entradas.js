@@ -1,7 +1,10 @@
-/* Selector Presencial/Virtual: los dos botones flotantes abren su panel
-   en el mismo lugar, sin cambiar de página ni abrir un modal. */
+/* Selector Presencial/Virtual: cada boleto abre su experiencia en un
+   diálogo centrado que crece desde el propio boleto (js/dialog.js). */
 
 import { CONFIG } from './config.js';
+import { openDialog, closeDialog } from './dialog.js';
+
+const ID_DIALOGO = 'dialogo-boleto';
 
 const ETIQUETA_LUMA = {
   presencial: 'Quiero mi pasaporte presencial',
@@ -10,128 +13,56 @@ const ETIQUETA_LUMA = {
 
 export function iniciarEntradas() {
   const boletos = [...document.querySelectorAll('.boleto')];
-  const envoltorio = document.getElementById('panel-envoltorio');
-  const panel = document.getElementById('panel-entrada');
-  if (!boletos.length || !panel) return;
+  const dialogo = document.getElementById(ID_DIALOGO);
+  if (!boletos.length || !dialogo) return;
 
-  const contenidos = [...panel.querySelectorAll('.panel-entrada__contenido')];
-  const botonCerrar = panel.querySelector('.panel-entrada__cerrar');
-
-  let abierta = null;        // 'presencial' | 'virtual' | null
-  let boletoQueAbrio = null; // para devolverle el foco al cerrar
+  const caja = dialogo.querySelector('.dialogo__caja');
+  const contenidos = [...dialogo.querySelectorAll('.panel-entrada__contenido')];
 
   prepararLuma(contenidos);
   aplicarCupos();
 
-  /* --- apertura y cierre --- */
-
-  function mostrarContenido(modalidad, desde) {
+  function mostrar(modalidad, { animar = false } = {}) {
     contenidos.forEach((c) => {
       const esta = c.dataset.modalidad === modalidad;
       c.hidden = !esta;
-      if (!esta) return;
-      if (desde) {
-        // el contenido entra deslizando desde el lado del botón elegido
-        c.style.setProperty('--desliz', desde === 'virtual' ? '24px' : '-24px');
-        c.classList.remove('panel-entrada__contenido--anima');
-        void c.offsetWidth; // reinicia la animación
-        c.classList.add('panel-entrada__contenido--anima');
-      }
+      if (!esta || !animar) return;
+      // entra deslizando desde el lado de la modalidad elegida
+      c.style.setProperty('--desliz', modalidad === 'virtual' ? '24px' : '-24px');
+      c.classList.remove('panel-entrada__contenido--anima');
+      void c.offsetWidth; // reinicia la animación
+      c.classList.add('panel-entrada__contenido--anima');
     });
-    panel.dataset.activa = modalidad;
-    const titulo = panel.querySelector(`#panel-titulo-${modalidad}`);
-    if (titulo) panel.setAttribute('aria-labelledby', titulo.id);
+    dialogo.dataset.modalidad = modalidad;
+    dialogo.setAttribute('aria-labelledby', `panel-titulo-${modalidad}`);
+    dialogo.setAttribute('aria-describedby', `panel-desc-${modalidad}`);
+    caja.scrollTop = 0;
   }
 
-  function pintarBoletos() {
-    boletos.forEach((b) => {
-      const mod = b.dataset.modalidad;
-      const activo = mod === abierta;
-      b.classList.toggle('boleto--activo', activo);
-      b.classList.toggle('boleto--atenuado', abierta !== null && !activo);
-      b.setAttribute('aria-expanded', String(activo));
-      const pie = b.querySelector('.boleto__pie-texto');
-      if (pie) pie.textContent = activo ? 'Cerrar' : 'Ver experiencia';
-    });
-  }
-
-  function abrir(modalidad, boton) {
-    const cambio = abierta !== null && abierta !== modalidad;
-    const primera = abierta === null;
-    abierta = modalidad;
-    boletoQueAbrio = boton;
-
-    mostrarContenido(modalidad, cambio ? modalidad : null);
-    pintarBoletos();
-
-    envoltorio.classList.add('panel-envoltorio--abierto');
-    panel.removeAttribute('inert');
-    panel.removeAttribute('aria-hidden');
-
-    if (primera) {
-      panel.classList.remove('panel-entrada--aparece');
-      void panel.offsetWidth;
-      panel.classList.add('panel-entrada--aparece');
-      const boletoActivo = boton;
-      if (boletoActivo) {
-        boletoActivo.classList.remove('late');
-        void boletoActivo.offsetWidth;
-        boletoActivo.classList.add('late');
-      }
-    }
-
-    const titulo = panel.querySelector(`#panel-titulo-${modalidad}`);
-    if (titulo) titulo.focus({ preventScroll: true });
-
-    // en móvil, mover la vista solo si el panel se quedó fuera de pantalla
-    if (window.innerWidth < 1024) {
-      requestAnimationFrame(() => {
-        const caja = panel.getBoundingClientRect();
-        const fuera = caja.bottom > window.innerHeight || caja.top < 0;
-        if (fuera) {
-          const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          panel.scrollIntoView({ block: 'nearest', behavior: suave ? 'smooth' : 'auto' });
-        }
-      });
-    }
-  }
-
-  function cerrar({ devolverFoco = true } = {}) {
-    if (abierta === null) return;
-    abierta = null;
-    pintarBoletos();
-    envoltorio.classList.remove('panel-envoltorio--abierto');
-    panel.setAttribute('inert', '');
-    panel.setAttribute('aria-hidden', 'true');
-    if (devolverFoco && boletoQueAbrio) boletoQueAbrio.focus();
-    boletoQueAbrio = null;
-  }
-
-  /* --- eventos --- */
-
-  boletos.forEach((boton) => {
-    boton.addEventListener('click', () => {
-      const mod = boton.dataset.modalidad;
-      if (abierta === mod) cerrar();
-      else abrir(mod, boton);
+  boletos.forEach((boleto) => {
+    boleto.addEventListener('click', () => {
+      mostrar(boleto.dataset.modalidad);
+      openDialog({ id: ID_DIALOGO, origin: boleto, variant: 'ticket' });
     });
   });
 
-  botonCerrar.addEventListener('click', () => cerrar());
-
-  // enlace "¿Prefieres…?" dentro del panel
-  panel.querySelectorAll('[data-cambiar]').forEach((enlace) => {
+  // "¿Prefieres…?": cambia el contenido dentro del mismo diálogo, sin cerrarlo
+  dialogo.querySelectorAll('[data-cambiar]').forEach((enlace) => {
     enlace.addEventListener('click', () => {
-      const mod = enlace.dataset.cambiar;
-      abrir(mod, boletos.find((b) => b.dataset.modalidad === mod) || boletoQueAbrio);
+      const modalidad = enlace.dataset.cambiar;
+      mostrar(modalidad, { animar: true });
+      // el enlace pulsado quedó oculto: el foco pasa al título nuevo
+      const titulo = dialogo.querySelector(`#panel-titulo-${modalidad}`);
+      if (titulo) titulo.focus({ preventScroll: true });
     });
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && abierta !== null) {
-      e.preventDefault();
-      cerrar();
-    }
+  // Luma: un <dialog> modal vive en el top layer, por encima de cualquier
+  // z-index, y deja inerte todo lo de fuera. Se cierra antes de que Luma
+  // abra su overlay; si el script de Luma no está, el enlace abre el evento
+  // en otra pestaña igual que siempre.
+  dialogo.addEventListener('click', (e) => {
+    if (e.target.closest('a[data-luma]')) closeDialog({ inmediato: true });
   });
 
   // saludo escalonado la primera vez que la sección entra en pantalla

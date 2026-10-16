@@ -30,28 +30,20 @@
   to   { opacity: 1; transform: none; }
 }
 
-/* El saludo y el latido van en el envoltorio interno del boleto para no
-   pisar el transform del estado atenuado. */
+/* El saludo va en el envoltorio interno del boleto: el externo flota. */
 .boleto.saluda .boleto__interior { animation: menear 600ms var(--ease-out); }
-.boleto.late .boleto__interior { animation: latido 500ms var(--ease-spring); }
 
-/* El panel crece en su sitio: la altura la anima el grid 0fr → 1fr. */
-.panel-entrada--aparece { animation: aparecer 500ms var(--ease-out) 120ms both; }
-.panel-entrada__contenido--anima { animation: panel-entra 320ms var(--ease-out) both; }
+/* Cambio de modalidad dentro del diálogo: fundido y 24px de deslizamiento. */
+.panel-entrada__contenido--anima { animation: panel-entra 250ms var(--ease-out) both; }
 
-@media (prefers-reduced-motion: reduce) {
-  .boleto.saluda .boleto__interior,
-  .boleto.late .boleto__interior,
-  .panel-entrada--aparece,
-  .panel-entrada__contenido--anima {
-    animation: none;
-  }
-}
+@keyframes funde { from { opacity: 0; } to { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  /* el panel sigue abriendo y cerrando, pero sin animar la altura */
-  .panel-envoltorio { transition: none; }
+  .boleto.saluda .boleto__interior { animation: none; }
+  /* sin deslizamiento: solo el fundido corto que usan todos los diálogos */
+  .panel-entrada__contenido--anima { animation: funde 150ms linear both; }
 }
+
 
 /* ===========================================================
    Fase 3 · el lenguaje de movimiento de la página

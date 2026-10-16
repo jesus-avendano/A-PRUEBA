@@ -697,94 +697,9 @@ a.boton:not([href]),
 }
 .boleto--presencial .boleto__pie { color: var(--naranja-500); }
 .boleto--virtual .boleto__pie { color: var(--azul-500); }
-.boleto__chevron { width: 18px; height: 18px; transition: transform var(--dur-rapida) var(--ease-out); }
-
-/* estado abierto (lo activa js/entradas.js en la fase 2) */
-.boleto--activo { color: var(--blanco); }
-.boleto--presencial.boleto--activo {
-  background: var(--naranja-500);
-  border-color: var(--naranja-500);
-  box-shadow: 0 8px 0 var(--naranja-700), var(--sombra-tarjeta);
-}
-.boleto--virtual.boleto--activo {
-  background: var(--azul-500);
-  border-color: var(--azul-500);
-  box-shadow: 0 8px 0 var(--azul-600), var(--sombra-tarjeta);
-}
-.boleto--activo .boleto__numero,
-.boleto--activo .boleto__linea,
-.boleto--activo .boleto__cupos-texto,
-.boleto--activo .boleto__pie { color: var(--blanco); }
-.boleto--activo .boleto__burbuja { background: rgba(255, 255, 255, .2); color: var(--blanco); }
-.boleto--activo .boleto__chevron { transform: rotate(180deg); }
-.boleto--atenuado { --escala: .92; opacity: .7; }
+.boleto__chevron { width: 18px; height: 18px; }
 
 .entradas__ayuda { margin-top: var(--e-16); text-align: center; color: var(--tinta-600); }
-
-/* La altura se anima con grid 0fr → 1fr (js/entradas.js alterna la clase). */
-.panel-envoltorio {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--dur-media) var(--ease-out);
-}
-.panel-envoltorio--abierto { grid-template-rows: 1fr; }
-
-/* El recorte vertical necesita aire a los lados: las muescas y la flecha
-   del panel sobresalen de su caja y si no, se cortarían. */
-.panel-recorte {
-  min-height: 0;
-  overflow: hidden;
-  padding: 16px 20px 28px;
-  margin: -16px -20px -28px;
-}
-
-.panel-entrada {
-  position: relative;
-  max-width: 1000px;
-  margin: var(--e-24) auto 0;
-  padding: var(--e-24);
-  background: var(--blanco);
-  border-top: 2px dashed var(--linea);
-  border-radius: var(--r-tarjeta);
-  box-shadow: var(--sombra-tarjeta);
-}
-
-/* muescas del panel, a la altura de la línea punteada */
-.panel-entrada::before,
-.panel-entrada::after {
-  content: "";
-  position: absolute;
-  top: -14px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--nube-50);
-}
-.panel-entrada::before { left: -14px; }
-.panel-entrada::after { right: -14px; }
-
-.panel-entrada__flecha {
-  position: absolute;
-  top: -12px;
-  left: 25%;
-  width: 22px;
-  height: 12px;
-  background: var(--blanco);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  transition: left var(--dur-media) var(--ease-out);
-}
-.panel-entrada[data-activa="virtual"] .panel-entrada__flecha { left: 75%; }
-
-.panel-entrada__cerrar {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: grid;
-  place-items: center;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  color: var(--tinta-600);
-}
 
 .panel-entrada__contenido { display: flex; flex-direction: column; gap: var(--e-32); }
 .panel-entrada__info { display: flex; flex-direction: column; gap: 12px; }
@@ -1331,7 +1246,6 @@ a.red:not([href]) { opacity: .5; cursor: not-allowed; pointer-events: none; }
   .boleto { min-height: 230px; padding: 26px 20px; }
   .boleto__numero { font-size: 3.5rem; }
 
-  .panel-entrada { padding: var(--e-40); }
   .panel-entrada__contenido {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
