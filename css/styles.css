@@ -18,6 +18,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Mientras hay un diálogo o el menú móvil abierto (js/dialog.js).
+   El padding ocupa el lugar de la barra de scroll que desaparece, así
+   la página no se corre; con barras superpuestas (móvil, macOS) vale 0. */
+html.sin-scroll { overflow: hidden; padding-right: var(--ancho-barra, 0px); }
+html.sin-scroll .nav--fija { right: var(--ancho-barra, 0px); }
+
 body {
   margin: 0;
   background: var(--blanco);
@@ -280,6 +286,95 @@ a.boton:not([href]),
   font-size: 1.875rem;
   font-weight: 700;
   text-decoration: none;
+}
+
+/* ---------------- Diálogos (js/dialog.js) ----------------
+   El <dialog> es solo el contenedor; lo que se ve es .dialogo__caja.
+   Así un clic fuera de la caja siempre cae en el fondo. */
+
+.dialogo {
+  /* fit-content, no auto: el navegador lo fija con left:0 y right:0,
+     y con auto se estiraría a todo el ancho en vez de centrarse */
+  width: fit-content;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--navy-900);
+  overflow: visible;
+}
+
+.dialogo::backdrop {
+  background: rgba(11, 16, 64, .55);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  backdrop-filter: blur(10px) saturate(1.1);
+}
+
+.dialogo__caja {
+  position: relative;
+  width: calc(100vw - 32px);
+  max-width: 1000px;
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--e-24);
+  background: var(--blanco);
+  border-radius: var(--r-tarjeta);
+  box-shadow: var(--sombra-tarjeta);
+}
+.dialogo--estacion .dialogo__caja { max-width: 720px; }
+
+.dialogo__cerrar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--blanco);
+  color: var(--tinta-600);
+  transition: background-color var(--dur-rapida) var(--ease-out);
+}
+
+/* aliado: hoja inferior en móvil, panel lateral desde 768px */
+.dialogo--aliado { width: 100%; margin: auto 0 0; }
+.dialogo--aliado .dialogo__caja {
+  width: 100%;
+  max-width: none;
+  max-height: 88vh;
+  max-height: 88dvh;
+  border-radius: var(--r-tarjeta) var(--r-tarjeta) 0 0;
+}
+.dialogo__asa {
+  display: block;
+  width: 44px;
+  height: 5px;
+  margin: -8px auto 16px;
+  border-radius: var(--r-pastilla);
+  background: var(--linea);
+}
+
+@media (min-width: 768px) {
+  .dialogo__caja { padding: var(--e-40); }
+
+  .dialogo--aliado { width: fit-content; height: 100%; margin: 0 0 0 auto; }
+  .dialogo--aliado .dialogo__caja {
+    width: min(460px, 100vw);
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    border-radius: var(--r-tarjeta) 0 0 var(--r-tarjeta);
+  }
+  .dialogo__asa { display: none; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dialogo__cerrar:hover { background: var(--nube-50); color: var(--navy-900); }
 }
 
 /* ---------------- Hero ---------------- */

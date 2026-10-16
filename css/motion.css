@@ -227,3 +227,24 @@
   .ruta__linea-solida { opacity: 0; }
   .cometa { display: none; }
 }
+
+/* ===========================================================
+   Diálogos: el fondo borroso aparece y se va con un fundido.
+   ::backdrop no hereda variables, por eso la curva va escrita.
+   La caja la anima js/dialog.js (FLIP, panel lateral, fundido).
+   =========================================================== */
+
+@keyframes dialogo-fondo-entra { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dialogo-fondo-sale  { from { opacity: 1; } to { opacity: 0; } }
+
+.dialogo[open]::backdrop {
+  animation: dialogo-fondo-entra 300ms cubic-bezier(.22, 1, .36, 1);
+}
+.dialogo[open].dialogo--cerrando::backdrop {
+  animation: dialogo-fondo-sale 250ms cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialogo[open]::backdrop { animation-duration: 150ms; animation-timing-function: linear; }
+  .dialogo[open].dialogo--cerrando::backdrop { animation-duration: 150ms; }
+}

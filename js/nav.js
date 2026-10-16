@@ -1,5 +1,7 @@
 /* Nav fija al pasar 40px + menú móvil a pantalla completa. */
 
+import { bloquearScroll, liberarScroll } from './dialog.js';
+
 const UMBRAL = 40;
 
 export function iniciarNav() {
@@ -16,20 +18,14 @@ export function iniciarNav() {
   window.addEventListener('scroll', alScroll, { passive: true });
 
   /* --- menú móvil --- */
-  let scrollGuardado = 0;
-
   const enfocables = () =>
     [...menu.querySelectorAll('a[href], button:not([disabled])')]
       .filter((el) => el.offsetParent !== null);
 
   function abrir() {
-    scrollGuardado = window.scrollY;
     menu.hidden = false;
     hamburguesa.setAttribute('aria-expanded', 'true');
-    // bloquear el scroll del body sin perder la posición (iOS incluido)
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollGuardado}px`;
-    document.body.style.width = '100%';
+    bloquearScroll();
     botonCerrar.focus();
     document.addEventListener('keydown', alTeclado);
   }
@@ -38,10 +34,7 @@ export function iniciarNav() {
     if (menu.hidden) return;
     menu.hidden = true;
     hamburguesa.setAttribute('aria-expanded', 'false');
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    window.scrollTo(0, scrollGuardado);
+    liberarScroll();
     document.removeEventListener('keydown', alTeclado);
     if (devolverFoco) hamburguesa.focus();
   }

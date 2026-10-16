@@ -11,6 +11,7 @@ Público: escolares de secundaria que llegan desde el celular (Instagram, TikTok
 Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Presencial (200 cupos)** o **Virtual (800 cupos)**.
 
 - **Contenido y datos:** `docs/PROYECTO.md` es la fuente de verdad de textos, fechas, aliados y pendientes. No inventes textos ni datos.
+- **Interacciones v2:** `docs/CAMBIOS-INTERACCION.md` reemplaza lo que este archivo dice de entradas, aliados, ruta y nav. Si se contradicen, gana ese archivo.
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
 - **Registro:** Luma. No hay base de datos ni formulario propio.
 - **Publicación:** martes 20 de octubre de 2026.
@@ -28,8 +29,9 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 - Safari iOS y Android reales. Dos cosas a mirar ahí:
   - `transition` sobre `grid-template-rows` (la apertura del panel). Donde no esté soportado, el panel
     abre y cierra igual, pero de golpe.
-  - El bloqueo de scroll del menú móvil usa `position: fixed` en el body, que es la técnica que
-    funciona en iOS, pero conviene confirmarlo en un aparato real.
+  - El bloqueo de scroll (menú móvil y diálogos, en `js/dialog.js`) usa `overflow: hidden` en
+    `<html>` más un `padding-right` del ancho de la barra. Funciona en iOS 16+, pero conviene
+    confirmarlo en un aparato real.
 - Rellenar `js/config.js` con los datos que faltan en `docs/PROYECTO.md` (sección 8) y el snippet
   del script de Luma donde dice `<!-- LUMA SCRIPT -->`.
 - La imagen `og-image.png` (1200×630) y el favicon oficial.
