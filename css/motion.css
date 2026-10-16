@@ -1,0 +1,54 @@
+/* ===========================================================
+   A+PRUEBA · movimiento
+   Fase 2: lo que necesitan las interacciones (abrir el panel,
+   el saludo de los CTA, el latido al elegir).
+   Fase 3 agrega aquí flotar, vaivén, estrellas y cometa.
+   =========================================================== */
+
+@keyframes menear {
+  0%   { transform: rotate(0deg) translateX(0); }
+  20%  { transform: rotate(-4deg) translateX(-6px); }
+  45%  { transform: rotate(4deg) translateX(6px); }
+  70%  { transform: rotate(-3deg) translateX(-4px); }
+  88%  { transform: rotate(2deg) translateX(2px); }
+  100% { transform: rotate(0deg) translateX(0); }
+}
+
+@keyframes latido {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes panel-entra {
+  from { opacity: 0; transform: translateX(var(--desliz, 0)); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* El saludo y el latido van en el envoltorio interno del boleto para no
+   pisar el transform del estado atenuado. */
+.boleto.saluda .boleto__interior { animation: menear 600ms var(--ease-out); }
+.boleto.late .boleto__interior { animation: latido 500ms var(--ease-spring); }
+
+/* El panel crece en su sitio: la altura la anima el grid 0fr → 1fr. */
+.panel-entrada--aparece { animation: aparecer 500ms var(--ease-out) 120ms both; }
+.panel-entrada__contenido--anima { animation: panel-entra 320ms var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .boleto.saluda .boleto__interior,
+  .boleto.late .boleto__interior,
+  .panel-entrada--aparece,
+  .panel-entrada__contenido--anima {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* el panel sigue abriendo y cerrando, pero sin animar la altura */
+  .panel-envoltorio { transition: none; }
+}

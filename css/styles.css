@@ -626,6 +626,23 @@ a.boton:not([href]),
 
 .entradas__ayuda { margin-top: var(--e-16); text-align: center; color: var(--tinta-600); }
 
+/* La altura se anima con grid 0fr → 1fr (js/entradas.js alterna la clase). */
+.panel-envoltorio {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-media) var(--ease-out);
+}
+.panel-envoltorio--abierto { grid-template-rows: 1fr; }
+
+/* El recorte vertical necesita aire a los lados: las muescas y la flecha
+   del panel sobresalen de su caja y si no, se cortarían. */
+.panel-recorte {
+  min-height: 0;
+  overflow: hidden;
+  padding: 16px 20px 28px;
+  margin: -16px -20px -28px;
+}
+
 .panel-entrada {
   position: relative;
   max-width: 1000px;
@@ -790,6 +807,14 @@ a.boton:not([href]),
   color: var(--tinta-600);
 }
 .contador__sep { display: none; }
+
+.contador__mensaje {
+  margin-top: var(--e-32);
+  font-family: var(--fuente-titulo);
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
+  font-weight: 700;
+}
 
 .contador__texto {
   max-width: 720px;

@@ -17,26 +17,38 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 
 ## Estado actual
 
-**Fase 1 terminada** (estructura y estilos estáticos). Existen `index.html`, `favicon.svg`,
-`css/tokens.css` y `css/styles.css`, con las 7 secciones y la nav maquetadas y sin una sola línea de JS.
-Falta `assets/og/og-image.png` (la carpeta tiene solo un `.gitkeep`).
+**Fases 1 y 2 terminadas.** La landing está maquetada y es funcional: `index.html`, `favicon.svg`,
+`css/tokens.css`, `css/styles.css`, `css/motion.css` y `js/` (`config.js`, `main.js`, `nav.js`,
+`entradas.js`, `countdown.js`, `tabs.js`). Falta `assets/og/og-image.png`.
 
-**Lo siguiente es la Fase 2**: crear `js/` entero (`config.js`, `main.js`, `nav.js`, `entradas.js`,
-`countdown.js`, `tabs.js`) y conectarlo al HTML, que ya trae los ganchos puestos:
+`css/motion.css` se creó en la fase 2 con lo mínimo que piden las interacciones (`menear`, `latido`,
+`aparecer`, el deslizamiento del panel y su bloque de `prefers-reduced-motion`). **La fase 3 agrega
+ahí** `flotar`, `vaivén`, `parpadeo`, el patrón "crecer y menear" y lo que necesiten las estrellas,
+el trazo y el cometa.
 
-- `data-ir-entradas` en los 4 CTA genéricos, `data-modalidad` en los dos boletos.
-- `#panel-entrada` sale con `hidden` y `data-activa="presencial"`; dentro van los dos
-  `.panel-entrada__contenido[data-modalidad]` (el virtual con `hidden`). Las clases del estado abierto
-  (`.boleto--activo`, `.boleto--atenuado`) ya están escritas en `styles.css`: la fase 2 solo las alterna.
-- `data-config="mapa.direccion"` y `data-config="virtual.plataforma"` marcan los textos que vienen de CONFIG.
-- `data-config-href`, `data-whatsapp` y `data-red` marcan los enlaces que hoy **no tienen `href`** y por eso
-  se ven deshabilitados. Al rellenar CONFIG hay que ponerles el `href`; si el campo sigue vacío, la fase 2
-  les debe poner el texto "Próximamente" (hoy conservan su etiqueta de diseño).
-- `data-luma="presencial|virtual"` son los dos botones de registro, hoy `disabled` con el texto
-  "Inscripciones muy pronto".
-- `data-unidad` en las 4 cajas del contador y `#contador-aria` para el `aria-live`.
-- `<canvas class="cielo">` en hero y ruta, `.ruta__linea-solida`, `.cometa` y `.estacion__relleno`
-  están puestos y apagados en CSS, esperando la fase 3.
+**Lo siguiente es la Fase 3** (movimiento). Lo que ya está puesto y esperando:
+
+- `js/starfield.js` y `js/ruta.js` **no existen todavía**; hay que crearlos e importarlos en `main.js`.
+- `<canvas class="cielo" id="cielo-hero">` y `#cielo-ruta` están en el HTML, vacíos.
+- En el SVG de la ruta: `.ruta__linea` (los puntos), `.ruta__linea-solida` (la copia para el dibujo de
+  entrada, hoy con `opacity: 0`) y `.cometa` con 5 `.cometa__estela` y una `.cometa__cabeza`
+  (hoy `opacity: 0`, sin posicionar).
+- En móvil, cada estación trae `.estacion__riel` con un `.estacion__relleno` de `height: 0` listo para
+  avanzar con el scroll.
+- `entradas.js` exporta `saludar()`, que ya aplica la clase `.saluda`; el flotar de los boletos y el
+  "crecer y menear" de hover son CSS nuevo en `motion.css`.
+
+Decisiones de la fase 2, para no deshacerlas sin querer:
+
+- El panel vive dentro de `#panel-envoltorio` (grid `0fr → 1fr`) y `.panel-recorte`, que recorta en
+  vertical pero tiene padding lateral para no cortar las muescas ni la flecha. Cerrado, el panel lleva
+  `inert` + `aria-hidden`, no `hidden`, para poder animarlo.
+- La nav alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
+- Los enlaces que dependen de CONFIG salen del HTML **sin `href`**. `main.js` les pone el `href` si el
+  campo tiene valor; si no, los deja deshabilitados con `title="Próximamente"` y, cuando son botones,
+  además les cambia el texto a "Próximamente".
+- El botón de Luma sale como `<button disabled>` con "Inscripciones muy pronto" y `entradas.js` lo
+  reemplaza por el `<a>` embebible cuando `CONFIG.luma[modalidad].url` tiene valor.
 
 ## Comandos
 
