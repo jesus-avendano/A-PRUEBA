@@ -5,6 +5,8 @@ import { iniciarNav, irA } from './nav.js';
 import { iniciarEntradas, saludar } from './entradas.js';
 import { iniciarCuentaRegresiva } from './countdown.js';
 import { iniciarPestanas } from './tabs.js';
+import { iniciarCielo } from './starfield.js';
+import { iniciarRuta } from './ruta.js';
 
 const PROXIMAMENTE = 'Próximamente';
 
@@ -13,6 +15,8 @@ iniciarNav();
 iniciarEntradas();
 iniciarCuentaRegresiva();
 iniciarPestanas();
+iniciarCielo();
+iniciarRuta();
 conectarCTAs();
 
 /* ---------------------------------------------------------

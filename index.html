@@ -22,7 +22,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap">
+<!-- Una hoja externa bloquea la ejecución de los módulos: si Google Fonts
+     tarda, la página se queda sin JS. Se carga sin bloquear y se activa al llegar. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap"></noscript>
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/motion.css">
@@ -366,7 +370,7 @@
       <ol class="estaciones">
         <li class="estacion estacion--1" data-estacion="1">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-num">1</span></span>
+          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">1</span></span></span>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">
@@ -383,7 +387,7 @@
 
         <li class="estacion estacion--2" data-estacion="2">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-num">2</span></span>
+          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">2</span></span></span>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">
@@ -400,7 +404,7 @@
 
         <li class="estacion estacion--3" data-estacion="3">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-num">3</span></span>
+          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">3</span></span></span>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">
@@ -417,7 +421,7 @@
 
         <li class="estacion estacion--4" data-estacion="4">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-num">4</span></span>
+          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">4</span></span></span>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">

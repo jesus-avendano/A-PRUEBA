@@ -17,38 +17,38 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 
 ## Estado actual
 
-**Fases 1 y 2 terminadas.** La landing está maquetada y es funcional: `index.html`, `favicon.svg`,
-`css/tokens.css`, `css/styles.css`, `css/motion.css` y `js/` (`config.js`, `main.js`, `nav.js`,
-`entradas.js`, `countdown.js`, `tabs.js`). Falta `assets/og/og-image.png`.
+**Fases 1, 2 y 3 terminadas.** La landing está maquetada, es funcional y se mueve.
+Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`) y
+`js/` (`config.js`, `main.js`, `nav.js`, `entradas.js`, `countdown.js`, `tabs.js`, `starfield.js`,
+`ruta.js`). Falta `assets/og/og-image.png`.
 
-`css/motion.css` se creó en la fase 2 con lo mínimo que piden las interacciones (`menear`, `latido`,
-`aparecer`, el deslizamiento del panel y su bloque de `prefers-reduced-motion`). **La fase 3 agrega
-ahí** `flotar`, `vaivén`, `parpadeo`, el patrón "crecer y menear" y lo que necesiten las estrellas,
-el trazo y el cometa.
+**Lo siguiente es la Fase 4 (QA).** Lo que queda pendiente de verdad:
 
-**Lo siguiente es la Fase 3** (movimiento). Lo que ya está puesto y esperando:
+- Lighthouse móvil contra el presupuesto (no se ha corrido todavía).
+- Safari iOS y Android reales. Dos cosas a mirar ahí:
+  - `transition` sobre `grid-template-rows` (la apertura del panel). Donde no esté soportado, el panel
+    abre y cierra igual, pero de golpe.
+  - El bloqueo de scroll del menú móvil usa `position: fixed` en el body, que es la técnica que
+    funciona en iOS, pero conviene confirmarlo en un aparato real.
+- Rellenar `js/config.js` con los datos que faltan en `docs/PROYECTO.md` (sección 8) y el snippet
+  del script de Luma donde dice `<!-- LUMA SCRIPT -->`.
+- La imagen `og-image.png` (1200×630) y el favicon oficial.
 
-- `js/starfield.js` y `js/ruta.js` **no existen todavía**; hay que crearlos e importarlos en `main.js`.
-- `<canvas class="cielo" id="cielo-hero">` y `#cielo-ruta` están en el HTML, vacíos.
-- En el SVG de la ruta: `.ruta__linea` (los puntos), `.ruta__linea-solida` (la copia para el dibujo de
-  entrada, hoy con `opacity: 0`) y `.cometa` con 5 `.cometa__estela` y una `.cometa__cabeza`
-  (hoy `opacity: 0`, sin posicionar).
-- En móvil, cada estación trae `.estacion__riel` con un `.estacion__relleno` de `height: 0` listo para
-  avanzar con el scroll.
-- `entradas.js` exporta `saludar()`, que ya aplica la clase `.saluda`; el flotar de los boletos y el
-  "crecer y menear" de hover son CSS nuevo en `motion.css`.
+Decisiones que conviene no deshacer sin querer:
 
-Decisiones de la fase 2, para no deshacerlas sin querer:
-
-- El panel vive dentro de `#panel-envoltorio` (grid `0fr → 1fr`) y `.panel-recorte`, que recorta en
-  vertical pero tiene padding lateral para no cortar las muescas ni la flecha. Cerrado, el panel lleva
-  `inert` + `aria-hidden`, no `hidden`, para poder animarlo.
-- La nav alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
-- Los enlaces que dependen de CONFIG salen del HTML **sin `href`**. `main.js` les pone el `href` si el
-  campo tiene valor; si no, los deja deshabilitados con `title="Próximamente"` y, cuando son botones,
-  además les cambia el texto a "Próximamente".
-- El botón de Luma sale como `<button disabled>` con "Inscripciones muy pronto" y `entradas.js` lo
-  reemplaza por el `<a>` embebible cuando `CONFIG.luma[modalidad].url` tiene valor.
+- **Las fuentes no bloquean.** La hoja de Google Fonts se carga con `media="print"` y se activa al
+  llegar, porque una hoja externa bloquea la ejecución de los módulos: si Google Fonts tarda, la
+  página se queda sin JS. Hay `<noscript>` de respaldo.
+- **El panel de entradas** vive dentro de `#panel-envoltorio` (grid `0fr → 1fr`) y `.panel-recorte`,
+  que recorta en vertical pero tiene padding lateral para no cortar las muescas ni la flecha. Cerrado
+  lleva `inert` + `aria-hidden`, no `hidden`, para poder animarlo.
+- **Un transform por elemento.** El boleto flota y `.boleto__interior` crece y menea; el nodo flota y
+  `.estacion__nodo-circulo` crece y late. Todas las escalas se componen con la variable `--escala`,
+  así el hover, el saludo y el estado atenuado no se pisan.
+- **La nav** alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
+- **Los enlaces que dependen de CONFIG** salen del HTML sin `href`; `main.js` se los pone si el campo
+  tiene valor y si no los deja deshabilitados con `title="Próximamente"` (y, si son botones, además
+  les cambia el texto).
 
 ## Comandos
 
@@ -56,10 +56,13 @@ No hay package.json, ni build, ni linter, ni tests: es un sitio estático y se a
 
 ```bash
 npx serve .                      # servidor local (los ES modules no cargan desde file://)
-python3 -m http.server 8000      # alternativa sin npm
 npx lighthouse http://localhost:3000 --preset=desktop --view
 npx lighthouse http://localhost:3000 --form-factor=mobile --view   # el presupuesto se mide en móvil
 ```
+
+**No uses `python3 -m http.server` para probar esto.** Con los 8 módulos pidiéndose a la vez deja caer
+peticiones cada tantas cargas: el grafo de módulos falla entero y la página se queda estática, sin ningún
+error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor decente) no tiene el problema.
 
 - `cwebp` **no está instalado**. Si se quieren versiones .webp de los logos: `brew install webp`, y si no se instala, se dejan los PNG (pesan 120 KB en total, muy por debajo del presupuesto de 1.5 MB).
 - Para la verificación manual de cada fase: abrir el servidor local y revisar en 360, 390, 768, 1024 y 1440 px, con y sin `prefers-reduced-motion: reduce` (DevTools → Rendering → Emulate CSS media feature).

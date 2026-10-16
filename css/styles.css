@@ -622,7 +622,7 @@ a.boton:not([href]),
 .boleto--activo .boleto__pie { color: var(--blanco); }
 .boleto--activo .boleto__burbuja { background: rgba(255, 255, 255, .2); color: var(--blanco); }
 .boleto--activo .boleto__chevron { transform: rotate(180deg); }
-.boleto--atenuado { transform: scale(.92); opacity: .7; }
+.boleto--atenuado { --escala: .92; opacity: .7; }
 
 .entradas__ayuda { margin-top: var(--e-16); text-align: center; color: var(--tinta-600); }
 
@@ -882,6 +882,13 @@ a.boton:not([href]),
   flex: none;
   width: 40px;
   height: 40px;
+}
+.estacion__nodo-circulo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   box-shadow: 0 0 0 4px var(--navy-900);
 }
@@ -893,10 +900,10 @@ a.boton:not([href]),
   color: var(--navy-900);
 }
 
-.estacion--1 .estacion__nodo { background: var(--celeste-400); }
-.estacion--2 .estacion__nodo { background: var(--verde-400); }
-.estacion--3 .estacion__nodo { background: var(--naranja-500); }
-.estacion--4 .estacion__nodo { background: var(--blanco); }
+.estacion--1 .estacion__nodo-circulo { background: var(--celeste-400); }
+.estacion--2 .estacion__nodo-circulo { background: var(--verde-400); }
+.estacion--3 .estacion__nodo-circulo { background: var(--naranja-500); }
+.estacion--4 .estacion__nodo-circulo { background: var(--blanco); }
 
 .estacion__tarjeta {
   flex: 1;
@@ -1291,11 +1298,8 @@ a.red:not([href]) { opacity: .5; cursor: not-allowed; pointer-events: none; }
   }
   .estacion { flex-direction: column; align-items: center; gap: 28px; }
   .estacion__riel { display: none; }
-  .estacion__nodo {
-    width: 68px;
-    height: 68px;
-    box-shadow: 0 0 0 6px var(--navy-900);
-  }
+  .estacion__nodo { width: 68px; height: 68px; }
+  .estacion__nodo-circulo { box-shadow: 0 0 0 6px var(--navy-900); }
   .estacion__nodo-num { font-size: 1.75rem; }
   .estacion__tarjeta { width: 100%; padding: 28px; }
   .estacion__indice { font-size: 2.75rem; }
