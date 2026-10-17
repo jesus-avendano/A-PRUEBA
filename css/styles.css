@@ -974,6 +974,18 @@ a.boton:not([href]),
   line-height: inherit;
   text-align: left;
 }
+/* botón estirado: su área táctil es la tarjeta entera, no solo el título;
+   el anillo de foco también va en la tarjeta */
+.estacion__boton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.estacion__tarjeta:has(.estacion__boton:focus-visible) {
+  outline: 3px solid var(--celeste-400);
+  outline-offset: 4px;
+}
+.estacion__tarjeta .estacion__boton:focus-visible { outline: none; }
 
 .estacion__detalle { display: grid; grid-template-rows: 1fr; }
 .estacion__detalle-interior { min-height: 0; overflow: hidden; }

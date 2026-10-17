@@ -89,13 +89,16 @@ function entrada(mapa, solida, trazo, quieto) {
   };
 
   if (!('IntersectionObserver' in window)) return arrancar();
+  // arranca justo antes de que la ruta asome por abajo. Con un umbral por
+  // porcentaje del bloque (antes 0.2), en un celular angosto, donde la ruta mide
+  // ~2400px, llegaba tarde: la primera tarjeta ya se veía y "parpadeaba" al entrar
   const io = new IntersectionObserver((entradas) => {
     entradas.forEach((e) => {
       if (!e.isIntersecting) return;
       arrancar();
       io.disconnect();
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0, rootMargin: '0px 0px 40px 0px' });
   io.observe(mapa);
 }
 

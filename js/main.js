@@ -71,6 +71,9 @@ function aplicarConfig() {
     marco.loading = 'lazy';
     marco.referrerPolicy = 'no-referrer-when-downgrade';
     marco.allowFullscreen = true;
+    // fuera del orden de Tab: el mapa tiene decenas de controles y lugares
+    // enfocables. Con teclado, el mismo dato está en texto y en "Abrir en Google Maps".
+    marco.tabIndex = -1;
     caja.replaceChildren(marco);
   }
 }

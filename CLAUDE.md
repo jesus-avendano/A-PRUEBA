@@ -19,25 +19,22 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 
 ## Estado actual
 
-**Fases 1, 2 y 3 terminadas.** La landing está maquetada, es funcional y se mueve.
-Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`) y
-`js/` (`config.js`, `main.js`, `nav.js`, `entradas.js`, `countdown.js`, `tabs.js`, `starfield.js`,
-`ruta.js`). Falta `assets/og/og-image.png`.
+**Fases 1–3, interacciones v2 y cambios v3 terminados** (`docs/CAMBIOS-INTERACCION.md` y
+`docs/CAMBIOS-RUTA-HERO.md`, incluida su revisión final en 360, 390, 768, 1024 y 1440, con y sin
+movimiento reducido, con teclado y en táctil).
+Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
+(`config.js`, `main.js`, `dialog.js`, `nav.js`, `hero.js`, `entradas.js`, `countdown.js`, `ruta.js`,
+`enfoque.js`, `tabs.js`, `aliados.js`, `starfield.js`) y `assets/img/sede-norte.{webp,jpg}`.
 
-**Lo siguiente es la Fase 4 (QA).** Lo que queda pendiente de verdad:
+**Lo que queda pendiente de verdad:**
 
 - Lighthouse móvil contra el presupuesto (no se ha corrido todavía).
-- Safari iOS y Android reales. Dos cosas a mirar ahí:
-  - Los diálogos: `<dialog>` con `showModal()`, `backdrop-filter` en `::backdrop` y las animaciones
-    con la Web Animations API. Si el desenfoque no está soportado, el fondo igual se oscurece.
-  - El bloqueo de scroll (menú móvil y diálogos, en `js/dialog.js`) usa `overflow: hidden` en
-    `<html>` más un `padding-right` del ancho de la barra. Funciona en iOS 16+, pero conviene
-    confirmarlo en un aparato real.
-- Rellenar `js/config.js` con los datos que faltan en `docs/PROYECTO.md` (sección 8) y el snippet
-  del script de Luma donde dice `<!-- LUMA SCRIPT -->`.
-- La imagen `og-image.png` (1200×630) y el favicon oficial.
-- El texto real de cada aliado y sus redes en `CONFIG.aliados`: hoy la descripción y "Qué ofrece"
-  son lorem ipsum, igual en los seis, como pide `docs/CAMBIOS-INTERACCION.md`.
+- Probar en un iPhone (Safari) y un Android reales: diálogos con `backdrop-filter`, el bloqueo de
+  scroll (`overflow: hidden` en `<html>`) y el deslizamiento táctil.
+- Datos de `docs/PROYECTO.md` (sección 8): Luma (URL, IDs y el snippet del script donde dice
+  `<!-- LUMA SCRIPT -->`), WhatsApp, redes, legales, el embed oficial del mapa (el actual es
+  provisional) y el texto real de cada aliado (hoy es lorem ipsum en `CONFIG.aliados`).
+- `assets/og/og-image.png` (1200×630) y el favicon oficial.
 
 Decisiones que conviene no deshacer sin querer:
 
@@ -48,6 +45,10 @@ Decisiones que conviene no deshacer sin querer:
   `iniciarRuta()` devuelve `{ enfocar(i), soltar() }` para que el cometa viaje a la estación (o, en móvil,
   el riel se rellene hasta ella) y luego retome su loop. Las tarjetas salen completas en el HTML y el JS
   las compacta, así se leen sin JavaScript.
+- **Botón estirado en las tarjetas de la ruta:** el botón del título tiene un `::after` que cubre la
+  tarjeta entera (área táctil completa) y el anillo de foco se dibuja en la tarjeta con `:has()`.
+- **El iframe del mapa va con `tabindex="-1"`:** si no, el Tab recorre decenas de controles de Google
+  antes de salir. Con teclado, la dirección está en texto y "Abrir en Google Maps" da el mapa completo.
 - **Las animaciones de entrada de la ruta usan relleno `backwards`, nunca `both`,** y la clase
   `.ruta__mapa--entra` se retira a los 2s. Con relleno hacia adelante pisaban el `transform` y la
   opacidad del hover, del cometa y del modo enfoque.
