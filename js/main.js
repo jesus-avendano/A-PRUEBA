@@ -2,6 +2,7 @@
 
 import { CONFIG } from './config.js';
 import { iniciarNav, irA } from './nav.js';
+import { iniciarHero } from './hero.js';
 import { iniciarEntradas, saludar } from './entradas.js';
 import { iniciarCuentaRegresiva } from './countdown.js';
 import { iniciarPestanas } from './tabs.js';
@@ -13,6 +14,7 @@ import { iniciarEnfoque } from './enfoque.js';
 const PROXIMAMENTE = 'Próximamente';
 
 aplicarConfig();
+iniciarHero();
 iniciarNav();
 iniciarEntradas();
 iniciarCuentaRegresiva();

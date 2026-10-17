@@ -408,26 +408,30 @@ a.boton:not([href]),
   gap: var(--e-26);
 }
 
-.pastilla {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px 8px 14px;
-  border-radius: var(--r-pastilla);
-  background: var(--verde-400);
-  color: var(--navy-900);
-  font-size: var(--t-overline);
-  line-height: var(--lh-overline);
-  font-weight: 800;
-  letter-spacing: var(--tracking-overline);
-  text-transform: uppercase;
-}
-.pastilla .icono { width: 18px; height: 18px; }
 
-.hero__h1 { display: flex; flex-direction: column; gap: 18px; }
+/* Título del hero en Archivo Black (CAMBIOS-RUTA-HERO §3): solo tiene peso 400,
+   así que nada de 700, que el navegador fingiría con una negrita falsa.
+   Arial Black como respaldo: es igual de ancha y evita que el texto salte al cargar. */
+.archivo-black-regular {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.hero__h1 {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: clamp(34px, 3.4vw + 10px, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
 .hero__logo { width: 260px; height: auto; }
 .hero__frase { display: block; }
+/* js/hero.js divide el título: palabras enteras (nunca se parten entre líneas)
+   y, dentro de "futuro profesional", letras */
+.hero__palabra,
+.hero__letra { display: inline-block; }
+.hero__palabra--resalte { color: var(--celeste-400); }
 .hero__sub { color: var(--tinta-sobre-oscuro); }
 
 .hero__botones {
@@ -438,20 +442,7 @@ a.boton:not([href]),
 }
 .hero__botones .boton { width: 100%; }
 
-.chips { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, .16);
-  border-radius: var(--r-chip);
-  background: rgba(255, 255, 255, .07);
-  font-size: var(--t-small);
-  line-height: var(--lh-small);
-}
-.chip .icono { width: 18px; height: 18px; color: var(--celeste-400); }
 
 /* Decoración del hero */
 .hero__deco { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
