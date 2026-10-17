@@ -324,7 +324,6 @@ a.boton:not([href]),
   border-radius: var(--r-tarjeta);
   box-shadow: var(--sombra-tarjeta);
 }
-.dialogo--estacion .dialogo__caja { max-width: 720px; }
 
 .dialogo__cerrar {
   position: absolute;
@@ -919,7 +918,9 @@ a.boton:not([href]),
 .estacion--4 .estacion__nodo-circulo { background: var(--blanco); }
 
 .estacion__tarjeta {
-  position: relative; /* el hover la sube por encima de sus vecinas */
+  position: relative; /* el hover y el enfoque la suben por encima de sus vecinas */
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-width: 0;
   padding: 22px;
@@ -971,147 +972,41 @@ a.boton:not([href]),
   color: var(--tinta-sobre-oscuro);
 }
 
-.ruta__cierre { margin-top: var(--e-40); text-align: center; }
-
-/* ---------------- Ficha de estación (js/estaciones.js) ----------------
-   Página de pasaporte: borde y franja del color de la estación, su número
-   de marca de agua y un sello. El color va en lo decorativo (--deco); el
-   texto usa el tono oscuro de la paleta (--tinta) porque celeste, verde y
-   naranja no pasan AA sobre blanco. La estación 4 es blanca en la ruta:
-   sobre la ficha blanca no se vería, así que aquí va en navy. */
-
-.ficha-estacion {
-  --deco: var(--celeste-400);
-  --deco-rgb: 62, 198, 242;
-  --tinta: var(--azul-600);
-  padding-top: calc(var(--e-24) + 12px);
-  border: 3px solid var(--deco);
-  box-shadow: inset 0 12px 0 var(--deco), var(--sombra-tarjeta);
-  touch-action: pan-y; /* el deslizamiento horizontal cambia de estación */
-  transition: border-color var(--dur-rapida) var(--ease-out),
-              box-shadow var(--dur-rapida) var(--ease-out);
-}
-.ficha-estacion[data-estacion="2"] { --deco: var(--verde-400); --deco-rgb: 126, 211, 72; --tinta: var(--verde-600); }
-.ficha-estacion[data-estacion="3"] { --deco: var(--naranja-500); --deco-rgb: 238, 108, 20; --tinta: var(--naranja-700); }
-.ficha-estacion[data-estacion="4"] { --deco: var(--navy-900); --deco-rgb: 11, 16, 64; --tinta: var(--navy-900); }
-
-.ficha-estacion .dialogo__cerrar { top: 20px; }
-
-.ficha-estacion__agua {
-  position: absolute;
-  top: 150px;
-  right: 20px;
-  font-family: var(--fuente-titulo);
-  font-size: 120px;
-  line-height: 1;
-  font-weight: 700;
-  color: rgba(var(--deco-rgb), .16);
-  pointer-events: none;
-  user-select: none;
+/* Modo enfoque (js/enfoque.js): tarjeta compacta con la descripción plegada.
+   Sin JS no existe .estaciones--compactas y las tarjetas se ven completas. */
+.estacion__boton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  line-height: inherit;
+  text-align: left;
 }
 
-.ficha-estacion__sello {
-  position: absolute;
-  top: 52px;
-  right: 20px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
+.estacion__detalle { display: grid; grid-template-rows: 1fr; }
+.estacion__detalle-interior { min-height: 0; overflow: hidden; }
+
+.estacion__invitacion { display: none; }
+
+.estaciones--compactas .estacion__tarjeta { min-height: var(--alto-compacto, 0px); }
+.estaciones--compactas .estacion__detalle { grid-template-rows: 0fr; }
+.estaciones--compactas .estacion--enfocada .estacion__detalle { grid-template-rows: 1fr; }
+.estaciones--compactas .estacion__invitacion {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
-  width: 72px;
-  height: 72px;
-  border: 2.5px dashed var(--deco);
-  border-radius: 50%;
-  background: rgba(var(--deco-rgb), .10);
-  color: var(--tinta);
-  transform: rotate(-8deg);
-}
-.ficha-estacion__sello-icono .icono { width: 22px; height: 22px; }
-.ficha-estacion__sello-texto {
-  font-size: 0.625rem;
-  line-height: 1.1;
+  gap: 6px;
+  margin-top: auto; /* al pie, aunque la tarjeta sea más alta que su contenido */
+  padding-top: 14px;
+  font-size: var(--t-small);
+  line-height: var(--lh-small);
   font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  text-align: center;
+  color: var(--color-estacion);
 }
 
-.ficha-estacion__contenido,
-.ficha-estacion__pie { position: relative; z-index: 1; }
+/* "Estás aquí": solo sobre el nodo del trazo horizontal */
+.estacion__aqui { display: none; }
 
-.ficha-estacion__cabecera { padding-right: 84px; }
-.ficha-estacion__overline { margin-bottom: 8px; color: var(--tinta); }
-.ficha-estacion__pregunta {
-  margin-top: 12px;
-  font-size: var(--t-pregunta);
-  line-height: var(--lh-pregunta);
-  font-weight: 600;
-  font-style: italic;
-  color: var(--tinta);
-}
-.ficha-estacion__desc {
-  margin-top: 18px;
-  font-size: var(--t-lead);
-  line-height: var(--lh-lead);
-  color: var(--tinta-600);
-}
-
-.ficha-estacion__pie {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 28px;
-  padding-top: 20px;
-  border-top: 2px dashed var(--linea);
-}
-.ficha-estacion__navegacion { display: flex; align-items: center; gap: 6px; }
-.ficha-estacion__numeros { display: flex; gap: 6px; }
-
-.ficha-estacion__num,
-.ficha-estacion__flecha {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  background: var(--nube-50);
-  color: var(--tinta-600);
-  font-family: var(--fuente-titulo);
-  font-size: 1.125rem;
-  font-weight: 700;
-  transition: background-color var(--dur-rapida) var(--ease-out),
-              color var(--dur-rapida) var(--ease-out);
-}
-/* cada número lleva el color de su estación, como los nodos de la ruta */
-.ficha-estacion__num[data-estacion="1"] { --c: var(--celeste-400); }
-.ficha-estacion__num[data-estacion="2"] { --c: var(--verde-400); }
-.ficha-estacion__num[data-estacion="3"] { --c: var(--naranja-500); }
-.ficha-estacion__num[data-estacion="4"] { --c: var(--navy-900); }
-.ficha-estacion__num { border-color: var(--c); }
-.ficha-estacion__num[aria-current="step"] { background: var(--c); color: var(--navy-900); }
-.ficha-estacion__num[data-estacion="4"][aria-current="step"] { color: var(--blanco); }
-.ficha-estacion__flecha[disabled] { opacity: .35; cursor: default; }
-
-.ficha-estacion__cuenta { font-size: var(--t-small); font-weight: 700; color: var(--tinta-600); }
-
-@media (hover: hover) and (pointer: fine) {
-  .ficha-estacion__num:not([aria-current="step"]):hover,
-  .ficha-estacion__flecha:not([disabled]):hover { background: var(--linea); color: var(--navy-900); }
-}
-
-@media (min-width: 768px) {
-  .ficha-estacion { padding-top: calc(var(--e-40) + 12px); }
-  .ficha-estacion__agua { top: 176px; right: 36px; }
-  .ficha-estacion__sello { top: 56px; right: 32px; width: 96px; height: 96px; }
-  .ficha-estacion__sello-icono .icono { width: 30px; height: 30px; }
-  .ficha-estacion__sello-texto { font-size: 0.75rem; }
-  .ficha-estacion__cabecera { padding-right: 128px; }
-  .ficha-estacion__pie { flex-direction: row; justify-content: space-between; }
-}
+.ruta__cierre { margin-top: var(--e-40); text-align: center; }
 
 /* ---------------- Ubicación ---------------- */
 
@@ -1534,6 +1429,36 @@ a.red:not([href]) { opacity: .5; cursor: not-allowed; pointer-events: none; }
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--e-24);
+    align-items: start; /* al abrirse una tarjeta, las demás no se estiran */
+  }
+  /* aire para "Estás aquí", que flota con su nodo, sin tocar el texto de arriba */
+  .ruta__mapa { margin-top: 72px; }
+  .estacion__aqui {
+    position: absolute;
+    bottom: calc(100% + 14px);
+    left: 50%;
+    translate: -50% 0; /* centra sin usar transform, que lo anima "aparecer" */
+    display: block;
+    padding: 5px 12px;
+    border-radius: var(--r-pastilla);
+    background: var(--blanco);
+    color: var(--navy-900);
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    font-weight: 800;
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .estacion__aqui::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border: 6px solid transparent;
+    border-top-color: var(--blanco);
   }
   .estacion { flex-direction: column; align-items: center; gap: 28px; }
   .estacion__riel { display: none; }

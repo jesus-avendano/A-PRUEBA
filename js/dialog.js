@@ -7,8 +7,8 @@
 
    Variantes:
    - ticket   centrado; se abre desde el boleto de origen (FLIP)
-   - estacion centrado; con flip: true también crece desde su origen
-   - aliado   panel lateral en escritorio, hoja inferior en móvil */
+   - aliado   panel lateral en escritorio, hoja inferior en móvil
+   Cualquier otra entra centrada con fundido y subida. */
 
 const EASE_OUT = 'cubic-bezier(.22, 1, .36, 1)';
 const EASE_SPRING = 'cubic-bezier(.34, 1.56, .64, 1)';
@@ -49,23 +49,22 @@ export function liberarScroll() {
  * @param {object} o
  * @param {string} o.id        id del <dialog>
  * @param {Element} [o.origin] quien lo abrió; recibe el foco al cerrar
- * @param {'ticket'|'estacion'|'aliado'} [o.variant]
+ * @param {'ticket'|'aliado'} [o.variant]
  * @param {Element} [o.focus]  a dónde va el foco al abrir (por defecto, [data-foco-inicial] visible o la ✕)
- * @param {boolean} [o.flip]   crecer desde el origen y volver a él (por defecto, solo en ticket)
  * @param {Function} [o.onClose]
  */
-export function openDialog({ id, origin = null, variant = 'estacion', focus = null, onClose = null, flip = variant === 'ticket' } = {}) {
+export function openDialog({ id, origin = null, variant = 'ticket', focus = null, onClose = null } = {}) {
   const dialogo = document.getElementById(id);
   if (!dialogo) return Promise.resolve();
   if (actual) cerrarSinAnimar(actual);
 
   preparar(dialogo);
   const caja = dialogo.querySelector('.dialogo__caja');
-  const rectOrigen = flip && origin ? origin.getBoundingClientRect() : null;
+  const rectOrigen = variant === 'ticket' && origin ? origin.getBoundingClientRect() : null;
 
   actual = {
     dialogo, caja, origen: origin, variante: variant, alCerrar: onClose,
-    flip: Boolean(rectOrigen), ocultaOrigen: false, cerrando: false,
+    flip: Boolean(rectOrigen), cerrando: false,
   };
   dialogo.classList.remove('dialogo--cerrando');
   dialogo.showModal();
@@ -88,19 +87,6 @@ export function closeDialog({ inmediato = false } = {}) {
   a.cerrando = true;
   a.dialogo.classList.add('dialogo--cerrando');
   return animarSalida(a).then(() => terminar(a));
-}
-
-/**
- * Cambia el elemento al que vuelve el diálogo al cerrarse (foco y FLIP).
- * Lo usan las estaciones: al pasar a otra, se cierra hacia su número.
- */
-export function cambiarOrigen(nuevo) {
-  if (!actual || !nuevo || nuevo === actual.origen) return;
-  if (actual.ocultaOrigen && actual.origen) {
-    actual.origen.style.visibility = '';
-    nuevo.style.visibility = 'hidden';
-  }
-  actual.origen = nuevo;
 }
 
 /** El diálogo abierto, o null. */
@@ -201,7 +187,6 @@ function entrarDesdeOrigen(a, rectOrigen) {
   const inversa = transformDesde(rectOrigen, destino);
 
   origen.style.visibility = 'hidden';
-  a.ocultaOrigen = true;
   const crecer = caja.animate(
     [{ transform: inversa }, { transform: 'none' }],
     { duration: 450, easing: EASE_SPRING },

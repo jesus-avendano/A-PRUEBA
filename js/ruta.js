@@ -1,22 +1,26 @@
 /* La ruta animada.
    Escritorio: un cometa recorre el trazo y enciende cada nodo al pasar.
    Móvil: el riel se rellena con el scroll y enciende los nodos.
-   Ambos modos se apagan con prefers-reduced-motion. */
+   Ambos modos se apagan con prefers-reduced-motion.
+   En modo enfoque (js/enfoque.js) el cometa deja su loop y viaja hasta la
+   estación elegida; en móvil, el riel se rellena hasta ella. */
 
 const DURACION = 8000;   // lo que tarda el cometa en recorrer el trazo
 const ESTELA = 0.012;    // separación entre los puntos de la estela
 const FRENTE = 0.55;     // altura de pantalla que marca el avance en móvil
+const VIAJE = 800;       // lo que tarda el cometa en ir a la estación enfocada
+const RELLENO = 400;     // lo que tarda el riel en llegar a la estación enfocada
 
 export function iniciarRuta() {
   const mapa = document.querySelector('.ruta__mapa');
-  if (!mapa) return;
+  if (!mapa) return null;
 
   const svg = mapa.querySelector('.ruta__trazo');
   const trazo = mapa.querySelector('.ruta__linea');
   const solida = mapa.querySelector('.ruta__linea-solida');
   const cometa = mapa.querySelector('.cometa');
   const estaciones = [...mapa.querySelectorAll('.estacion')];
-  if (!svg || !trazo || !estaciones.length) return;
+  if (!svg || !trazo || !estaciones.length) return null;
 
   const quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
   const esEscritorio = () => getComputedStyle(svg).display !== 'none';
@@ -55,6 +59,16 @@ export function iniciarRuta() {
     vuelo.revisar(visible);
     riel.revisar(visible);
   });
+
+  return {
+    /** Lleva la ruta a la estación i; la promesa se cumple al llegar. */
+    enfocar: (i) => (esEscritorio() ? vuelo.viajarA(i) : riel.enfocar(i)),
+    /** Sale del enfoque: el cometa retoma su loop desde donde está. */
+    soltar: () => {
+      vuelo.retomar();
+      riel.soltar();
+    },
+  };
 }
 
 /** Dibujo de entrada: una sola vez, cuando la sección aparece. */
@@ -92,6 +106,7 @@ class Cometa {
   constructor({ svg, trazo, cometa, estaciones, quieto, esEscritorio }) {
     this.svg = svg;
     this.trazo = trazo;
+    this.solida = svg.querySelector('.ruta__linea-solida');
     this.grupo = cometa;
     this.cabeza = cometa ? cometa.querySelector('.cometa__cabeza') : null;
     this.estelas = cometa ? [...cometa.querySelectorAll('.cometa__estela')] : [];
@@ -99,9 +114,12 @@ class Cometa {
     this.quieto = quieto;
     this.esEscritorio = esEscritorio;
     this.largo = 0;
+    this.largoActual = 0;   // dónde va el cometa, en largo del trazo
     this.xNodos = [];
+    this.largoNodos = [];
     this.xAnterior = -1;
-    this.corriendo = false;
+    this.corriendo = false; // la sección está a la vista y hay cuadros
+    this.enfoque = false;   // el cometa dejó su loop para ir a una estación
     this.medir();
   }
 
@@ -115,6 +133,19 @@ class Cometa {
       const nodo = li.querySelector('.estacion__nodo').getBoundingClientRect();
       return ((nodo.left + nodo.width / 2) - caja.left) / caja.width * 1200;
     });
+    this.largoNodos = this.xNodos.map((x) => this.largoEnX(x));
+  }
+
+  /** El largo del trazo en el que se llega a la x dada (el trazo avanza siempre a la derecha). */
+  largoEnX(x) {
+    let bajo = 0;
+    let alto = this.largo;
+    for (let k = 0; k < 24; k++) {
+      const medio = (bajo + alto) / 2;
+      if (this.trazo.getPointAtLength(medio).x < x) bajo = medio;
+      else alto = medio;
+    }
+    return (bajo + alto) / 2;
   }
 
   revisar(visible) {
@@ -122,9 +153,8 @@ class Cometa {
     if (debe && !this.corriendo) {
       if (!this.largo) this.medir();
       this.corriendo = true;
-      this.inicio = performance.now();
       this.grupo.classList.remove('cometa--apagado');
-      this.cuadro = requestAnimationFrame((t) => this.tic(t));
+      if (!this.enfoque) this.arrancarLoop();
     } else if (!debe && this.corriendo) {
       this.corriendo = false;
       cancelAnimationFrame(this.cuadro);
@@ -134,27 +164,19 @@ class Cometa {
     }
   }
 
-  tic(ahora) {
-    if (!this.corriendo || !this.largo) return;
-    const avance = ((ahora - this.inicio) % DURACION) / DURACION;
-    const punto = this.trazo.getPointAtLength(avance * this.largo);
+  /** Arranca (o retoma) el loop desde donde está el cometa, no desde el principio. */
+  arrancarLoop() {
+    cancelAnimationFrame(this.cuadro);
+    this.inicio = performance.now() - (this.largoActual / (this.largo || 1)) * DURACION;
+    this.xAnterior = this.largo ? this.trazo.getPointAtLength(this.largoActual).x : -1;
+    this.cuadro = requestAnimationFrame((t) => this.tic(t));
+  }
 
-    if (this.cabeza) {
-      this.cabeza.setAttribute('cx', punto.x);
-      this.cabeza.setAttribute('cy', punto.y);
-    }
-    this.estelas.forEach((circulo, i) => {
-      const atras = avance - (i + 1) * ESTELA;
-      if (atras < 0) {
-        circulo.setAttribute('opacity', 0);
-        return;
-      }
-      const p = this.trazo.getPointAtLength(atras * this.largo);
-      circulo.setAttribute('cx', p.x);
-      circulo.setAttribute('cy', p.y);
-      circulo.setAttribute('r', 4 - i * 0.6);
-      circulo.setAttribute('opacity', 0.45 * (1 - i / this.estelas.length));
-    });
+  tic(ahora) {
+    if (!this.corriendo || this.enfoque || !this.largo) return;
+    const avance = ((ahora - this.inicio) % DURACION) / DURACION;
+    this.largoActual = avance * this.largo;
+    const punto = this.posicionar(this.largoActual);
 
     // al pasar por el centro de un nodo, el nodo y su tarjeta se encienden
     this.xNodos.forEach((x, i) => {
@@ -163,6 +185,88 @@ class Cometa {
     this.xAnterior = punto.x;
 
     this.cuadro = requestAnimationFrame((t) => this.tic(t));
+  }
+
+  /** Pone la cabeza en el largo dado y la estela detrás, según hacia dónde va. */
+  posicionar(largo, direccion = 1) {
+    const punto = this.trazo.getPointAtLength(largo);
+    if (this.cabeza) {
+      this.cabeza.setAttribute('cx', punto.x);
+      this.cabeza.setAttribute('cy', punto.y);
+    }
+    this.estelas.forEach((circulo, i) => {
+      const atras = largo - direccion * (i + 1) * ESTELA * this.largo;
+      if (atras < 0 || atras > this.largo) {
+        circulo.setAttribute('opacity', 0);
+        return;
+      }
+      const p = this.trazo.getPointAtLength(atras);
+      circulo.setAttribute('cx', p.x);
+      circulo.setAttribute('cy', p.y);
+      circulo.setAttribute('r', 4 - i * 0.6);
+      circulo.setAttribute('opacity', 0.45 * (1 - i / this.estelas.length));
+    });
+    return punto;
+  }
+
+  /** Deja el loop y recorre el trazo hasta el nodo i (800ms, ease-in-out). */
+  viajarA(i) {
+    if (!this.grupo || !this.esEscritorio()) return Promise.resolve();
+    if (!this.largoNodos.length) this.medir();
+    const hasta = this.largoNodos[i];
+    if (hasta === undefined) return Promise.resolve();
+
+    if (this.terminarViaje) this.terminarViaje(); // un viaje anterior queda sin efecto
+    this.enfoque = true;
+    cancelAnimationFrame(this.cuadro);
+
+    const desde = this.largoActual;
+    const direccion = Math.sign(hasta - desde) || 1;
+
+    // con movimiento reducido (o sin cuadros) salta al nodo, sin recorrido
+    if (this.quieto.matches || !this.corriendo) {
+      this.largoActual = hasta;
+      this.posicionar(hasta, direccion);
+      this.tramo(hasta);
+      return Promise.resolve();
+    }
+
+    return new Promise((resolver) => {
+      this.terminarViaje = () => { this.terminarViaje = null; resolver(); };
+      const t0 = performance.now();
+      const paso = (t) => {
+        if (!this.enfoque) return this.terminarViaje && this.terminarViaje();
+        const p = Math.min((t - t0) / VIAJE, 1);
+        const e = p < 0.5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2; // ease-in-out
+        this.largoActual = desde + (hasta - desde) * e;
+        this.posicionar(this.largoActual, direccion);
+        this.tramo(this.largoActual);
+        if (p < 1) this.cuadro = requestAnimationFrame(paso);
+        else if (this.terminarViaje) this.terminarViaje();
+      };
+      this.cuadro = requestAnimationFrame(paso);
+    });
+  }
+
+  /** Sale del enfoque: el tramo sólido se va y el loop sigue desde aquí. */
+  retomar() {
+    if (!this.enfoque) return;
+    this.enfoque = false;
+    if (this.terminarViaje) this.terminarViaje();
+    this.ocultarTramo();
+    if (this.corriendo) this.arrancarLoop();
+  }
+
+  /** Línea sólida desde el inicio del trazo hasta el largo dado. */
+  tramo(largo) {
+    if (!this.solida) return;
+    this.solida.style.strokeDasharray = `${largo} ${this.largo}`;
+    this.solida.style.strokeDashoffset = '0';
+    this.solida.classList.add('ruta__linea-solida--tramo');
+  }
+
+  ocultarTramo() {
+    if (this.solida) this.solida.classList.remove('ruta__linea-solida--tramo');
   }
 
   encender(estacion) {
@@ -189,6 +293,7 @@ class Riel {
     this.esEscritorio = esEscritorio;
     this.medidas = [];
     this.escuchando = false;
+    this.enfoque = null; // índice de la estación enfocada, o null
     this.alScroll = () => this.pintar();
     this.medir();
   }
@@ -225,6 +330,7 @@ class Riel {
   }
 
   pintar() {
+    if (this.enfoque !== null) return; // en modo enfoque manda la estación elegida
     const frente = window.scrollY + window.innerHeight * FRENTE;
     for (const m of this.medidas) {
       if (m.relleno && m.rielAlto) {
@@ -239,5 +345,25 @@ class Riel {
       nodo.classList.add('estacion__nodo--llega');
       setTimeout(() => nodo.classList.remove('estacion__nodo--llega'), 700);
     }
+  }
+
+  /** El relleno avanza hasta la estación i; la promesa se cumple al llegar. */
+  enfocar(i) {
+    this.enfoque = i;
+    this.estaciones.forEach((li, j) => {
+      const relleno = li.querySelector('.estacion__relleno');
+      if (relleno) relleno.style.height = j < i ? '100%' : '0%';
+      li.classList.toggle('estacion--alcanzada', j <= i);
+    });
+    const espera = this.quieto.matches ? 0 : RELLENO;
+    return new Promise((resolver) => setTimeout(resolver, espera));
+  }
+
+  /** Vuelve al relleno por scroll (las tarjetas pudieron cambiar de alto). */
+  soltar() {
+    if (this.enfoque === null) return;
+    this.enfoque = null;
+    this.medir();
+    if (this.escuchando) this.pintar();
   }
 }

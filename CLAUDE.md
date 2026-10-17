@@ -44,9 +44,13 @@ Decisiones que conviene no deshacer sin querer:
 - **Las fuentes no bloquean.** La hoja de Google Fonts se carga con `media="print"` y se activa al
   llegar, porque una hoja externa bloquea la ejecución de los módulos: si Google Fonts tarda, la
   página se queda sin JS. Hay `<noscript>` de respaldo.
-- **Las estaciones de la ruta se abren en `#dialogo-estacion`** (`js/estaciones.js`), que crece desde el
-  número con `openDialog({ flip: true })` y, al cambiar de estación, usa `cambiarOrigen()` para cerrar
-  hacia el número actual. Los textos de la ficha se leen de las tarjetas de la ruta: no están duplicados.
+- **La ruta usa modo enfoque, no diálogo** (`js/enfoque.js`): la tarjeta se abre en su lugar y
+  `iniciarRuta()` devuelve `{ enfocar(i), soltar() }` para que el cometa viaje a la estación (o, en móvil,
+  el riel se rellene hasta ella) y luego retome su loop. Las tarjetas salen completas en el HTML y el JS
+  las compacta, así se leen sin JavaScript.
+- **Las animaciones de entrada de la ruta usan relleno `backwards`, nunca `both`,** y la clase
+  `.ruta__mapa--entra` se retira a los 2s. Con relleno hacia adelante pisaban el `transform` y la
+  opacidad del hover, del cometa y del modo enfoque.
 - **Las entradas se abren en `#dialogo-boleto`** (variante `ticket` de `js/dialog.js`), que crece desde
   el boleto con FLIP. **Al tocar el botón de Luma el diálogo se cierra al instante:** un `<dialog>` modal
   vive en el top layer, por encima de cualquier z-index, y deja inerte todo lo de fuera; el overlay de

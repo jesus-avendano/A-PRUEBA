@@ -184,7 +184,9 @@
 .estacion__tarjeta {
   transition: transform var(--dur-rapida) var(--ease-out),
               border-color var(--dur-rapida) var(--ease-out),
-              box-shadow var(--dur-rapida) var(--ease-out);
+              box-shadow var(--dur-rapida) var(--ease-out),
+              opacity 300ms var(--ease-out),
+              filter 300ms var(--ease-out);
 }
 .estacion--encendida .estacion__tarjeta {
   transform: translateY(-6px);
@@ -202,8 +204,10 @@
   opacity: .9;
   animation: dibujar 1.2s var(--ease-out) forwards, apagar 500ms linear 1.2s forwards;
 }
-.ruta__mapa--entra .estacion__nodo-circulo { animation: latido 500ms var(--ease-spring) var(--retraso, 0s) both; }
-.ruta__mapa--entra .estacion__tarjeta { animation: aparecer 500ms var(--ease-out) var(--retraso, 0s) both; }
+/* backwards, no both: cubren el retraso escalonado, pero al terminar no deben
+   seguir pisando el transform ni la opacidad (hover, cometa y modo enfoque) */
+.ruta__mapa--entra .estacion__nodo-circulo { animation: latido 500ms var(--ease-spring) var(--retraso, 0s) backwards; }
+.ruta__mapa--entra .estacion__tarjeta { animation: aparecer 500ms var(--ease-out) var(--retraso, 0s) backwards; }
 .estacion--1 { --retraso: 0s; }
 .estacion--2 { --retraso: .15s; }
 .estacion--3 { --retraso: .3s; }
@@ -326,12 +330,57 @@
   .ficha-aliado__contenido--anima { animation: funde 150ms linear both; }
 }
 
-/* Ficha de estación: al cambiar de estación el contenido y la marca de
-   agua se funden y deslizan; el sello y el temblor los anima js/estaciones.js */
-.ficha-estacion__contenido--anima,
-.ficha-estacion__agua--anima { animation: panel-entra 250ms var(--ease-out) both; }
+/* ===========================================================
+   Ruta: modo enfoque (CAMBIOS-RUTA-HERO §2, js/enfoque.js)
+   La tarjeta elegida se queda grande y con su color; las demás se
+   apagan pero siguen siendo clicables. El cometa la alcanza, el nodo
+   queda encendido y el trazo hasta él pasa a línea sólida.
+   =========================================================== */
+
+.estaciones--compactas .estacion__detalle {
+  transition: grid-template-rows 400ms var(--ease-out);
+}
+
+.estacion--enfocada .estacion__tarjeta {
+  z-index: 3;
+  transform: translateY(-6px) scale(1.05);
+  border-color: var(--color-estacion);
+  box-shadow: 0 20px 50px -12px rgba(var(--rgb-estacion), .4);
+}
+.estaciones--enfoque .estacion:not(.estacion--enfocada) .estacion__tarjeta {
+  opacity: .45;
+  transform: scale(.97);
+  filter: saturate(.6);
+}
+
+/* el nodo enfocado queda encendido, con un anillo de brillo de su color */
+.estacion--aqui .estacion__nodo-circulo {
+  box-shadow: 0 0 0 4px var(--navy-900),
+              0 0 0 7px rgba(var(--rgb-estacion), .55),
+              0 0 22px 4px rgba(var(--rgb-estacion), .6);
+}
+@media (min-width: 1200px) {
+  .estacion--aqui .estacion__nodo-circulo {
+    box-shadow: 0 0 0 6px var(--navy-900),
+                0 0 0 9px rgba(var(--rgb-estacion), .55),
+                0 0 26px 6px rgba(var(--rgb-estacion), .6);
+  }
+  .estacion--aqui .estacion__aqui { visibility: visible; animation: aparecer 500ms var(--ease-out); }
+}
+
+/* el tramo desde el inicio hasta la estación (lo dibuja js/ruta.js) */
+.ruta__linea-solida { transition: opacity 250ms var(--ease-out); }
+.ruta__linea-solida.ruta__linea-solida--tramo { opacity: 1; }
+
+/* en móvil el riel se rellena hasta la estación con más calma que con el scroll */
+.estaciones--enfoque .estacion__relleno { transition: height 400ms var(--ease-out); }
 
 @media (prefers-reduced-motion: reduce) {
-  .ficha-estacion__contenido--anima,
-  .ficha-estacion__agua--anima { animation: funde 150ms linear both; }
+  .estaciones--compactas .estacion__detalle,
+  .estaciones--enfoque .estacion__relleno,
+  .ruta__linea-solida { transition: none; }
+  /* sin escalas: el enfoque se nota por el color, el brillo y la opacidad */
+  .estacion--enfocada .estacion__tarjeta,
+  .estaciones--enfoque .estacion:not(.estacion--enfocada) .estacion__tarjeta { transform: none; }
+  .estacion--aqui .estacion__aqui { animation: none; }
 }
