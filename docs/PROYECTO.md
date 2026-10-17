@@ -11,7 +11,7 @@ Fuente de verdad del contenido de la landing. Si algo cambia, se cambia aquí pr
 | Fecha | Martes 17 de noviembre de 2026 |
 | Horario | 9:00 a.m. – 1:00 p.m. (hora de Lima, UTC-5) |
 | Lugar presencial | UCSUR Sede Norte, Auditorio Norte y Explanada |
-| Dirección exacta | **[POR CONFIRMAR]** |
+| Dirección | Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos. Referencia: Óvalo Infantas. (Fuente: página oficial del Campus Norte; da un cruce de avenidas, sin número.) |
 | Modalidades | Presencial: **200 cupos**, Virtual: **800 cupos** |
 | Costo | Gratis |
 | Público | Escolares de secundaria (menores de edad en su mayoría) |
@@ -179,10 +179,15 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - Presencial:
   - Auditorio Norte y Explanada, con cada dato en su propia línea:
     - UCSUR Sede Norte
-    - [dirección por confirmar]
+    - Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos
+    - Referencia: Óvalo Infantas
   - Martes 17 de noviembre — 9:00 a.m. – 1:00 p.m.
   - Lleva tu QR de inscripción — Lo recibes en tu correo al registrarte.
   - Botón: **Abrir en Google Maps**
+  - Mapa de Google embebido (el `embedUrl` de `js/config.js` es provisional)
+  - Foto de la sede en una polaroid: pie **Así luce la Sede Norte**; texto alternativo
+    "Edificio de la Universidad Científica del Sur, Sede Norte". Archivos: `assets/img/sede-norte.webp`
+    y `assets/img/sede-norte.jpg` (respaldo). Al tocarla se abre en grande.
 - Virtual:
   - Transmisión exclusiva con acceso interactivo — Plataforma: [por confirmar]
   - Martes 17 de noviembre — 9:00 a.m. – 1:00 p.m.
@@ -210,7 +215,8 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 
 ## 8. Pendientes por confirmar
 
-- [ ] Dirección exacta de UCSUR Sede Norte y enlace de Google Maps (enlace normal y embed)
+- [x] Dirección de UCSUR Sede Norte (cruce de avenidas, sin número) y enlace de Google Maps
+- [ ] Embed oficial del mapa: Google Maps → Compartir → Insertar un mapa, copiar solo el `src` del iframe (el actual es provisional)
 - [ ] Luma: URL del evento, ID del evento, IDs de los 2 tipos de entrada y snippet del botón embebible
 - [ ] Luma: cómo reciben el enlace de la transmisión solo los virtuales (define si son 1 o 2 eventos)
 - [ ] Plataforma de la transmisión virtual y si soporta 800 participantes

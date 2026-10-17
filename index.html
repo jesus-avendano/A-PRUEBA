@@ -452,7 +452,8 @@
             <span>
               <span class="dato__titulo">Auditorio Norte y Explanada</span>
               <span class="dato__texto">UCSUR Sede Norte</span>
-              <span class="dato__texto" data-config="mapa.direccion">[POR CONFIRMAR]</span>
+              <span class="dato__texto" data-config="mapa.direccion">Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos</span>
+              <span class="dato__texto" data-config="mapa.referencia">Referencia: Óvalo Infantas</span>
             </span>
           </li>
           <li class="dato">
@@ -477,20 +478,42 @@
         </a>
       </div>
 
-      <div class="ubicacion__mapa" data-mapa>
-        <div class="mapa-falso" aria-hidden="true">
-          <span class="mapa-falso__calle mapa-falso__calle--h1"></span>
-          <span class="mapa-falso__calle mapa-falso__calle--h2"></span>
-          <span class="mapa-falso__calle mapa-falso__calle--v1"></span>
-          <span class="mapa-falso__calle mapa-falso__calle--v2"></span>
-          <span class="mapa-falso__bloque mapa-falso__bloque--auditorio">Auditorio Norte</span>
-          <span class="mapa-falso__bloque mapa-falso__bloque--explanada">Explanada</span>
-          <span class="mapa-falso__pin">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.4-5.5 10.2-7.3 12a1 1 0 0 1-1.4 0C9.5 20.2 4 14.4 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-          </span>
+      <div class="ubicacion__visual">
+        <div class="ubicacion__mapa" data-mapa>
+          <div class="mapa-falso" aria-hidden="true">
+            <span class="mapa-falso__calle mapa-falso__calle--h1"></span>
+            <span class="mapa-falso__calle mapa-falso__calle--h2"></span>
+            <span class="mapa-falso__calle mapa-falso__calle--v1"></span>
+            <span class="mapa-falso__calle mapa-falso__calle--v2"></span>
+            <span class="mapa-falso__bloque mapa-falso__bloque--auditorio">Auditorio Norte</span>
+            <span class="mapa-falso__bloque mapa-falso__bloque--explanada">Explanada</span>
+            <span class="mapa-falso__pin">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.4-5.5 10.2-7.3 12a1 1 0 0 1-1.4 0C9.5 20.2 4 14.4 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+          </div>
         </div>
+        <button class="polaroid" type="button" aria-haspopup="dialog" aria-label="Ver en grande la foto de la Sede Norte">
+          <picture>
+            <source srcset="assets/img/sede-norte.webp" type="image/webp">
+            <img class="polaroid__foto" src="assets/img/sede-norte.jpg" width="1240" height="1403" loading="lazy" decoding="async" alt="Edificio de la Universidad Científica del Sur, Sede Norte">
+          </picture>
+          <span class="polaroid__pie">Así luce la Sede Norte</span>
+        </button>
       </div>
     </div>
+
+    <dialog class="dialogo dialogo--foto" id="dialogo-foto" aria-labelledby="foto-pie">
+      <div class="dialogo__caja foto-grande">
+        <button class="dialogo__cerrar" type="button" data-cerrar-dialogo aria-label="Cerrar">
+          <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <picture>
+          <source srcset="assets/img/sede-norte.webp" type="image/webp">
+          <img class="foto-grande__img" src="assets/img/sede-norte.jpg" width="1240" height="1403" loading="lazy" decoding="async" alt="Edificio de la Universidad Científica del Sur, Sede Norte">
+        </picture>
+        <p class="foto-grande__pie" id="foto-pie" tabindex="-1" data-foco-inicial>Así luce la Sede Norte</p>
+      </div>
+    </dialog>
 
     <div class="ubicacion__panel" role="tabpanel" id="ubi-virtual" aria-labelledby="tab-virtual" tabindex="0" hidden>
       <div class="ubicacion__info">

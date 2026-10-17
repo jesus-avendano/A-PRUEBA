@@ -454,3 +454,26 @@
   .hero--animado .hero__palabra--resalte .hero__letra { animation: none; }
   .hero--animado .hero__letra:hover { scale: none; transform: none; }
 }
+
+/* ===========================================================
+   Polaroid de la sede (CAMBIOS-RUTA-HERO §5)
+   En hover crece a 1.08, se endereza y menea una vez. El meneo
+   arranca desde su giro de reposo (-4°), así no salta.
+   =========================================================== */
+@keyframes polaroid-menear {
+  0%   { transform: rotate(-4deg) scale(1); animation-timing-function: cubic-bezier(.34, 1.56, .64, 1); }
+  30%  { transform: rotate(3deg) scale(1.08); }
+  55%  { transform: rotate(-2deg) scale(1.08); }
+  80%  { transform: rotate(1deg) scale(1.08); }
+  100% { transform: rotate(0deg) scale(1.08); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .polaroid:hover {
+    transform: rotate(0deg) scale(1.08);
+    animation: polaroid-menear 600ms var(--ease-out);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .polaroid { transition: none; }
+  .polaroid:hover { transform: rotate(-4deg); animation: none; }
+}

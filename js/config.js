@@ -30,10 +30,13 @@ export const CONFIG = {
 
   redes: { instagram: '', tiktok: '', facebook: '' },
 
+  // Fuente: página oficial del Campus Norte (da un cruce de avenidas, sin número).
   mapa: {
-    embedUrl: '',  // el src del iframe de Google Maps
-    linkUrl: '',   // el enlace normal, para abrir la app
-    direccion: '[POR CONFIRMAR]',
+    direccion: 'Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos',
+    referencia: 'Referencia: Óvalo Infantas',
+    linkUrl: 'https://www.google.com/maps/place/Universidad+Cient%C3%ADfica+del+Sur/@-11.9445269,-77.0732338,17.52z/data=!4m6!3m5!1s0x9105d1c1512bb1a5:0xdc9cbf193fa9af0e!8m2!3d-11.9440854!4d-77.0717673!16s%2Fg%2F11j0ysw37_?hl=es',
+    // PROVISIONAL. El oficial: Google Maps → Compartir → Insertar un mapa, y copiar solo el src del iframe.
+    embedUrl: 'https://www.google.com/maps?q=-11.9440854,-77.0717673&z=17&hl=es&output=embed',
   },
 
   virtual: { plataforma: '[POR CONFIRMAR]' },

@@ -10,6 +10,7 @@ import { iniciarCielo } from './starfield.js';
 import { iniciarRuta } from './ruta.js';
 import { iniciarAliados } from './aliados.js';
 import { iniciarEnfoque } from './enfoque.js';
+import { openDialog } from './dialog.js';
 
 const PROXIMAMENTE = 'Próximamente';
 
@@ -22,6 +23,7 @@ iniciarPestanas();
 iniciarCielo();
 iniciarEnfoque(iniciarRuta());
 iniciarAliados();
+conectarFoto();
 conectarCTAs();
 
 /* ---------------------------------------------------------
@@ -126,4 +128,21 @@ function conectarCTAs() {
       }, 400);
     });
   });
+}
+
+/* ---------------------------------------------------------
+   Polaroid de la sede: abre la foto en grande
+   --------------------------------------------------------- */
+function conectarFoto() {
+  const boton = document.querySelector('.polaroid');
+  if (!boton) return;
+  // si la foto no está (p. ej. un error al publicar), la polaroid no se muestra
+  const img = boton.querySelector('img');
+  if (img) {
+    const ocultar = () => { boton.hidden = true; };
+    if (img.complete && img.naturalWidth === 0 && img.currentSrc) ocultar();
+    img.addEventListener('error', ocultar);
+  }
+  if (!document.getElementById('dialogo-foto')) return;
+  boton.addEventListener('click', () => openDialog({ id: 'dialogo-foto', origin: boton, variant: 'foto' }));
 }
