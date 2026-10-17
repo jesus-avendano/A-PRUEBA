@@ -7,6 +7,7 @@ import { iniciarCuentaRegresiva } from './countdown.js';
 import { iniciarPestanas } from './tabs.js';
 import { iniciarCielo } from './starfield.js';
 import { iniciarRuta } from './ruta.js';
+import { iniciarAliados } from './aliados.js';
 
 const PROXIMAMENTE = 'Próximamente';
 
@@ -17,6 +18,7 @@ iniciarCuentaRegresiva();
 iniciarPestanas();
 iniciarCielo();
 iniciarRuta();
+iniciarAliados();
 conectarCTAs();
 
 /* ---------------------------------------------------------

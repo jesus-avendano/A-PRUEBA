@@ -35,6 +35,8 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 - Rellenar `js/config.js` con los datos que faltan en `docs/PROYECTO.md` (sección 8) y el snippet
   del script de Luma donde dice `<!-- LUMA SCRIPT -->`.
 - La imagen `og-image.png` (1200×630) y el favicon oficial.
+- El texto real de cada aliado y sus redes en `CONFIG.aliados`: hoy la descripción y "Qué ofrece"
+  son lorem ipsum, igual en los seis, como pide `docs/CAMBIOS-INTERACCION.md`.
 
 Decisiones que conviene no deshacer sin querer:
 

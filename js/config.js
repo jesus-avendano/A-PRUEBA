@@ -39,4 +39,47 @@ export const CONFIG = {
   virtual: { plataforma: '[POR CONFIRMAR]' },
 
   legal: { privacidadUrl: '', terminosUrl: '' },
+
+  // Panel de cada aliado (docs/CAMBIOS-INTERACCION.md §2).
+  // PENDIENTE: descripcion y queOfrece son texto de relleno, igual en los seis.
+  // Reemplazar con el texto real de cada aliado; nunca inventar datos.
+  // Una red vacía se muestra deshabilitada con el texto "Próximamente".
+  aliados: {
+    'face-to-face': {
+      nombre: 'Face to Face',
+      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
+      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+    },
+    'lead-ucsur': {
+      nombre: 'LEAD UCSUR',
+      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
+      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+    },
+    'bell': {
+      nombre: 'BELL',
+      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
+      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+    },
+    'red-astrum': {
+      nombre: 'Red Astrum',
+      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
+      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+    },
+    'club-tecnologia-electronica': {
+      nombre: 'Club de Tecnología y Electrónica',
+      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
+      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+    },
+    'legado-stemos': {
+      nombre: 'Legado STEMos',
+      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
+      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+    },
+  },
 };
