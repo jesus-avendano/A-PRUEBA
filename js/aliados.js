@@ -4,6 +4,7 @@
 
 import { CONFIG } from './config.js';
 import { openDialog } from './dialog.js';
+import { enlazar } from './enlaces.js';
 
 const ID = 'dialogo-aliado';
 const PROXIMAMENTE = 'Próximamente';
@@ -43,20 +44,18 @@ export function iniciarAliados() {
       return li;
     }));
 
-    redes.forEach((enlace) => {
-      const red = enlace.dataset.redAliado;
+    redes.forEach((anterior, i) => {
+      const red = anterior.dataset.redAliado;
       const url = datos.redes && datos.redes[red];
+      // con URL es un <a>; sin URL, un <span> deshabilitado: nunca un enlace roto
+      const enlace = enlazar(anterior, url || '');
+      redes[i] = enlace;
       const texto = enlace.querySelector('.red-aliado__texto');
       if (url) {
-        enlace.href = url;
-        enlace.removeAttribute('aria-disabled');
         enlace.removeAttribute('title');
         enlace.setAttribute('aria-label', `${NOMBRE_RED[red]} de ${titulo}`);
         texto.textContent = NOMBRE_RED[red];
       } else {
-        // nunca un enlace roto: sin URL queda deshabilitado
-        enlace.removeAttribute('href');
-        enlace.setAttribute('aria-disabled', 'true');
         enlace.title = PROXIMAMENTE;
         enlace.setAttribute('aria-label', `${NOMBRE_RED[red]}: ${PROXIMAMENTE.toLowerCase()}`);
         texto.textContent = PROXIMAMENTE;

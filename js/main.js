@@ -11,6 +11,7 @@ import { iniciarRuta } from './ruta.js';
 import { iniciarAliados } from './aliados.js';
 import { iniciarEnfoque } from './enfoque.js';
 import { openDialog } from './dialog.js';
+import { enlazar } from './enlaces.js';
 
 const PROXIMAMENTE = 'Próximamente';
 
@@ -85,20 +86,18 @@ function leer(ruta) {
 }
 
 function activarEnlace(el, url) {
-  el.href = url;
-  el.removeAttribute('aria-disabled');
+  enlazar(el, url).removeAttribute('title');
 }
 
 function deshabilitarEnlace(el) {
-  el.removeAttribute('href');
-  el.setAttribute('aria-disabled', 'true');
-  el.title = PROXIMAMENTE;
+  const span = enlazar(el, '');
+  span.title = PROXIMAMENTE;
   // los botones sí cambian de texto; los enlaces pequeños y los íconos
   // conservan su etiqueta y solo se ven deshabilitados
-  if (el.classList.contains('boton')) {
-    const icono = el.querySelector('svg');
-    el.textContent = PROXIMAMENTE;
-    if (icono) el.append(icono);
+  if (span.classList.contains('boton')) {
+    const icono = span.querySelector('svg');
+    span.textContent = PROXIMAMENTE;
+    if (icono) span.append(icono);
   }
 }
 
