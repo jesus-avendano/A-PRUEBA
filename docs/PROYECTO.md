@@ -226,13 +226,16 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - [ ] Texto de consentimiento de datos y autorización del apoderado (lo valida UCSUR)
 - [ ] URLs de política de privacidad y términos
 - [ ] Lista de carreras para el desplegable del registro
-- [ ] Imagen para compartir (og-image, 1200×630) y favicon oficial
-- [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting?
+- [x] Imagen para compartir provisional (`assets/og/og-image.png`, 1200×630), hecha con el logo y los textos de la página. Reemplazarla si llega una oficial
+- [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
+- [ ] Texto real de cada aliado (descripción y qué ofrece) y sus redes: hoy es texto de relleno en `CONFIG.aliados`
+- [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting? Con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url` (WhatsApp y Facebook las piden)
 
 ## 9. Decisiones tomadas
 
 - **Sin base de datos propia:** Luma maneja el registro, el QR y la confirmación.
 - **Tecnología:** HTML, CSS y JavaScript puro, publicado en un hosting estático gratuito.
+- **El hosting debe comprimir** (brotli o gzip). Netlify, Vercel, Cloudflare Pages y GitHub Pages lo hacen solos. Sin compresión, Lighthouse móvil baja de 100 a 86 en rendimiento.
 - **Cupos virtuales:** 800, no ilimitados.
 - **Inscripción:** no navega a otro lugar. Los botones flotantes Presencial/Virtual abren la explicación en el mismo sitio, y el registro de Luma se abre como overlay sobre la página.
 - **Ruta animada:** estrellas en movimiento constante, trazo que avanza, cometa que pasa por los nodos 1–4 y nodos que crecen al recibirlo.

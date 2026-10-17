@@ -19,22 +19,38 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 
 ## Estado actual
 
-**Fases 1–3, interacciones v2 y cambios v3 terminados** (`docs/CAMBIOS-INTERACCION.md` y
-`docs/CAMBIOS-RUTA-HERO.md`, incluida su revisión final en 360, 390, 768, 1024 y 1440, con y sin
-movimiento reducido, con teclado y en táctil).
+**Fases 1–4 terminadas**, con las interacciones v2 y los cambios v3 (`docs/CAMBIOS-INTERACCION.md` y
+`docs/CAMBIOS-RUTA-HERO.md`). Falta solo lo que depende de datos o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
-(`config.js`, `main.js`, `dialog.js`, `nav.js`, `hero.js`, `entradas.js`, `countdown.js`, `ruta.js`,
-`enfoque.js`, `tabs.js`, `aliados.js`, `starfield.js`) y `assets/img/sede-norte.{webp,jpg}`.
+(`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `entradas.js`, `countdown.js`,
+`ruta.js`, `enfoque.js`, `tabs.js`, `aliados.js`, `starfield.js`), `assets/img/sede-norte.{webp,jpg}` y
+`assets/og/og-image.png` (provisional).
+
+**QA hecho en la Fase 4:**
+
+- **Lighthouse: 100 en las cuatro categorías, en móvil y en escritorio** (móvil: FCP 1.2 s, LCP 1.5 s,
+  CLS 0.001, 648 KiB). Se mide con el servidor comprimiendo, como cualquier hosting: sin compresión,
+  rendimiento en móvil baja a 86.
+- **Chrome:** 62 corridas automáticas en 360, 390, 768, 1024 y 1440, con y sin movimiento reducido,
+  táctil, con la config vacía y con la config llena. Sin errores de JS ni recursos rotos.
+- **WebKit (el motor de Safari), con Playwright:** las mismas pruebas en 375, 390, 768, 1024 y 1440 pasan
+  enteras. Están comprobados `<dialog>`, `inert`, `:has()`, `dvh`, el desenfoque con `-webkit-`, el
+  degradado recortado al texto y la transición de `grid-template-rows`. Ojo: en Safari el Tab, por
+  defecto, no pasa por enlaces ni botones; con Opción+Tab (o con "Resaltar cada elemento con Tab")
+  el recorrido llega a todo, en orden y con foco visible.
+- **Gama baja:** con la CPU 4× y 6× más lenta, el hero (estrellas y letras) y la ruta (estrellas, trazo
+  y cometa) van a 60 fps.
 
 **Lo que queda pendiente de verdad:**
 
-- Lighthouse móvil contra el presupuesto (no se ha corrido todavía).
-- Probar en un iPhone (Safari) y un Android reales: diálogos con `backdrop-filter`, el bloqueo de
-  scroll (`overflow: hidden` en `<html>`) y el deslizamiento táctil.
-- Datos de `docs/PROYECTO.md` (sección 8): Luma (URL, IDs y el snippet del script donde dice
+- **Un iPhone y un Android reales.** Sobre todo el bloqueo de scroll con el dedo cuando hay un diálogo
+  o el menú abierto (`overflow: hidden` en `<html>`; iOS dice respetarlo desde la versión 16, pero falta
+  verlo). WebKit en la Mac no puede simular el arrastre del dedo.
+- **Datos de `docs/PROYECTO.md` (sección 8):** Luma (URL, IDs y el snippet del script donde dice
   `<!-- LUMA SCRIPT -->`), WhatsApp, redes, legales, el embed oficial del mapa (el actual es
-  provisional) y el texto real de cada aliado (hoy es lorem ipsum en `CONFIG.aliados`).
-- `assets/og/og-image.png` (1200×630) y el favicon oficial.
+  provisional), el texto real de cada aliado (hoy es lorem ipsum en `CONFIG.aliados`) y el favicon oficial.
+- **El dominio:** con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url`
+  (está anotado en el `<head>`).
 
 Decisiones que conviene no deshacer sin querer:
 
@@ -60,9 +76,15 @@ Decisiones que conviene no deshacer sin querer:
   `.estacion__nodo-circulo` crece y late. Todas las escalas se componen con la variable `--escala`,
   así el hover y el saludo no se pisan.
 - **La nav** alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
-- **Los enlaces que dependen de CONFIG** salen del HTML sin `href`; `main.js` se los pone si el campo
-  tiene valor y si no los deja deshabilitados con `title="Próximamente"` (y, si son botones, además
-  les cambia el texto).
+- **Los enlaces que dependen de CONFIG salen del HTML como `<span role="link" aria-disabled="true">`**,
+  no como `<a>` sin `href` (Lighthouse marca `aria-disabled` en un `<a>` sin `href`). `enlazar(el, url)`
+  de `js/enlaces.js` lo cambia a `<a href>` con pestaña nueva cuando hay URL, y de vuelta a `<span>`
+  cuando no. Como el elemento se reemplaza, hay que quedarse con el que devuelve. Sin URL llevan
+  `title="Próximamente"`, y si son botones además cambian su texto.
+- **Los botones naranjas van siempre a 19px ExtraBold**, también el compacto de la nav: blanco sobre
+  naranja (3.1:1) solo cumple AA como texto grande.
+- **El hosting tiene que comprimir** (brotli o gzip). Netlify, Vercel, Cloudflare Pages y GitHub Pages lo
+  hacen solos.
 
 ## Comandos
 
@@ -72,6 +94,8 @@ No hay package.json, ni build, ni linter, ni tests: es un sitio estático y se a
 npx serve .                      # servidor local (los ES modules no cargan desde file://)
 npx lighthouse http://localhost:3000 --preset=desktop --view
 npx lighthouse http://localhost:3000 --form-factor=mobile --view   # el presupuesto se mide en móvil
+npx playwright@1.63.0 install webkit                                 # una vez: el motor de Safari
+npx playwright@1.63.0 open --device="iPhone 13" http://localhost:3000   # la página en WebKit, como iPhone
 ```
 
 **No uses `python3 -m http.server` para probar esto.** Con los 8 módulos pidiéndose a la vez deja caer
@@ -113,7 +137,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   └── tabs.js         pestañas Presencial/Virtual de Ubicación
 ├── assets/
 │   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
-│   └── og/             og-image.png (pendiente)
+│   └── og/             og-image.png (provisional)
 └── docs/PROYECTO.md
 ```
 
@@ -500,7 +524,7 @@ Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace 
 
 - `<title>`: "A+PRUEBA | La Ruta del Estudiante, 17 de noviembre" (sin "·": CAMBIOS-RUTA-HERO §4)
 - Meta description: "Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial en UCSUR Sede Norte o virtual. Martes 17 de noviembre, 9:00 a.m."
-- Open Graph y Twitter: `og:title`, `og:description`, `og:image` (`assets/og/og-image.png`, 1200×630, pendiente; deja la ruta lista), `og:locale=es_PE` y `og:type=website`.
+- Open Graph y Twitter: `og:title`, `og:description`, `og:image` (`assets/og/og-image.png`, 1200×630, provisional; con el dominio pasa a URL absoluta), `og:locale=es_PE` y `og:type=website`.
 - `<meta name="theme-color" content="#0B1040">`.
 - `favicon.svg` provisional: círculo navy con "A+" en blanco (Fredoka 700). Se reemplaza cuando haya uno oficial.
 
@@ -513,11 +537,11 @@ Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace 
 
 ## Definición de terminado
 
-- [ ] Las 7 secciones y la nav con los textos exactos de PROYECTO.md.
-- [ ] Los botones de entrada flotan, crecen y se menean con hover, y abren el panel en el mismo lugar sin cambiar de página.
-- [ ] Se puede cambiar de Presencial a Virtual con el panel abierto, y cerrarlo con el botón, la ✕ o Esc.
-- [ ] Las estrellas se mueven sin parar, el trazo de la ruta avanza, el cometa recorre los nodos 1→4 y cada nodo crece al recibirlo.
-- [ ] En móvil, la línea de tiempo se ilumina con el scroll.
-- [ ] Con `prefers-reduced-motion` no hay animación infinita.
-- [ ] Todo lo pendiente vive en `config.js`, y los campos vacíos se ven como "Próximamente", no como enlaces rotos.
-- [ ] Lighthouse móvil cumple el presupuesto.
+- [x] Las 7 secciones y la nav con los textos exactos de PROYECTO.md.
+- [x] Los botones de entrada flotan, crecen y se menean con hover, y abren el panel en el mismo lugar sin cambiar de página.
+- [x] Se puede cambiar de Presencial a Virtual con el panel abierto, y cerrarlo con el botón, la ✕ o Esc.
+- [x] Las estrellas se mueven sin parar, el trazo de la ruta avanza, el cometa recorre los nodos 1→4 y cada nodo crece al recibirlo.
+- [x] En móvil, la línea de tiempo se ilumina con el scroll.
+- [x] Con `prefers-reduced-motion` no hay animación infinita.
+- [x] Todo lo pendiente vive en `config.js`, y los campos vacíos se ven como "Próximamente", no como enlaces rotos.
+- [x] Lighthouse móvil cumple el presupuesto.
