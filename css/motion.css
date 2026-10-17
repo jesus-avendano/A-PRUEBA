@@ -106,11 +106,12 @@
 @media (hover: hover) and (pointer: fine) {
   .boleto:hover .boleto__interior,
   .estacion:hover .estacion__burbuja,
-  .estacion:hover .estacion__nodo-circulo,
   .red:hover {
     animation: menear 600ms var(--ease-out),
                vaiven 1.6s ease-in-out 600ms infinite alternate;
   }
+  /* el nodo crece a 1.25 y menea una sola vez (CAMBIOS §3) */
+  .estacion:hover .estacion__nodo-circulo { animation: crecer-menear 600ms var(--ease-out); }
   .boleto:hover .boleto__interior { --escala: 1.08; }
   .estacion:hover .estacion__burbuja { --escala: 1.08; }
   .estacion:hover .estacion__nodo-circulo { --escala: 1.25; }
@@ -314,4 +315,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ficha-aliado__contenido--anima { animation: funde 150ms linear both; }
+}
+
+/* Ficha de estación: al cambiar de estación el contenido y la marca de
+   agua se funden y deslizan; el sello y el temblor los anima js/estaciones.js */
+.ficha-estacion__contenido--anima,
+.ficha-estacion__agua--anima { animation: panel-entra 250ms var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha-estacion__contenido--anima,
+  .ficha-estacion__agua--anima { animation: funde 150ms linear both; }
 }

@@ -43,6 +43,9 @@ Decisiones que conviene no deshacer sin querer:
 - **Las fuentes no bloquean.** La hoja de Google Fonts se carga con `media="print"` y se activa al
   llegar, porque una hoja externa bloquea la ejecución de los módulos: si Google Fonts tarda, la
   página se queda sin JS. Hay `<noscript>` de respaldo.
+- **Las estaciones de la ruta se abren en `#dialogo-estacion`** (`js/estaciones.js`), que crece desde el
+  número con `openDialog({ flip: true })` y, al cambiar de estación, usa `cambiarOrigen()` para cerrar
+  hacia el número actual. Los textos de la ficha se leen de las tarjetas de la ruta: no están duplicados.
 - **Las entradas se abren en `#dialogo-boleto`** (variante `ticket` de `js/dialog.js`), que crece desde
   el boleto con FLIP. **Al tocar el botón de Luma el diálogo se cierra al instante:** un `<dialog>` modal
   vive en el top layer, por encima de cualquier z-index, y deja inerte todo lo de fuera; el overlay de

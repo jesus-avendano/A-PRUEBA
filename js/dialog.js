@@ -7,7 +7,7 @@
 
    Variantes:
    - ticket   centrado; se abre desde el boleto de origen (FLIP)
-   - estacion centrado; fundido y subida
+   - estacion centrado; con flip: true también crece desde su origen
    - aliado   panel lateral en escritorio, hoja inferior en móvil */
 
 const EASE_OUT = 'cubic-bezier(.22, 1, .36, 1)';
@@ -51,18 +51,22 @@ export function liberarScroll() {
  * @param {Element} [o.origin] quien lo abrió; recibe el foco al cerrar
  * @param {'ticket'|'estacion'|'aliado'} [o.variant]
  * @param {Element} [o.focus]  a dónde va el foco al abrir (por defecto, [data-foco-inicial] visible o la ✕)
+ * @param {boolean} [o.flip]   crecer desde el origen y volver a él (por defecto, solo en ticket)
  * @param {Function} [o.onClose]
  */
-export function openDialog({ id, origin = null, variant = 'estacion', focus = null, onClose = null } = {}) {
+export function openDialog({ id, origin = null, variant = 'estacion', focus = null, onClose = null, flip = variant === 'ticket' } = {}) {
   const dialogo = document.getElementById(id);
   if (!dialogo) return Promise.resolve();
   if (actual) cerrarSinAnimar(actual);
 
   preparar(dialogo);
   const caja = dialogo.querySelector('.dialogo__caja');
-  const rectOrigen = variant === 'ticket' && origin ? origin.getBoundingClientRect() : null;
+  const rectOrigen = flip && origin ? origin.getBoundingClientRect() : null;
 
-  actual = { dialogo, caja, origen: origin, variante: variant, alCerrar: onClose, cerrando: false };
+  actual = {
+    dialogo, caja, origen: origin, variante: variant, alCerrar: onClose,
+    flip: Boolean(rectOrigen), ocultaOrigen: false, cerrando: false,
+  };
   dialogo.classList.remove('dialogo--cerrando');
   dialogo.showModal();
   bloquearScroll();
@@ -84,6 +88,19 @@ export function closeDialog({ inmediato = false } = {}) {
   a.cerrando = true;
   a.dialogo.classList.add('dialogo--cerrando');
   return animarSalida(a).then(() => terminar(a));
+}
+
+/**
+ * Cambia el elemento al que vuelve el diálogo al cerrarse (foco y FLIP).
+ * Lo usan las estaciones: al pasar a otra, se cierra hacia su número.
+ */
+export function cambiarOrigen(nuevo) {
+  if (!actual || !nuevo || nuevo === actual.origen) return;
+  if (actual.ocultaOrigen && actual.origen) {
+    actual.origen.style.visibility = '';
+    nuevo.style.visibility = 'hidden';
+  }
+  actual.origen = nuevo;
 }
 
 /** El diálogo abierto, o null. */
@@ -160,7 +177,7 @@ function animarEntrada(a, rectOrigen) {
     return terminada(caja.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: 'linear' }));
   }
 
-  if (variante === 'ticket' && rectOrigen) return entrarDesdeOrigen(a, rectOrigen);
+  if (rectOrigen) return entrarDesdeOrigen(a, rectOrigen);
 
   if (variante === 'aliado') {
     const desde = esMovil() ? 'translateY(100%)' : 'translateX(100%)';
@@ -184,6 +201,7 @@ function entrarDesdeOrigen(a, rectOrigen) {
   const inversa = transformDesde(rectOrigen, destino);
 
   origen.style.visibility = 'hidden';
+  a.ocultaOrigen = true;
   const crecer = caja.animate(
     [{ transform: inversa }, { transform: 'none' }],
     { duration: 450, easing: EASE_SPRING },
@@ -203,7 +221,7 @@ function animarSalida(a) {
     return terminada(caja.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' }));
   }
 
-  if (variante === 'ticket' && origen && origen.isConnected) {
+  if (a.flip && origen && origen.isConnected) {
     // el contenido se va primero y la caja vuelve al lugar del boleto
     [...caja.children].forEach((hijo) => hijo.animate(
       [{ opacity: 1 }, { opacity: 0 }],

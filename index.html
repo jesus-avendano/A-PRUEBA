@@ -367,7 +367,7 @@
       <ol class="estaciones">
         <li class="estacion estacion--1" data-estacion="1">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">1</span></span></span>
+          <button class="estacion__nodo" type="button" aria-haspopup="dialog" aria-label="Estación 1: Conócete"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">1</span></span></button>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">
@@ -384,7 +384,7 @@
 
         <li class="estacion estacion--2" data-estacion="2">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">2</span></span></span>
+          <button class="estacion__nodo" type="button" aria-haspopup="dialog" aria-label="Estación 2: Experimenta"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">2</span></span></button>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">
@@ -401,7 +401,7 @@
 
         <li class="estacion estacion--3" data-estacion="3">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">3</span></span></span>
+          <button class="estacion__nodo" type="button" aria-haspopup="dialog" aria-label="Estación 3: Escucha y conecta"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">3</span></span></button>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">
@@ -418,7 +418,7 @@
 
         <li class="estacion estacion--4" data-estacion="4">
           <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <span class="estacion__nodo" aria-hidden="true"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">4</span></span></span>
+          <button class="estacion__nodo" type="button" aria-haspopup="dialog" aria-label="Estación 4: Valida y consolida"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">4</span></span></button>
           <article class="estacion__tarjeta">
             <div class="estacion__cabecera">
               <span class="estacion__burbuja">
@@ -438,6 +438,41 @@
     <div class="ruta__cierre">
       <a class="boton boton--naranja" href="#entradas" data-ir-entradas>Quiero vivir la ruta</a>
     </div>
+
+    <!-- Ficha de estación: la llena js/estaciones.js con el texto de cada tarjeta -->
+    <dialog class="dialogo dialogo--estacion" id="dialogo-estacion" aria-labelledby="estacion-titulo" aria-describedby="estacion-desc">
+      <div class="dialogo__caja ficha-estacion" data-estacion="1">
+        <button class="dialogo__cerrar" type="button" data-cerrar-dialogo aria-label="Cerrar">
+          <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <span class="ficha-estacion__agua" aria-hidden="true"></span>
+        <div class="ficha-estacion__sello" aria-hidden="true">
+          <span class="ficha-estacion__sello-icono"></span>
+          <span class="ficha-estacion__sello-texto"></span>
+        </div>
+        <div class="ficha-estacion__contenido">
+          <div class="ficha-estacion__cabecera">
+            <p class="overline ficha-estacion__overline"></p>
+            <h2 class="ficha-estacion__titulo" id="estacion-titulo" tabindex="-1" data-foco-inicial></h2>
+            <p class="ficha-estacion__pregunta"></p>
+          </div>
+          <p class="ficha-estacion__desc" id="estacion-desc"></p>
+        </div>
+        <div class="ficha-estacion__pie">
+          <div class="ficha-estacion__navegacion">
+            <button class="ficha-estacion__flecha" type="button" data-paso="-1" aria-label="Estación anterior"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button>
+            <div class="ficha-estacion__numeros" role="group" aria-label="Elegir estación">
+            <button class="ficha-estacion__num" type="button" data-ir="1" data-estacion="1" aria-label="Estación 1: Conócete">1</button>
+            <button class="ficha-estacion__num" type="button" data-ir="2" data-estacion="2" aria-label="Estación 2: Experimenta">2</button>
+            <button class="ficha-estacion__num" type="button" data-ir="3" data-estacion="3" aria-label="Estación 3: Escucha y conecta">3</button>
+            <button class="ficha-estacion__num" type="button" data-ir="4" data-estacion="4" aria-label="Estación 4: Valida y consolida">4</button>
+            </div>
+            <button class="ficha-estacion__flecha" type="button" data-paso="1" aria-label="Estación siguiente"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+          <p class="ficha-estacion__cuenta" aria-live="polite"></p>
+        </div>
+      </div>
+    </dialog>
   </div>
 </section>
 

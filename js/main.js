@@ -8,6 +8,7 @@ import { iniciarPestanas } from './tabs.js';
 import { iniciarCielo } from './starfield.js';
 import { iniciarRuta } from './ruta.js';
 import { iniciarAliados } from './aliados.js';
+import { iniciarEstaciones } from './estaciones.js';
 
 const PROXIMAMENTE = 'Próximamente';
 
@@ -19,6 +20,7 @@ iniciarPestanas();
 iniciarCielo();
 iniciarRuta();
 iniciarAliados();
+iniciarEstaciones();
 conectarCTAs();
 
 /* ---------------------------------------------------------
