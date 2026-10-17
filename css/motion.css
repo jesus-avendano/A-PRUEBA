@@ -105,16 +105,14 @@
 
 @media (hover: hover) and (pointer: fine) {
   .boleto:hover .boleto__interior,
-  .estacion:hover .estacion__burbuja,
   .red:hover {
     animation: menear 600ms var(--ease-out),
                vaiven 1.6s ease-in-out 600ms infinite alternate;
   }
-  /* el nodo crece a 1.25 y menea una sola vez (CAMBIOS §3) */
-  .estacion:hover .estacion__nodo-circulo { animation: crecer-menear 600ms var(--ease-out); }
+  /* ruta: cada elemento se anima solo a sí mismo (CAMBIOS-RUTA-HERO §1).
+     El nodo crece a 1.25 y menea una vez; la tarjeta y su ícono no se mueven. */
+  .estacion__nodo:hover .estacion__nodo-circulo { --escala: 1.25; animation: crecer-menear 600ms var(--ease-out); }
   .boleto:hover .boleto__interior { --escala: 1.08; }
-  .estacion:hover .estacion__burbuja { --escala: 1.08; }
-  .estacion:hover .estacion__nodo-circulo { --escala: 1.25; }
   .red:hover { --escala: 1.1; }
 
   /* aliados y redes del panel: crecen con spring mientras menean (§2) */
@@ -130,9 +128,17 @@
   .boleto--presencial:hover { box-shadow: 0 12px 0 var(--naranja-500), var(--sombra-tarjeta); }
   .boleto--virtual:hover { box-shadow: 0 12px 0 var(--azul-500), var(--sombra-tarjeta); }
 
-  /* las tarjetas con texto no se menean: solo crecen y suben */
-  .estacion:hover .estacion__tarjeta { transform: translateY(-8px) scale(1.03); }
-  .estacion:hover .estacion__tarjeta { border-color: var(--color-estacion); }
+  /* la tarjeta crece sola, por encima de sus vecinas; el ícono, el nodo y
+     las otras tarjetas no se mueven. Entra en 300ms con spring y sale en 250ms. */
+  .estacion .estacion__tarjeta:hover {
+    z-index: 3;
+    transform: translateY(-6px) scale(1.05);
+    border-color: var(--color-estacion);
+    box-shadow: 0 20px 50px -12px rgba(var(--rgb-estacion), .4);
+    transition: transform 300ms var(--ease-spring),
+                border-color 300ms var(--ease-out),
+                box-shadow 300ms var(--ease-out);
+  }
 }
 
 /* En táctil, el boleto responde al dedo */
@@ -175,7 +181,11 @@
 }
 .estacion__nodo--llega::after { animation: anillo var(--dur-lenta) var(--ease-out); }
 
-.estacion__tarjeta { transition: transform var(--dur-rapida) var(--ease-out), border-color var(--dur-rapida) var(--ease-out); }
+.estacion__tarjeta {
+  transition: transform var(--dur-rapida) var(--ease-out),
+              border-color var(--dur-rapida) var(--ease-out),
+              box-shadow var(--dur-rapida) var(--ease-out);
+}
 .estacion--encendida .estacion__tarjeta {
   transform: translateY(-6px);
   border-color: var(--color-estacion);
@@ -232,15 +242,14 @@
   }
   /* hover: sin meneo, sin vaivén y sin crecer */
   .boleto:hover .boleto__interior,
-  .estacion:hover .estacion__burbuja,
-  .estacion:hover .estacion__nodo-circulo,
+  .estacion__nodo:hover .estacion__nodo-circulo,
   .aliado:hover,
   .red:hover,
   .red-aliado:hover .red-aliado__circulo {
     --escala: 1;
     animation: none;
   }
-  .estacion:hover .estacion__tarjeta { transform: none; }
+  .estacion .estacion__tarjeta:hover { transform: none; } /* sin escalas; el color y el brillo sí */
   .ruta__linea-solida { opacity: 0; }
   .cometa { display: none; }
 }

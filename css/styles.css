@@ -919,6 +919,7 @@ a.boton:not([href]),
 .estacion--4 .estacion__nodo-circulo { background: var(--blanco); }
 
 .estacion__tarjeta {
+  position: relative; /* el hover la sube por encima de sus vecinas */
   flex: 1;
   min-width: 0;
   padding: 22px;
@@ -949,13 +950,6 @@ a.boton:not([href]),
 .estacion--3 .estacion__burbuja { background: var(--naranja-500); }
 .estacion--4 .estacion__burbuja { background: var(--blanco); }
 
-.estacion__indice {
-  font-family: var(--fuente-titulo);
-  font-size: 2.25rem;
-  line-height: 1;
-  font-weight: 700;
-  color: rgba(255, 255, 255, .16);
-}
 
 .estacion__overline { margin-bottom: 6px; }
 .estacion--1 .estacion__overline, .estacion--1 .estacion__pregunta { color: var(--celeste-400); }
@@ -1547,5 +1541,4 @@ a.red:not([href]) { opacity: .5; cursor: not-allowed; pointer-events: none; }
   .estacion__nodo-circulo { box-shadow: 0 0 0 6px var(--navy-900); }
   .estacion__nodo-num { font-size: 1.75rem; }
   .estacion__tarjeta { width: 100%; padding: 28px; }
-  .estacion__indice { font-size: 2.75rem; }
 }

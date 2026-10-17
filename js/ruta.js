@@ -68,6 +68,10 @@ function entrada(mapa, solida, trazo, quieto) {
       solida.style.strokeDashoffset = largo;
     }
     mapa.classList.add('ruta__mapa--entra');
+    // al terminar (trazo 1.7s; nodos y tarjetas < 1s) se quita la clase: sus
+    // animaciones quedan con relleno y pisarían los transforms del hover y del
+    // cometa, y al cambiar de animación (hover del nodo) se repetirían
+    setTimeout(() => mapa.classList.remove('ruta__mapa--entra'), 2000);
   };
 
   if (!('IntersectionObserver' in window)) return arrancar();

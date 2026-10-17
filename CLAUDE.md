@@ -12,6 +12,7 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 
 - **Contenido y datos:** `docs/PROYECTO.md` es la fuente de verdad de textos, fechas, aliados y pendientes. No inventes textos ni datos.
 - **Interacciones v2:** `docs/CAMBIOS-INTERACCION.md` reemplaza lo que este archivo dice de entradas, aliados, ruta y nav. Si se contradicen, gana ese archivo.
+- **Cambios v3:** `docs/CAMBIOS-RUTA-HERO.md` (ruta, hero, textos y ubicación) tiene prioridad sobre los dos anteriores donde se contradigan.
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
 - **Registro:** Luma. No hay base de datos ni formulario propio.
 - **Publicación:** martes 20 de octubre de 2026.
