@@ -497,7 +497,7 @@ El registro se abre como overlay de Luma en la misma página, así que no se sal
 
 Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace importa.
 
-- `<title>`: "A+PRUEBA · La Ruta del Estudiante | 17 de noviembre"
+- `<title>`: "A+PRUEBA | La Ruta del Estudiante, 17 de noviembre" (sin "·": CAMBIOS-RUTA-HERO §4)
 - Meta description: "Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial en UCSUR Sede Norte o virtual. Martes 17 de noviembre, 9:00 a.m."
 - Open Graph y Twitter: `og:title`, `og:description`, `og:image` (`assets/og/og-image.png`, 1200×630, pendiente; deja la ruta lista), `og:locale=es_PE` y `og:type=website`.
 - `<meta name="theme-color" content="#0B1040">`.

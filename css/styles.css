@@ -1273,7 +1273,7 @@ a.red:not([href]) { opacity: .5; cursor: not-allowed; pointer-events: none; }
   border-top: 1px solid rgba(255, 255, 255, .12);
   color: var(--tinta-sobre-oscuro);
 }
-.pie__legal-enlaces { display: flex; flex-wrap: wrap; gap: var(--e-20); }
+.pie__legal-enlaces { display: flex; flex-wrap: wrap; gap: var(--e-24); }
 .pie__legal-enlaces a { text-decoration: underline; text-underline-offset: 3px; }
 .pie__legal-enlaces a:not([href]) { text-decoration: none; opacity: .6; cursor: not-allowed; pointer-events: none; }
 

@@ -10,9 +10,9 @@ Fuente de verdad del contenido de la landing. Si algo cambia, se cambia aquí pr
 | Lema del logo | "Descubre tu potencial antes de elegir tu camino" |
 | Fecha | Martes 17 de noviembre de 2026 |
 | Horario | 9:00 a.m. – 1:00 p.m. (hora de Lima, UTC-5) |
-| Lugar presencial | UCSUR Sede Norte · Auditorio Norte y Explanada |
+| Lugar presencial | UCSUR Sede Norte, Auditorio Norte y Explanada |
 | Dirección exacta | **[POR CONFIRMAR]** |
-| Modalidades | Presencial: **200 cupos** · Virtual: **800 cupos** |
+| Modalidades | Presencial: **200 cupos**, Virtual: **800 cupos** |
 | Costo | Gratis |
 | Público | Escolares de secundaria (menores de edad en su mayoría) |
 
@@ -72,12 +72,14 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 
 ## 7. Contenido (textos finales)
 
+> En ningún texto visible se usa el punto medio "·" como separador. Si dos datos van juntos, se
+> separan con coma o cada uno va en su propia línea.
+
 ### Navegación
-- Enlaces: La ruta · Entradas · Ubicación · Aliados · Contacto
+- Enlaces: La ruta, Entradas, Ubicación, Aliados, Contacto
 - CTA: **Regístrate gratis**
 
 ### 1. Hero
-- Super-titular: **La ruta del estudiante**
 - Título (h1): **Descubre, experimenta y define tu futuro profesional** (resaltado: "futuro profesional")
 - Subtítulo, escritorio:
   > ¿Sientes la presión de no saber qué estudiar o dudas si tu elección es la correcta? Tranquilo, es normal. Elegir tu carrera no debería ser una decisión a ciegas: vive una experiencia donde pondrás a prueba tus habilidades, resolverás retos reales y conectarás con profesionales antes de tomar la gran decisión.
@@ -85,11 +87,11 @@ Todos van en círculo, cada uno manteniendo su diseño original.
   > Elegir tu carrera no debería ser una decisión a ciegas. Pon a prueba tus habilidades, resuelve retos reales y conecta con profesionales antes de decidir.
 - Botón principal: **¡Regístrate gratis y asegura tu lugar!** (móvil: **¡Regístrate gratis!**)
 - Botón secundario: **Ver la ruta del evento**
-- Chips: 17 de noviembre · 9:00 a.m. – 1:00 p.m. · UCSUR · Sede Norte · 200 presencial · 800 virtual
+- Sin pastilla ni chips de datos (se quitaron en la v3).
 - Ilustración del pasaporte:
   - Cabecera: "Pasaporte vocacional" / "A+PRUEBA 2026"
-  - Datos: "Titular: Tu nombre aquí" · "Modalidad: Presencial"
-  - Sellos: Conócete · Experimenta · Escucha · Valida
+  - Datos: "Titular: Tu nombre aquí" y "Modalidad: Presencial"
+  - Sellos: Conócete, Experimenta, Escucha y Valida
   - Fila QR: "Tu QR de acceso llega a tu correo al inscribirte"
   - Sticker: "¡Es gratis!"
 
@@ -148,9 +150,9 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - Botón sin enlace de Luma: **Inscripciones muy pronto**
 
 ### 3. Cuenta regresiva
-- Overline: **Martes 17 de noviembre · 9:00 a.m.**
+- Overline: **Martes 17 de noviembre, 9:00 a.m.**
 - Título: **El evento que transformará tus dudas en certeza**
-- Unidades: Días · Horas · Min · Seg
+- Unidades: Días, Horas, Min, Seg
 - Texto: No busques una charla aburrida sobre carreras. Ven a **vibrar, experimentar y medir tu nivel de seguridad real** sobre lo que quieres hacer con tu vida.
 - Botón: **Quiero mi pasaporte**
 - Durante el evento: ¡Está pasando ahora!
@@ -173,9 +175,11 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 ### 5. Ubicación
 - Overline: **Cómo llegar**
 - Título: **¿Dónde nos vemos?**
-- Pestañas: Presencial · Virtual
+- Pestañas: Presencial y Virtual
 - Presencial:
-  - Auditorio Norte y Explanada — UCSUR · Sede Norte — [dirección por confirmar]
+  - Auditorio Norte y Explanada, con cada dato en su propia línea:
+    - UCSUR Sede Norte
+    - [dirección por confirmar]
   - Martes 17 de noviembre — 9:00 a.m. – 1:00 p.m.
   - Lleva tu QR de inscripción — Lo recibes en tu correo al registrarte.
   - Botón: **Abrir en Google Maps**
@@ -197,10 +201,11 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - Mensaje prellenado: Hola, tengo una consulta sobre A+PRUEBA
 - Overline: **Síguenos**
 - Texto: Novedades antes del evento
-- Legal: © 2026 A+PRUEBA · La Ruta del Estudiante · Política de privacidad · Términos y condiciones
+- Legal: © 2026 A+PRUEBA, La Ruta del Estudiante
+- Enlaces legales: "Política de privacidad" y "Términos y condiciones", separados solo por espacio, sin ningún carácter entre ellos
 
 ### SEO
-- Título de pestaña: A+PRUEBA · La Ruta del Estudiante | 17 de noviembre
+- Título de pestaña: A+PRUEBA | La Ruta del Estudiante, 17 de noviembre
 - Descripción: Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial en UCSUR Sede Norte o virtual. Martes 17 de noviembre, 9:00 a.m.
 
 ## 8. Pendientes por confirmar
