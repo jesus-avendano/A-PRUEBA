@@ -155,17 +155,28 @@ Decisiones que conviene no deshacer sin querer:
 
 No hay package.json, ni build, ni linter, ni tests: es un sitio estático y se abre tal cual.
 
+**Para ver la página:** `npx serve .` en la carpeta del proyecto y abrir **http://localhost:3000**. No se
+abre con doble clic en `index.html`: desde `file://` los módulos no cargan y la página queda sin JavaScript.
+
 ```bash
-npx serve .                      # servidor local (los ES modules no cargan desde file://)
+npx serve .                      # servidor local → http://localhost:3000
 npx lighthouse http://localhost:3000 --preset=desktop --view
 npx lighthouse http://localhost:3000 --form-factor=mobile --view   # el presupuesto se mide en móvil
 npx playwright@1.63.0 install webkit                                 # una vez: el motor de Safari
 npx playwright@1.63.0 open --device="iPhone 13" http://localhost:3000   # la página en WebKit, como iPhone
 ```
 
-**No uses `python3 -m http.server` para probar esto.** Con los 8 módulos pidiéndose a la vez deja caer
+**No uses `python3 -m http.server` para probar esto.** Con los 15 módulos pidiéndose a la vez deja caer
 peticiones cada tantas cargas: el grafo de módulos falla entero y la página se queda estática, sin ningún
 error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor decente) no tiene el problema.
+
+**Lo que tiene que cumplir cualquier servidor (local o el hosting).** `npx serve` lo cumple; está probado:
+- **El tipo correcto por archivo, también en la raíz.** Si `/` sale como `application/octet-stream` en vez de
+  `text/html`, el navegador descarga la página en vez de mostrarla. Pasó el 18 de octubre con un servidor
+  de pruebas que calculaba el tipo con la ruta pedida (`/`) y no con el archivo entregado (`index.html`).
+  También `video/webm` y `video/mp4` para los videos.
+- **Rangos de bytes** (`Accept-Ranges`, respuesta 206): sin eso Safari no reproduce los videos.
+- **Compresión** brotli o gzip: sin ella el rendimiento en móvil baja bastante.
 
 - `cwebp` **no está instalado**. Si se quieren versiones .webp de los logos: `brew install webp`, y si no se instala, se dejan los PNG (pesan 120 KB en total, muy por debajo del presupuesto de 1.5 MB).
 - Para la verificación manual de cada fase: abrir el servidor local y revisar en 360, 390, 768, 1024 y 1440 px, con y sin `prefers-reduced-motion: reduce` (DevTools → Rendering → Emulate CSS media feature).
@@ -188,25 +199,35 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 ├── index.html
 ├── favicon.svg
 ├── css/
-│   ├── tokens.css      variables: color, tipografía, espacios, radios, sombras, movimiento
+│   ├── tokens.css      variables: color, tipografía, espacios, radios, sombras, movimiento, --fundido
 │   ├── styles.css      base, layout, componentes y secciones
 │   └── motion.css      keyframes, estados de animación y prefers-reduced-motion
 ├── js/
 │   ├── config.js       datos editables (ver abajo)
-│   ├── main.js         arranque: importa e inicializa módulos
+│   ├── main.js         arranque: aplica CONFIG al DOM, inicializa módulos y conecta los CTA
+│   ├── dialog.js       sistema de diálogos: boleto, foto, aliado y agenda; bloqueo de scroll
+│   ├── enlaces.js      enlaces que dependen de CONFIG: <a> con URL, <span> deshabilitado sin ella
 │   ├── nav.js          nav fija + menú móvil
-│   ├── entradas.js     selector Presencial/Virtual con panel que se abre en el mismo lugar
-│   ├── countdown.js    cuenta regresiva
-│   ├── starfield.js    cielo de estrellas en <canvas> (ruta y agenda)
+│   ├── hero.js         entrada del título palabra por palabra
 │   ├── video.js        videos de fondo: campus (hero) y auditorio (Entradas)
+│   ├── entradas.js     boletos Presencial/Virtual que abren su diálogo; botones de Luma
+│   ├── countdown.js    cuenta regresiva
+│   ├── ruta.js         ruta 1–4: trazo, cometa (escritorio) y riel con el scroll (móvil)
+│   ├── enfoque.js      modo enfoque de las tarjetas de la ruta
 │   ├── agenda.js       agenda del evento a pantalla completa
-│   ├── ruta.js         animación de la ruta 1–4
-│   └── tabs.js         pestañas Presencial/Virtual de Ubicación
+│   ├── starfield.js    cielo de estrellas en <canvas> (ruta y agenda)
+│   ├── tabs.js         pestañas Presencial/Virtual de Ubicación
+│   └── aliados.js      panel de cada aliado
 ├── assets/
 │   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
+│   ├── img/            sede-norte.webp y .jpg (la foto de Ubicación)
 │   ├── video/          campus (hero) y auditorio (Entradas): originales y versiones livianas
 │   └── og/             og-image.png (provisional)
-└── docs/PROYECTO.md
+└── docs/
+    ├── PROYECTO.md                 textos, datos y pendientes (fuente de verdad)
+    ├── CAMBIOS-INTERACCION.md      v2: entradas, aliados, ruta y nav
+    ├── CAMBIOS-RUTA-HERO.md        v3: ruta, hero, textos y ubicación
+    └── CAMBIOS-VIDEO-AGENDA.md     v4: video en Entradas y agenda
 ```
 
 ### js/config.js
@@ -232,6 +253,9 @@ export const CONFIG = {
 ```
 
 Si un campo está vacío, el elemento que depende de él se muestra deshabilitado con el texto "Próximamente". Nunca debe quedar un enlace roto.
+
+El `config.js` real tiene además `mapa.referencia`, `aliados` (nombre, descripción, qué ofrece y redes de cada
+aliado) y `agenda` (la línea de tiempo: horas y lugares vacíos no se muestran). Ver los comentarios del archivo.
 
 ## Tokens (css/tokens.css)
 
@@ -338,7 +362,7 @@ El orden sigue los ids, que son los destinos del menú.
 - **Escritorio:** logo (`assets/logos/aprueba.png`, alto 54px) a la izquierda; enlaces al centro (La ruta → `#ruta`, Entradas → `#entradas`, Ubicación → `#ubicacion`, Aliados → `#aliados`, Contacto → `#contacto`) en blanco al 82%; a la derecha, botón naranja compacto "Regístrate gratis".
 - **Al pasar 40px de scroll:** la nav queda fija arriba, con fondo `rgba(11,16,64,.85)`, `backdrop-filter: blur(12px)` y alto 72px.
 - **Móvil:** logo de 44px de alto y botón hamburguesa (círculo de 44px, fondo blanco al 8%). Abre un menú a pantalla completa en navy con los enlaces grandes (Fredoka 30px) y el CTA. Bloquea el scroll del body; se cierra con ✕, con Esc o al tocar un enlace; el foco queda atrapado dentro mientras está abierto.
-- **Todos los CTA genéricos** ("Regístrate", "¡Regístrate gratis…!", "Quiero mi pasaporte", "Quiero vivir la ruta"): hacen scroll suave a `#entradas` y disparan un `menear` en los dos botones de entrada como saludo. No abren otra página.
+- **Todos los CTA genéricos** ("Regístrate", "¡Regístrate gratis…!", "Quiero mi pasaporte"): hacen scroll suave a `#entradas` y disparan un `menear` en los dos botones de entrada como saludo. No abren otra página. **"Quiero vivir la ruta" ya no:** desde la v4 abre la agenda a pantalla completa.
 
 ### 1. Hero (`#inicio`)
 
@@ -376,6 +400,10 @@ En escritorio son dos columnas: texto (unos 690px) y la ilustración del pasapor
 - Destellos de 4 puntas en celeste, verde, blanco y naranja (14–22px) con `parpadeo`.
 
 ### 2. Entradas (`#entradas`): botones flotantes que se abren en el mismo lugar
+
+> **Actualizado:** desde la v2 cada boleto abre su diálogo (`#dialogo-boleto`), no un panel debajo. Desde la
+> v4 la sección es oscura, con el video del auditorio de fondo, y las muescas de los boletos son huecos
+> reales (`mask`). Desde el 18 de octubre no tiene botón de pausa. Los textos de abajo siguen valiendo.
 
 **Esta es la interacción principal.** Reemplaza las dos tarjetas estáticas del Figma.
 
@@ -448,6 +476,9 @@ No hay cambio de página, ni modal, ni salto a otra sección.
 
 ### 4. La ruta (`#ruta`): animada
 
+> **Actualizado:** desde la v3 las tarjetas se abren en modo enfoque (`js/enfoque.js`), sin números 01–04, y
+> el cielo se desvanece arriba y abajo. Desde la v4 el botón del cierre abre la agenda.
+
 **Fondo y encabezado:**
 - Fondo `--navy-900` con cielo de estrellas.
 - Encabezado centrado:
@@ -491,11 +522,11 @@ No hay cambio de página, ni modal, ni salto a otra sección.
 - **Movimiento constante:** los nodos flotan. Un "relleno" celeste sólido avanza por el riel según el progreso del scroll dentro de la sección (`IntersectionObserver` + scroll pasivo). Cuando llega a un nodo, el nodo hace `latido` y queda encendido con brillo.
 - El cometa y el trazo horizontal no existen en móvil.
 
-**Cierre:** CTA naranja "Quiero vivir la ruta" → `#entradas` con saludo.
+**Cierre:** CTA naranja "Quiero vivir la ruta" (desde la v4 abre la agenda; ver `docs/CAMBIOS-VIDEO-AGENDA.md`).
 
 ### Cielo de estrellas (`starfield.js`)
 
-- Un `<canvas>` absoluto detrás del contenido del hero y de la ruta (`pointer-events: none`, `aria-hidden`).
+- Un `<canvas>` absoluto detrás del contenido de la ruta y de la agenda (`pointer-events: none`, `aria-hidden`). El hero ya no lo tiene: lleva el video del campus.
 - **Cantidad:** área / 9000, con tope de 140 en escritorio y 60 en móvil. Radio 0.6–2px, en blanco.
 - **Movimiento constante:**
   - Cada estrella titila con opacidad 0.25–0.85 siguiendo un seno con fase y período aleatorios (2–5s).
@@ -508,6 +539,9 @@ No hay cambio de página, ni modal, ni salto a otra sección.
 - **Movimiento reducido:** se dibuja una vez, estático.
 
 ### 5. Ubicación (`#ubicacion`)
+
+> **Actualizado:** desde la v3 la dirección va en cuatro líneas (con la referencia) y hay una foto de la sede
+> tipo polaroid que se abre en grande. Ver `docs/CAMBIOS-RUTA-HERO.md`.
 
 - **Fondo y encabezado:** fondo blanco. Overline "Cómo llegar" en `--verde-600` y h2 "¿Dónde nos vemos?".
 - **Pestañas:** pastilla `--nube-50` con borde `--linea` y dos pestañas: "Presencial" (pin) y "Virtual" (video). La activa va en navy con texto blanco.
@@ -529,6 +563,9 @@ No hay cambio de página, ni modal, ni salto a otra sección.
   - En lugar del mapa: una ilustración CSS de una pantalla (marco navy, badge rojo "EN VIVO", 4 burbujas de participantes de colores y la etiqueta "Sala A+PRUEBA").
 
 ### 6. Aliados (`#aliados`)
+
+> **Actualizado:** desde la v2 cada logo es un botón que abre el panel del aliado, con los datos de
+> `CONFIG.aliados`.
 
 - **Fondo y encabezado:** fondo `--nube-50`. Overline "Aliados" en verde y h2 "Con el apoyo de".
 - **Logos:** 6 círculos `<img>` (132px en escritorio, 98px en móvil, en filas de 3). Fondo blanco, borde 1.5px `--linea` y `--sombra-tarjeta`. En escritorio van en una fila con gap 40; en móvil, en grilla de 3 columnas con gap 18.
