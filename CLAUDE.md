@@ -36,11 +36,11 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 **QA (último, 18 de octubre, con el video del hero):**
 
 - **Lighthouse:** móvil 99 en rendimiento y 100 en accesibilidad, buenas prácticas y SEO (FCP 1.2 s,
-  LCP 1.8 s, CLS 0.001; el LCP es el texto del hero); escritorio 100 en las cuatro. Se mide con el
+  LCP 1.9 s, CLS 0.001; el LCP es el texto del hero); escritorio 100 en las cuatro. Se mide con el
   servidor comprimiendo, como cualquier hosting: sin compresión, rendimiento en móvil baja bastante.
-- **Peso:** la primera carga sin videos ronda los 700 KB, pero los videos se piden apenas termina y
-  Lighthouse los cuenta: **1.9 MB en móvil** (970 KB del campus y 195 KB del auditorio) y 3.6 MB en
-  escritorio. Pasa el presupuesto de 1.5 MB; está pendiente decidir si se recorta el video del campus.
+- **Peso:** la primera carga sin videos ronda los 700 KB; los videos se piden apenas termina y Lighthouse
+  los cuenta: **1.34 MB en móvil** (447 KB del campus y 195 KB del auditorio), dentro del presupuesto de
+  1.5 MB, y 2.2 MB en escritorio.
 - **Chrome:** 86 corridas automáticas en 360, 390, 768, 1024 y 1440, con y sin movimiento reducido,
   táctil, con ahorro de datos, con la config vacía y con la config llena. Sin errores de JS ni recursos
   rotos. Dos fallas intermitentes en 1440 (diálogos y nav) bajo carga, que no se reproducen solas.
@@ -56,8 +56,8 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 
 **Lo que queda pendiente de verdad:**
 
-- **El peso de los videos:** el del campus dura 55 s. Recortarlo a un tramo de 15 a 20 s bajaría el de
-  móvil de 970 KB a unos 300 KB y dejaría la carga dentro del presupuesto. Es una decisión pendiente.
+- **Opcional, el largo del video del campus** (55 s): ya entra en el presupuesto. Recortarlo a un tramo de
+  15 a 20 s lo dejaría en unos 150 KB en celular. Es una decisión pendiente.
 
 - **Un iPhone y un Android reales.** Sobre todo el bloqueo de scroll con el dedo cuando hay un diálogo
   o el menú abierto (`overflow: hidden` en `<html>`; iOS dice respetarlo desde la versión 16, pero falta
@@ -102,7 +102,8 @@ Decisiones que conviene no deshacer sin querer:
   destellos, planeta ni órbita: con el video, solo quedan el velo y el texto. El cielo de estrellas
   (`starfield.js`) vive ahora solo en la ruta y en la agenda.
 - **Videos de fondo** (`js/video.js`, `<video class="video-fondo" data-fondo>`): cada uno trae sus fuentes en
-  atributos (`data-movil` para menos de 768px, `data-webm` si el navegador lee VP9, `data-escritorio`). El
+  atributos. En celular (menos de 768px) usa `data-movil-webm` si el navegador lee VP9 y si no
+  `data-movil`; en escritorio, `data-webm` o `data-escritorio`. El
   del hero se pide cuando la página terminó de cargar (`data-carga="al-cargar"`), para no competir con la
   primera pantalla; el de Entradas, cuando la sección está a 300px. Se pausan fuera de pantalla, con la
   pestaña oculta y con la agenda abierta; con movimiento reducido o ahorro de datos no se cargan y queda el
@@ -110,13 +111,20 @@ Decisiones que conviene no deshacer sin querer:
   5 s sin forma de pausarlo no cumple el criterio 2.2.2 de WCAG (nivel A); lo mitiga que con movimiento
   reducido no se reproducen. Lighthouse no lo mide.
 - **Archivos de video** (`assets/video/`): `videoplayback.mp4` es el original del campus (55 s, con audio,
-  4.2 MB) y la página no lo carga. A partir de él se generaron `campus.mp4` (640×360, sin audio, 2.5 MB),
-  `campus-movil.mp4` y `campus-poster.jpg`. **El de móvil es solo la franja central (256×360):** en un
-  celular vertical el video 16:9 se recorta y solo se ve ese centro, así pesa 1 MB en vez de 1.5 y se ve
-  más nítido. Igual con el auditorio: `auditorio.webm` es el original y los demás se generaron de él.
-  Todos en H.264 Baseline, 24 fps, con el índice al inicio. Si llegan originales mejores, se reemplazan
-  con el mismo nombre. Safari exige que el servidor responda por rangos de bytes para reproducir video;
-  cualquier hosting lo hace.
+  4.2 MB) y la página no lo carga. De él salen, sin audio:
+  - `campus.webm` (VP9, 480×270, 1.09 MB) y `campus.mp4` de respaldo (H.264, 480×270, 1.6 MB) para escritorio;
+  - `campus-movil.webm` (VP9, 458 KB) y `campus-movil.mp4` de respaldo (H.264, 690 KB) para celular. **El de
+    celular es solo la franja central** (192×270): en una pantalla vertical el video 16:9 se recorta y solo
+    se ve ese centro.
+  - `campus-poster.jpg` (21 KB), el primer cuadro.
+  **Por qué tan chicos:** el video va desenfocado y bajo un velo al 72%, así que el detalle extra no se ve.
+  Se comparó en capturas de la página contra la versión de 640×360 y 2.5 MB, y no hay diferencia visible.
+  VP9 pesa un 30 a 55% menos que H.264 con la misma calidad. El MP4 queda para quien no lea WebM, probablemente
+  el iPhone. Igual con el auditorio: `auditorio.webm` es el original y sus MP4 se generaron de él. Los H.264
+  son Baseline, 24 fps, con el índice al inicio. **En los WebM, los Cues (el índice para saltar) solo apuntan a
+  bloques que empiezan con keyframe:** saltar a uno que no, da error de decodificación en Chrome. Si llegan
+  originales mejores, se reemplazan con el mismo nombre. Safari exige que el servidor responda por rangos de
+  bytes para reproducir video; cualquier hosting lo hace.
 - **Las secciones se funden (18 oct):** el token `--fundido` (48px en celular, hasta 88px) es el alto del
   degradado entre secciones vecinas. Cada borde lleva, en el fondo de la sección, un degradado del color de
   su vecina: el contador arriba y abajo (navy), Ubicación arriba (navy), Aliados arriba (blanco) y el pie

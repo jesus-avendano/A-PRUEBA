@@ -1,6 +1,8 @@
 /* Videos de fondo, sin audio y en bucle: el campus en el hero y el auditorio
-   en Entradas. Cada <video data-fondo> trae sus fuentes en atributos:
-   data-movil (<768px), data-webm (si el navegador lee VP9) y data-escritorio.
+   en Entradas. Cada <video data-fondo> trae sus fuentes en atributos: en
+   celular (<768px) data-movil-webm o data-movil, y si no data-webm o
+   data-escritorio. El WebM (VP9, más liviano) se usa si el navegador lo lee;
+   si no, el MP4 (H.264), que lee cualquiera.
    - data-carga="al-cargar" (hero): el src se asigna cuando la página terminó
      de cargar, para no competir con lo que se ve primero. Sin ese atributo
      (Entradas), cuando la sección está a 300px de la pantalla.
@@ -52,10 +54,10 @@ class VideoDeFondo {
   }
 
   fuente() {
-    const { movil, webm, escritorio } = this.video.dataset;
-    if (movil && window.matchMedia('(max-width: 767px)').matches) return movil;
-    if (webm && this.video.canPlayType('video/webm; codecs="vp9"')) return webm;
-    return escritorio;
+    const { movilWebm, movil, webm, escritorio } = this.video.dataset;
+    const vp9 = this.video.canPlayType('video/webm; codecs="vp9"') !== '';
+    if (movil && window.matchMedia('(max-width: 767px)').matches) return movilWebm && vp9 ? movilWebm : movil;
+    return webm && vp9 ? webm : escritorio;
   }
 
   cargar() {
