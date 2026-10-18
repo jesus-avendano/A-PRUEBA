@@ -157,6 +157,9 @@ No hay package.json, ni build, ni linter, ni tests: es un sitio estático y se a
 
 **Para ver la página:** `npx serve .` en la carpeta del proyecto y abrir **http://localhost:3000**. No se
 abre con doble clic en `index.html`: desde `file://` los módulos no cargan y la página queda sin JavaScript.
+**Desde el celular u otro equipo en el mismo wifi:** `http://<IP de la Mac>:3000` (en la Mac: `ipconfig getifaddr
+en0`; `npx serve` también la muestra como "Network"). `localhost` en el celular es el propio celular. Si aun así
+no entra, la red suele tener aislamiento entre dispositivos (redes de invitados o de universidades).
 
 ```bash
 npx serve .                      # servidor local → http://localhost:3000
