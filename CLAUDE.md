@@ -13,6 +13,7 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 - **Contenido y datos:** `docs/PROYECTO.md` es la fuente de verdad de textos, fechas, aliados y pendientes. No inventes textos ni datos.
 - **Interacciones v2:** `docs/CAMBIOS-INTERACCION.md` reemplaza lo que este archivo dice de entradas, aliados, ruta y nav. Si se contradicen, gana ese archivo.
 - **Cambios v3:** `docs/CAMBIOS-RUTA-HERO.md` (ruta, hero, textos y ubicación) tiene prioridad sobre los dos anteriores donde se contradigan.
+- **Cambios v4:** `docs/CAMBIOS-VIDEO-AGENDA.md` (video de fondo en Entradas y agenda del evento) tiene prioridad sobre todos los anteriores donde se contradigan.
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
 - **Registro:** Luma. No hay base de datos ni formulario propio.
 - **Publicación:** martes 20 de octubre de 2026.
@@ -72,9 +73,17 @@ Decisiones que conviene no deshacer sin querer:
   el boleto con FLIP. **Al tocar el botón de Luma el diálogo se cierra al instante:** un `<dialog>` modal
   vive en el top layer, por encima de cualquier z-index, y deja inerte todo lo de fuera; el overlay de
   Luma quedaría tapado y sin poder usarse. Está probado con un overlay falso de z-index máximo.
-- **Un transform por elemento.** El boleto flota y `.boleto__interior` crece y menea; el nodo flota y
-  `.estacion__nodo-circulo` crece y late. Todas las escalas se componen con la variable `--escala`,
-  así el hover y el saludo no se pisan.
+- **Un transform por elemento.** El boleto (`<button>`) flota y lleva el anillo de foco; `.boleto__forma`
+  lleva la sombra con `drop-shadow`; `.boleto__interior` es el boleto blanco: crece, menea y tiene las
+  muescas como huecos reales (`mask`). La `mask` recorta cualquier `box-shadow`, por eso la sombra va
+  en el envoltorio. El nodo flota y `.estacion__nodo-circulo` crece y late. Todas las escalas se componen
+  con la variable `--escala`, así el hover y el saludo no se pisan.
+- **La clase `saluda` de los boletos se quita al terminar su `menear`.** Si se queda, el hover encuentra
+  su `menear` "ya terminado" en la misma posición de la lista y no lo repite (el boleto crece pero no menea).
+- **Video de Entradas** (`js/video.js`): `auditorio.webm` es el original; `auditorio.mp4`,
+  `auditorio-movil.mp4` y el poster se generaron a partir de él (H.264 Baseline, 24 fps, índice al inicio).
+  Si llegan los originales, se reemplazan con el mismo nombre. Safari exige que el servidor responda por
+  rangos de bytes para reproducir video; cualquier hosting lo hace.
 - **La nav** alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
 - **Los enlaces que dependen de CONFIG salen del HTML como `<span role="link" aria-disabled="true">`**,
   no como `<a>` sin `href` (Lighthouse marca `aria-disabled` en un `<a>` sin `href`). `enlazar(el, url)`

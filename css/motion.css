@@ -124,9 +124,10 @@
   .aliado:hover { --escala: 1.08; }
   .red-aliado:hover .red-aliado__circulo { --escala: 1.1; }
 
-  /* el boleto crece junto con su sombra 3D */
-  .boleto--presencial:hover { box-shadow: 0 12px 0 var(--naranja-500), var(--sombra-tarjeta); }
-  .boleto--virtual:hover { box-shadow: 0 12px 0 var(--azul-500), var(--sombra-tarjeta); }
+  /* el boleto crece junto con su sombra 3D (en el envoltorio: la mask la recortaría) */
+  .boleto:hover .boleto__forma {
+    filter: drop-shadow(0 12px 0 var(--color-boleto)) drop-shadow(0 20px 36px rgba(0, 0, 0, .4));
+  }
 
   /* la tarjeta crece sola, por encima de sus vecinas; el ícono, el nodo y
      las otras tarjetas no se mueven. Entra en 300ms con spring y sale en 250ms. */

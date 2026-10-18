@@ -613,6 +613,73 @@ button {
 
 /* ---------------- Entradas ---------------- */
 
+/* Video del auditorio de fondo, con un velo azul marino que funde la
+   sección con las oscuras de arriba y abajo (CAMBIOS-VIDEO-AGENDA §1).
+   Escala 1.04: que no se noten los bordes del desenfoque. */
+.entradas__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(1.5px) saturate(.9);
+  transform: scale(1.04);
+  pointer-events: none;
+}
+/* iOS en ahorro de energía no lo reproduce solo y dibujaría su botón de play */
+.entradas__video::-webkit-media-controls,
+.entradas__video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+.entradas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg,
+    var(--navy-900) 0%, rgba(11, 16, 64, .72) 16%,
+    rgba(11, 16, 64, .72) 84%, var(--navy-900) 100%);
+  pointer-events: none;
+}
+.entradas > .contenedor { position: relative; z-index: 2; }
+
+/* tema oscuro */
+.entradas .overline--verde,
+.entradas .resalte-verde { color: var(--verde-400); }
+
+.entradas__control {
+  position: absolute;
+  right: clamp(12px, 2vw, 24px);
+  bottom: clamp(12px, 2vw, 24px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.entradas__rotulo { color: rgba(255, 255, 255, .7); }
+/* 44px de área táctil; el círculo visible mide 40 */
+.entradas__pausa {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--blanco);
+}
+.entradas__pausa[hidden] { display: none; }
+.entradas__pausa::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  border: 1.5px solid rgba(255, 255, 255, .2);
+}
+.entradas__pausa .icono { position: relative; width: 18px; height: 18px; }
+
 .entradas__selector { margin-top: var(--e-40); }
 
 .boletos {
@@ -623,40 +690,44 @@ button {
   margin-inline: auto;
 }
 
+/* El boleto tiene tres capas, cada una con lo suyo:
+   .boleto (el botón) flota y lleva el anillo de foco;
+   .boleto__forma lleva la sombra, que con drop-shadow sigue las muescas;
+   .boleto__interior es el boleto blanco: crece, menea y tiene los huecos. */
 .boleto {
   position: relative;
-  padding: 20px 14px;
-  background: var(--blanco);
-  border: 1.5px solid var(--linea);
+  display: grid;
   border-radius: var(--r-tarjeta);
   text-align: center;
-  transition: transform var(--dur-rapida) var(--ease-out),
-              box-shadow var(--dur-rapida) var(--ease-out),
-              background-color var(--dur-rapida) var(--ease-out);
 }
-.boleto--presencial { box-shadow: 0 8px 0 var(--naranja-500), var(--sombra-tarjeta); }
-.boleto--virtual { box-shadow: 0 8px 0 var(--azul-500), var(--sombra-tarjeta); }
+.boleto:focus-visible { outline-offset: 10px; } /* el boleto crece a 1.04 con el foco */
+.boleto--presencial { --color-boleto: var(--naranja-500); }
+.boleto--virtual { --color-boleto: var(--azul-500); }
 
-/* muescas de boleto */
-.boleto::before,
-.boleto::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--nube-50);
-  transform: translateY(-50%);
+.boleto__forma {
+  display: grid;
+  filter: drop-shadow(0 8px 0 var(--color-boleto)) drop-shadow(0 16px 32px rgba(0, 0, 0, .35));
+  transition: filter var(--dur-rapida) var(--ease-out);
 }
-.boleto::before { left: -14px; }
-.boleto::after { right: -14px; }
 
 .boleto__interior {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  padding: 20px 14px;
+  background: var(--blanco);
+  border: 1.5px solid var(--linea);
+  border-radius: var(--r-tarjeta);
+  color: var(--navy-900);
+  /* muescas: huecos de verdad, con el video visible a través */
+  -webkit-mask:
+    radial-gradient(circle 14px at 0 50%, transparent 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 50%, transparent 97%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 14px at 0 50%, transparent 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 50%, transparent 97%, #000) right / 51% 100% no-repeat;
 }
 
 .boleto__burbuja {
@@ -691,7 +762,7 @@ button {
 .boleto--virtual .boleto__pie { color: var(--azul-500); }
 .boleto__chevron { width: 18px; height: 18px; }
 
-.entradas__ayuda { margin-top: var(--e-16); text-align: center; color: var(--tinta-600); }
+.entradas__ayuda { margin-top: var(--e-16); text-align: center; color: rgba(255, 255, 255, .75); }
 
 .panel-entrada__contenido { display: flex; flex-direction: column; gap: var(--e-32); }
 .panel-entrada__info { display: flex; flex-direction: column; gap: 12px; }
@@ -761,12 +832,12 @@ button {
   gap: 10px;
   max-width: 680px;
   margin: var(--e-32) auto 0;
-  color: var(--tinta-600);
+  color: rgba(255, 255, 255, .75);
   font-size: var(--t-small);
   line-height: var(--lh-small);
   text-align: left;
 }
-.entradas__nota .icono { width: 20px; height: 20px; color: var(--tinta-400); }
+.entradas__nota .icono { width: 20px; height: 20px; }
 
 /* ---------------- Cuenta regresiva ---------------- */
 
@@ -1444,7 +1515,7 @@ button {
 
   /* Entradas */
   .boletos { grid-template-columns: repeat(2, 300px); justify-content: center; gap: var(--e-32); max-width: none; }
-  .boleto { min-height: 230px; padding: 26px 20px; }
+  .boleto__interior { min-height: 230px; padding: 26px 20px; }
   .boleto__numero { font-size: 3.5rem; }
 
   .panel-entrada__contenido {

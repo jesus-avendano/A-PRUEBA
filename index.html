@@ -189,18 +189,21 @@
   </div>
 </section>
 
-<section class="seccion seccion--nube entradas" id="entradas" aria-labelledby="entradas-titulo">
+<section class="seccion seccion--oscura entradas" id="entradas" aria-labelledby="entradas-titulo">
+  <video class="entradas__video" muted loop playsinline preload="none"
+         poster="assets/video/auditorio-poster.jpg" aria-hidden="true"></video>
+
   <div class="contenedor">
     <header class="encabezado">
       <p class="overline overline--verde">Inscripción gratuita</p>
       <h2 id="entradas-titulo">¡Asegura tu Pasaporte Vocacional!<br><span class="resalte-verde">Es gratis</span></h2>
-      <p class="lead">Elige cómo vivir A+PRUEBA el 17 de noviembre. Los cupos presenciales son limitados.</p>
+      <p class="lead lead--sobre-oscuro">Elige cómo vivir A+PRUEBA el 17 de noviembre. Los cupos presenciales son limitados.</p>
     </header>
 
     <div class="entradas__selector">
       <div class="boletos">
         <button class="boleto boleto--presencial" type="button" id="boleto-presencial" data-modalidad="presencial" aria-haspopup="dialog">
-          <span class="boleto__interior">
+          <span class="boleto__forma"><span class="boleto__interior">
             <span class="boleto__burbuja">
               <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/></svg>
             </span>
@@ -211,11 +214,11 @@
               <span class="boleto__pie-texto">Ver experiencia</span>
               <svg class="icono boleto__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
             </span>
-          </span>
+          </span></span>
         </button>
 
         <button class="boleto boleto--virtual" type="button" id="boleto-virtual" data-modalidad="virtual" aria-haspopup="dialog">
-          <span class="boleto__interior">
+          <span class="boleto__forma"><span class="boleto__interior">
             <span class="boleto__burbuja">
               <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
             </span>
@@ -226,7 +229,7 @@
               <span class="boleto__pie-texto">Ver experiencia</span>
               <svg class="icono boleto__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
             </span>
-          </span>
+          </span></span>
         </button>
       </div>
 
@@ -299,6 +302,14 @@
       <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
       Al elegir tu entrada se abre el formulario de registro. Tu confirmación y tu QR llegan a tu correo.
     </p>
+  </div>
+
+  <div class="entradas__control">
+    <span class="entradas__rotulo small">Así es el Auditorio Norte</span>
+    <button class="entradas__pausa" type="button" aria-label="Pausar video de fondo" hidden>
+      <svg class="icono entradas__icono-pausa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>
+      <svg class="icono entradas__icono-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><polygon points="6 3 20 12 6 21 6 3"/></svg>
+    </button>
   </div>
 </section>
 

@@ -89,6 +89,15 @@ export function saludar(boletos = [...document.querySelectorAll('.boleto')]) {
       b.classList.remove('saluda');
       void b.offsetWidth;
       b.classList.add('saluda');
+      // al terminar se quita la clase: si se quedara, el hover encontraría su
+      // "menear" ya terminado en la misma posición y no lo repetiría
+      const interior = b.querySelector('.boleto__interior');
+      const fin = (e) => {
+        if (e.animationName !== 'menear') return;
+        b.classList.remove('saluda');
+        interior.removeEventListener('animationend', fin);
+      };
+      interior.addEventListener('animationend', fin);
     }, i * 200);
   });
 }
