@@ -96,7 +96,7 @@ Decisiones que conviene no deshacer sin querer:
 - **La clase `saluda` de los boletos se quita al terminar su `menear`.** Si se queda, el hover encuentra
   su `menear` "ya terminado" en la misma posición de la lista y no lo repite (el boleto crece pero no menea).
 - **Hero (18 oct):** pantalla completa (`min-height: 100svh`) con el video del campus de fondo, un velo azul
-  marino (más oscuro arriba, por la nav, y navy puro abajo, donde empieza Entradas) y el texto centrado.
+  marino (más oscuro arriba, por la nav) y el texto centrado.
   Ya no hay pasaporte, ni ola, ni brillo de colores: "futuro profesional" queda en celeste fijo y
   `js/hero.js` solo divide el título en palabras para su entrada. Tampoco hay cielo de estrellas,
   destellos, planeta ni órbita: con el video, solo quedan el velo y el texto. El cielo de estrellas
@@ -120,8 +120,10 @@ Decisiones que conviene no deshacer sin querer:
 - **Las secciones se funden (18 oct):** el token `--fundido` (48px en celular, hasta 88px) es el alto del
   degradado entre secciones vecinas. Cada borde lleva, en el fondo de la sección, un degradado del color de
   su vecina: el contador arriba y abajo (navy), Ubicación arriba (navy), Aliados arriba (blanco) y el pie
-  arriba (nube-50). Los velos del hero y de Entradas terminan en navy puro, y el cielo de estrellas de la
-  ruta se desvanece arriba y abajo con `mask-image`. **Si cambia el orden o el color de una
+  arriba (nube-50). El cielo de estrellas de la ruta se desvanece arriba y abajo con `mask-image`.
+  **Del hero a Entradas el paso casi no se nota**: los velos solo llegan al 90% en el
+  borde que comparten, y cada video se desvanece ahí con `mask-image`, así las dos imágenes se cruzan sin
+  franja oscura ni línea recta. Abajo, Entradas sí termina en navy puro, para fundirse con el contador. **Si cambia el orden o el color de una
   sección, hay que revisar los degradados de sus vecinas.**
 - **Agenda** (`js/agenda.js`, variante `agenda` de `js/dialog.js`): la línea de tiempo sale de
   `CONFIG.agenda`, y las estaciones leen título, pregunta, descripción e ícono de sus tarjetas en la Ruta,
