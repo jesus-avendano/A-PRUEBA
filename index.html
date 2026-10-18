@@ -438,8 +438,25 @@
     </div>
 
     <div class="ruta__cierre">
-      <a class="boton boton--naranja" href="#entradas" data-ir-entradas>Quiero vivir la ruta</a>
+      <button class="boton boton--naranja ruta__cta" type="button" aria-haspopup="dialog" aria-controls="dialogo-agenda" data-abrir-agenda>
+        <svg class="icono ruta__cta-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>
+        Quiero vivir la ruta
+      </button>
     </div>
+
+    <!-- Agenda del evento a pantalla completa (CAMBIOS-VIDEO-AGENDA §3) -->
+    <dialog class="dialogo agenda" id="dialogo-agenda" aria-labelledby="agenda-titulo">
+      <div class="dialogo__caja agenda__caja">
+        <button class="dialogo__cerrar agenda__cerrar" type="button" data-cerrar-dialogo aria-label="Cerrar">
+          <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <header class="agenda__encabezado">
+          <p class="overline overline--celeste">Martes 17 de noviembre, 9:00 a.m. a 1:00 p.m.</p>
+          <h2 class="agenda__titulo" id="agenda-titulo" tabindex="-1">Así será tu mañana en <span class="resalte-celeste">A+PRUEBA</span></h2>
+          <p class="lead lead--sobre-oscuro">De la llegada al cierre, paso a paso.</p>
+        </header>
+      </div>
+    </dialog>
   </div>
 </section>
 

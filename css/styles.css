@@ -376,6 +376,7 @@ button {
 
 @media (hover: hover) and (pointer: fine) {
   .dialogo__cerrar:hover { background: var(--nube-50); color: var(--navy-900); }
+  .agenda__cerrar:hover { background: rgba(255, 255, 255, .2); color: var(--blanco); }
 }
 
 /* ---------------- Hero ---------------- */
@@ -1083,6 +1084,50 @@ button {
 .estacion__aqui { display: none; }
 
 .ruta__cierre { margin-top: var(--e-40); text-align: center; }
+.ruta__cta { position: relative; }
+.ruta__cta-icono { width: 22px; height: 22px; }
+
+/* ---------------- Agenda (CAMBIOS-VIDEO-AGENDA §3) ----------------
+   Ocupa toda la pantalla, no es una tarjeta: el scroll ocurre dentro
+   de la caja y la página de atrás queda quieta (js/dialog.js). */
+dialog.agenda {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--blanco);
+}
+.agenda::backdrop { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+.agenda__caja {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  padding: 104px var(--margen-lateral) var(--seccion-y);
+  border-radius: 0;
+  background: var(--navy-900);
+  box-shadow: none;
+}
+
+.agenda__cerrar {
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, .1);
+  border: 1.5px solid rgba(255, 255, 255, .2);
+  color: var(--blanco);
+}
+
+.agenda__encabezado { max-width: 760px; margin-inline: auto; text-align: center; }
+.agenda__encabezado .overline { margin-bottom: 10px; }
+.agenda__encabezado .lead { margin-top: 16px; }
 
 /* ---------------- Ubicación ---------------- */
 

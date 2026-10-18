@@ -5,6 +5,7 @@ import { iniciarNav, irA } from './nav.js';
 import { iniciarHero } from './hero.js';
 import { iniciarEntradas, saludar } from './entradas.js';
 import { iniciarVideo } from './video.js';
+import { iniciarAgenda, abrirAgenda } from './agenda.js';
 import { iniciarCuentaRegresiva } from './countdown.js';
 import { iniciarPestanas } from './tabs.js';
 import { iniciarCielo } from './starfield.js';
@@ -26,6 +27,7 @@ iniciarPestanas();
 iniciarCielo();
 iniciarEnfoque(iniciarRuta());
 iniciarAliados();
+iniciarAgenda();
 conectarFoto();
 conectarCTAs();
 
@@ -104,32 +106,48 @@ function deshabilitarEnlace(el) {
 }
 
 /* ---------------------------------------------------------
-   CTAs genéricos: bajan a #entradas y saludan
+   CTAs: los genéricos bajan a #entradas y saludan;
+   "Quiero vivir la ruta" abre la agenda
    --------------------------------------------------------- */
 function conectarCTAs() {
   const entradas = document.getElementById('entradas');
-  if (!entradas) return;
   const reducido = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  document.querySelectorAll('[data-ir-entradas]').forEach((cta) => {
-    cta.addEventListener('click', (e) => {
-      e.preventDefault();
-      const ir = () => {
-        irA(entradas);
-        saludar();
-      };
-      // el botón de la nav (data-latido) late primero y después baja
-      if (!cta.hasAttribute('data-latido') || reducido()) {
-        ir();
-        return;
-      }
+  // el botón late (400ms) y después hace lo suyo; con movimiento reducido, de una
+  const latirY = (cta, accion) => {
+    if (reducido()) {
+      accion();
+      return;
+    }
+    cta.classList.remove('late');
+    void cta.offsetWidth; // reinicia la animación si se pulsa dos veces
+    cta.classList.add('late');
+    setTimeout(() => {
       cta.classList.remove('late');
-      void cta.offsetWidth; // reinicia la animación si se pulsa dos veces
-      cta.classList.add('late');
-      setTimeout(() => {
-        cta.classList.remove('late');
-        ir();
-      }, 400);
+      accion();
+    }, 400);
+  };
+
+  if (entradas) {
+    document.querySelectorAll('[data-ir-entradas]').forEach((cta) => {
+      cta.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ir = () => {
+          irA(entradas);
+          saludar();
+        };
+        // el botón de la nav (data-latido) late primero y después baja
+        if (cta.hasAttribute('data-latido')) latirY(cta, ir);
+        else ir();
+      });
+    });
+  }
+
+  // "Quiero vivir la ruta" ya no baja: late y abre la agenda (CAMBIOS-VIDEO-AGENDA §2)
+  document.querySelectorAll('[data-abrir-agenda]').forEach((cta) => {
+    cta.addEventListener('click', () => {
+      if (cta.classList.contains('late')) return; // ya va a abrirse
+      latirY(cta, () => abrirAgenda(cta));
     });
   });
 }

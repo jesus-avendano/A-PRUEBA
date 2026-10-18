@@ -325,6 +325,51 @@
   .nav__cta.late { --escala: 1; animation: none; }
 }
 
+/* ===========================================================
+   "Quiero vivir la ruta" (CAMBIOS-VIDEO-AGENDA §2)
+   En reposo sale un anillo naranja cada 3 s; js/agenda.js lo apaga
+   mientras el botón no está en pantalla. Hover: crece a 1.06 y menea,
+   y la ruta del ícono avanza 3px y vuelve mientras dure. Clic: late
+   y abre la agenda (js/main.js).
+   =========================================================== */
+
+@keyframes anillo-cta {
+  0%        { box-shadow: 0 0 0 0 var(--naranja-500); opacity: .55; }
+  40%, 100% { box-shadow: 0 0 0 18px var(--naranja-500); opacity: 0; }
+}
+@keyframes icono-avanza {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 3px 0; }
+}
+
+.ruta__cta { transform: scale(var(--escala, 1)); }
+.ruta__cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+.ruta__cta--viva::after { animation: anillo-cta 3s var(--ease-out) infinite; }
+
+@media (hover: hover) and (pointer: fine) {
+  .ruta__cta:hover { --escala: 1.06; animation: menear 600ms var(--ease-out); }
+  .ruta__cta:hover .ruta__cta-icono { animation: icono-avanza 800ms ease-in-out infinite; }
+}
+
+/* el latido gana aunque el puntero siga encima */
+.ruta__cta.late,
+.ruta__cta.late:hover { animation: latido-cta 400ms var(--ease-spring); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ruta__cta,
+  .ruta__cta:hover,
+  .ruta__cta.late { --escala: 1; animation: none; }
+  .ruta__cta--viva::after,
+  .ruta__cta:hover .ruta__cta-icono { animation: none; }
+}
+
 /* Panel del aliado: las flechas ← → cambian de aliado sin cerrar (js/aliados.js) */
 .ficha-aliado__contenido--anima { animation: panel-entra 250ms var(--ease-out) both; }
 
