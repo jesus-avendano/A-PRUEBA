@@ -80,7 +80,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - CTA: **Regístrate gratis**
 
 ### 1. Hero
-- Título (h1): **Descubre, experimenta y define tu futuro profesional** (resaltado: "futuro profesional")
+- Título (h1): **Descubre, experimenta y define tu futuro profesional** (resaltado: "futuro profesional", en celeste fijo, sin animación de colores)
 - Subtítulo, escritorio:
   > ¿Sientes la presión de no saber qué estudiar o dudas si tu elección es la correcta? Tranquilo, es normal. Elegir tu carrera no debería ser una decisión a ciegas: vive una experiencia donde pondrás a prueba tus habilidades, resolverás retos reales y conectarás con profesionales antes de tomar la gran decisión.
 - Subtítulo, móvil (versión corta):
@@ -88,12 +88,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - Botón principal: **¡Regístrate gratis y asegura tu lugar!** (móvil: **¡Regístrate gratis!**)
 - Botón secundario: **Ver la ruta del evento**
 - Sin pastilla ni chips de datos (se quitaron en la v3).
-- Ilustración del pasaporte:
-  - Cabecera: "Pasaporte vocacional" / "A+PRUEBA 2026"
-  - Datos: "Titular: Tu nombre aquí" y "Modalidad: Presencial"
-  - Sellos: Conócete, Experimenta, Escucha y Valida
-  - Fila QR: "Tu QR de acceso llega a tu correo al inscribirte"
-  - Sticker: "¡Es gratis!"
+- Sin la ilustración del pasaporte, ni el cielo de estrellas, ni el planeta (se quitaron el 18 de octubre): de fondo va el video del campus y el texto va centrado.
 
 ### 2. Entradas
 - Overline: **Inscripción gratuita**
@@ -242,6 +237,8 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - **Inscripción:** no navega a otro lugar. Los botones flotantes Presencial/Virtual abren la explicación en el mismo sitio, y el registro de Luma se abre como overlay sobre la página.
 - **Ruta animada:** estrellas en movimiento constante, trazo que avanza, cometa que pasa por los nodos 1–4 y nodos que crecen al recibirlo.
 - **Video del auditorio de fondo en Entradas:** con un velo azul marino. Se carga al acercarse a la sección, se pausa fuera de pantalla y tiene botón de pausa; con movimiento reducido o ahorro de datos queda solo la imagen fija.
+- **Hero con el video del campus de fondo (18 de octubre):** a pantalla completa y con el texto centrado; sin el pasaporte, las estrellas ni el planeta.
+- **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
 - **El botón "Quiero vivir la ruta" abre la agenda a pantalla completa:** ya no baja a Entradas. La agenda muestra la mañana de la llegada al cierre, y su botón final lleva a las entradas.
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp:** fuera de alcance por ahora.

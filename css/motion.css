@@ -73,11 +73,6 @@
   to   { transform: scale(var(--escala, 1)) rotate(2deg); }
 }
 
-@keyframes parpadeo {
-  0%, 100% { opacity: .4; transform: rotate(0deg); }
-  50%      { opacity: 1;  transform: rotate(180deg); }
-}
-
 @keyframes anillo {
   from { box-shadow: 0 0 0 0 rgba(var(--rgb-estacion), .6); }
   to   { box-shadow: 0 0 0 24px rgba(var(--rgb-estacion), 0); }
@@ -158,14 +153,6 @@
 .estacion--3 .estacion__nodo { animation-delay: .8s; }
 .estacion--4 .estacion__nodo { animation-delay: 1.2s; }
 
-.destello svg { animation: parpadeo 3.4s ease-in-out infinite; }
-.destello--b svg { animation-duration: 4.2s; animation-delay: .6s; }
-.destello--c svg { animation-duration: 2.8s; animation-delay: 1.1s; }
-.destello--d svg { animation-duration: 3.8s; animation-delay: .3s; }
-
-/* flota el contenedor: el pasaporte conserva su rotate(-5deg) */
-.hero__ilustracion { animation: flotar 6s ease-in-out infinite; }
-
 /* --- La ruta --- */
 .estacion--1 { --rgb-estacion: 62, 198, 242; --color-estacion: var(--celeste-400); }
 .estacion--2 { --rgb-estacion: 126, 211, 72; --color-estacion: var(--verde-400); }
@@ -226,8 +213,6 @@
   .boleto,
   .boleto--virtual,
   .estacion__nodo,
-  .destello svg,
-  .hero__ilustracion,
   .ruta__linea,
   .ruta__mapa--entra .ruta__linea-solida,
   .ruta__mapa--entra .estacion__nodo-circulo,
@@ -460,27 +445,13 @@
 
 /* ===========================================================
    Hero (CAMBIOS-RUTA-HERO §3, js/hero.js)
-   Las palabras entran una vez; "futuro profesional" tiene ola y
-   brillo constantes. La ola mueve "translate" y el hover usa "scale"
-   y "transform": son propiedades distintas y no se pisan entre sí.
+   Las palabras entran una vez. "futuro profesional" queda en celeste
+   fijo: la ola y el brillo de colores se quitaron (18 oct).
    =========================================================== */
 
 @keyframes palabra-entra {
   from { transform: translateY(40%); opacity: 0; }
   to   { transform: none; opacity: 1; }
-}
-
-/* cada letra sube 6px y vuelve; con 50ms entre letras la ola dura 1.2s
-   y se repite cada 4s */
-@keyframes ola {
-  0%, 10%, 100% { translate: 0 0; }
-  5%            { translate: 0 -6px; }
-}
-
-/* el degradado se desliza un período completo: el loop no se nota */
-@keyframes brillo {
-  from { background-position: calc(-1 * var(--x, 0em)) 0; }
-  to   { background-position: calc(-1 * var(--x, 0em) - var(--ancho-brillo, 10em)) 0; }
 }
 
 .hero--animado .hero__palabra {
@@ -490,41 +461,10 @@
   animation: aparecer 500ms var(--ease-out) var(--retraso-sub, 620ms) backwards;
 }
 
-@supports (-webkit-background-clip: text) or (background-clip: text) {
-  .hero--animado .hero__palabra--resalte .hero__letra {
-    background-image: linear-gradient(90deg,
-      var(--celeste-400) 0%, var(--verde-400) 25%, var(--celeste-400) 50%,
-      var(--verde-400) 75%, var(--celeste-400) 100%);
-    background-size: calc(var(--ancho-brillo, 10em) * 2) 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-}
-.hero--animado .hero__palabra--resalte .hero__letra {
-  animation:
-    ola 4s ease-in-out calc(1.1s + var(--l, 0) * 50ms) infinite,
-    brillo 6s linear infinite;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hero--animado .hero__letra {
-    transition: scale 200ms var(--ease-out), transform 200ms var(--ease-out);
-  }
-  /* solo la letra bajo el mouse; las vecinas no se mueven */
-  .hero--animado .hero__letra:hover {
-    scale: 1.25;
-    transform: translateY(-4px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   /* hero.js no divide el texto; esto cubre un cambio de preferencia en vivo */
   .hero--animado .hero__palabra,
-  .hero--animado .hero__sub,
-  .hero--animado .hero__palabra--resalte .hero__letra { animation: none; }
-  .hero--animado .hero__letra:hover { scale: none; transform: none; }
+  .hero--animado .hero__sub { animation: none; }
 }
 
 /* ===========================================================

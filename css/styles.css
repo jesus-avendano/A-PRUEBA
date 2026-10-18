@@ -379,14 +379,53 @@ button {
   .agenda__cerrar:hover { background: rgba(255, 255, 255, .2); color: var(--blanco); }
 }
 
-/* ---------------- Hero ---------------- */
+/* ---------------- Videos de fondo (js/video.js) ----------------
+   El campus en el hero y el auditorio en Entradas, detrás de un velo azul
+   marino. Desenfoque y escala 1.04: que no se noten la resolución baja ni
+   los bordes del desenfoque. */
+.video-fondo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(1.5px) saturate(.9);
+  transform: scale(1.04);
+  pointer-events: none;
+}
+/* iOS en ahorro de energía no lo reproduce solo y dibujaría su botón de play */
+.video-fondo::-webkit-media-controls,
+.video-fondo::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+/* ---------------- Hero ----------------
+   Pantalla completa con el video del campus de fondo y el texto centrado
+   (18 oct: sin el pasaporte y sin la ola de colores). */
 
 .hero {
   position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
   padding-block: 104px var(--seccion-y);
   background: var(--navy-900);
   color: var(--blanco);
   overflow: hidden;
+}
+/* velo: más oscuro arriba (la nav) y navy puro abajo, donde empieza Entradas */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg,
+    rgba(11, 16, 64, .88) 0%, rgba(11, 16, 64, .72) 22%,
+    rgba(11, 16, 64, .72) 78%, var(--navy-900) 100%);
+  pointer-events: none;
 }
 
 .cielo {
@@ -396,19 +435,26 @@ button {
   height: 100%;
   pointer-events: none;
 }
+.ruta > .cielo {
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 var(--fundido), #000 calc(100% - var(--fundido)), transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 var(--fundido), #000 calc(100% - var(--fundido)), transparent);
+}
 
 .hero__interior {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: var(--e-40);
+  align-items: center;
 }
 
 .hero__texto {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--e-26);
+  max-width: 860px;
+  text-align: center;
 }
 
 
@@ -423,6 +469,7 @@ button {
 .hero__h1 {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 18px;
   font-size: clamp(34px, 3.4vw + 10px, 56px);
   line-height: 1.05;
@@ -430,210 +477,25 @@ button {
 }
 .hero__logo { width: 260px; height: auto; }
 .hero__frase { display: block; }
-/* js/hero.js divide el título: palabras enteras (nunca se parten entre líneas)
-   y, dentro de "futuro profesional", letras */
-.hero__palabra,
-.hero__letra { display: inline-block; }
+/* js/hero.js divide el título en palabras enteras (nunca se parten entre líneas) */
+.hero__palabra { display: inline-block; }
 .hero__palabra--resalte { color: var(--celeste-400); }
-.hero__sub { color: var(--tinta-sobre-oscuro); }
+.hero__sub { max-width: 720px; color: var(--tinta-sobre-oscuro); }
 
 .hero__botones {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 14px;
   width: 100%;
 }
 .hero__botones .boton { width: 100%; }
 
 
-
-/* Decoración del hero */
-.hero__deco { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-
-.planeta {
-  position: absolute;
-  right: -14%;
-  bottom: -16%;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: var(--degradado-planeta);
-  opacity: .9;
-}
-
-.orbita {
-  position: absolute;
-  right: -30%;
-  bottom: -6%;
-  width: 520px;
-  height: 160px;
-  border: 1px dashed rgba(255, 255, 255, .14);
-  border-radius: 50%;
-  transform: rotate(12deg);
-}
-
-.destello { position: absolute; display: block; }
-.destello svg { width: 100%; height: 100%; }
-.destello--a { top: 12%; right: 10%; width: 18px; height: 18px; color: var(--celeste-400); }
-.destello--b { top: 30%; right: 26%; width: 14px; height: 14px; color: var(--verde-400); }
-.destello--c { bottom: 24%; left: 8%; width: 22px; height: 22px; color: var(--blanco); }
-.destello--d { bottom: 12%; left: 32%; width: 16px; height: 16px; color: var(--naranja-500); }
-
-/* Pasaporte */
-.hero__ilustracion { display: flex; justify-content: center; }
-
-.pasaporte {
-  position: relative;
-  width: min(340px, 100% - 34px);
-  background: var(--blanco);
-  color: var(--navy-900);
-  border-radius: var(--r-tarjeta);
-  box-shadow: var(--sombra-pasaporte);
-  transform: rotate(-5deg);
-}
-
-.pasaporte__cabecera {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--e-16);
-  padding: 22px 24px;
-  background: var(--azul-500);
-  color: var(--blanco);
-  border-radius: var(--r-tarjeta) var(--r-tarjeta) 0 0;
-}
-.pasaporte__overline { color: var(--celeste-100); margin-bottom: 4px; }
-.pasaporte__titulo { font-family: var(--fuente-titulo); font-size: var(--t-h3); line-height: var(--lh-h3); font-weight: 700; }
-.pasaporte__brujula { width: 34px; height: 34px; flex: none; }
-
-.pasaporte__cuerpo { display: flex; flex-direction: column; gap: var(--e-16); padding: 22px; }
-
-.pasaporte__datos { display: flex; gap: var(--e-32); }
-.pasaporte__dato dt {
-  font-size: var(--t-overline);
-  font-weight: 800;
-  letter-spacing: var(--tracking-overline);
-  text-transform: uppercase;
-  color: var(--tinta-600);
-}
-.pasaporte__dato dd { font-size: var(--t-strong); font-weight: 700; line-height: var(--lh-strong); }
-
-.pasaporte__punteado { border-top: 2px dashed var(--linea); }
-
-.sellos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-.sello {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 8px;
-  background: var(--nube-50);
-  border-radius: var(--r-burbuja);
-  text-align: center;
-}
-.sello__circulo {
-  display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-}
-.sello__circulo .icono { width: 30px; height: 30px; }
-.sello__nombre { font-size: var(--t-small); line-height: var(--lh-small); font-weight: 700; }
-
-.sello--celeste .sello__circulo {
-  border: 3px solid var(--celeste-400);
-  background: rgba(62, 198, 242, .16);
-  color: var(--navy-900);
-  transform: rotate(-10deg);
-}
-.sello--verde .sello__circulo {
-  border: 3px solid var(--verde-400);
-  background: rgba(126, 211, 72, .16);
-  color: var(--navy-900);
-  transform: rotate(6deg);
-}
-.sello--pendiente .sello__circulo {
-  border: 2px dashed var(--linea);
-  color: var(--tinta-400);
-}
-.sello--pendiente .sello__nombre { color: var(--tinta-600); font-weight: 400; }
-
-.pasaporte__qr {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: var(--celeste-100);
-  border-radius: var(--r-chip);
-  font-size: var(--t-card);
-  line-height: var(--lh-card);
-}
-.pasaporte__qr-caja {
-  display: grid;
-  place-items: center;
-  width: 44px; height: 44px;
-  flex: none;
-  background: var(--blanco);
-  border-radius: 12px;
-  color: var(--navy-900);
-}
-
-.pasaporte__sticker {
-  position: absolute;
-  top: -36px;
-  right: -34px;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 120px;
-  height: 120px;
-  transform: rotate(12deg);
-}
-.pasaporte__estrella {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  fill: var(--verde-400);
-  stroke: var(--blanco);
-  stroke-width: 8;
-  paint-order: stroke;
-}
-.pasaporte__sticker-texto {
-  position: relative;
-  width: 78px;
-  font-family: var(--fuente-titulo);
-  font-size: 1.5rem;
-  line-height: 1;
-  font-weight: 700;
-  color: var(--navy-900);
-  text-align: center;
-}
-
 /* ---------------- Entradas ---------------- */
 
-/* Video del auditorio de fondo, con un velo azul marino que funde la
-   sección con las oscuras de arriba y abajo (CAMBIOS-VIDEO-AGENDA §1).
-   Escala 1.04: que no se noten los bordes del desenfoque. */
-.entradas__video {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(1.5px) saturate(.9);
-  transform: scale(1.04);
-  pointer-events: none;
-}
-/* iOS en ahorro de energía no lo reproduce solo y dibujaría su botón de play */
-.entradas__video::-webkit-media-controls,
-.entradas__video::-webkit-media-controls-start-playback-button {
-  display: none !important;
-  -webkit-appearance: none;
-}
+/* Video del auditorio de fondo (.video-fondo), con un velo azul marino que
+   funde la sección con las oscuras de arriba y abajo (CAMBIOS-VIDEO-AGENDA §1). */
 .entradas::before {
   content: "";
   position: absolute;
@@ -660,26 +522,7 @@ button {
   gap: 8px;
 }
 .entradas__rotulo { color: rgba(255, 255, 255, .7); }
-/* 44px de área táctil; el círculo visible mide 40 */
-.entradas__pausa {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  color: var(--blanco);
-}
-.entradas__pausa[hidden] { display: none; }
-.entradas__pausa::before {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .12);
-  border: 1.5px solid rgba(255, 255, 255, .2);
-}
-.entradas__pausa .icono { position: relative; width: 18px; height: 18px; }
+
 
 .entradas__selector { margin-top: var(--e-40); }
 
@@ -842,7 +685,14 @@ button {
 
 /* ---------------- Cuenta regresiva ---------------- */
 
-.contador { background: var(--degradado-contador); color: var(--blanco); }
+/* arriba se funde con Entradas y abajo con la ruta (las dos en navy) */
+.contador {
+  background:
+    linear-gradient(180deg, var(--navy-900), rgba(11, 16, 64, 0)) top / 100% var(--fundido) no-repeat,
+    linear-gradient(0deg, var(--navy-900), rgba(11, 16, 64, 0)) bottom / 100% var(--fundido) no-repeat,
+    var(--degradado-contador);
+  color: var(--blanco);
+}
 .contador h2 { max-width: 760px; margin-inline: auto; }
 
 .contador__cajas {
@@ -1294,6 +1144,13 @@ dialog.agenda {
 
 /* ---------------- Ubicación ---------------- */
 
+/* arriba se funde con la ruta (navy) */
+.ubicacion {
+  background:
+    linear-gradient(180deg, var(--navy-900), rgba(11, 16, 64, 0)) top / 100% var(--fundido) no-repeat,
+    var(--blanco);
+}
+
 .pestanas {
   display: flex;
   gap: 6px;
@@ -1503,6 +1360,13 @@ dialog.agenda {
 
 /* ---------------- Aliados ---------------- */
 
+/* arriba se funde con Ubicación (blanco) */
+.aliados {
+  background:
+    linear-gradient(180deg, var(--blanco), rgba(255, 255, 255, 0)) top / 100% var(--fundido) no-repeat,
+    var(--nube-50);
+}
+
 .aliados__lista {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1599,8 +1463,11 @@ dialog.agenda {
 
 /* ---------------- Pie ---------------- */
 
+/* arriba se funde con Aliados (nube-50) */
 .pie {
-  background: var(--navy-900);
+  background:
+    linear-gradient(180deg, var(--nube-50), rgba(244, 247, 255, 0)) top / 100% var(--fundido) no-repeat,
+    var(--navy-900);
   color: var(--blanco);
   padding-block: var(--seccion-y) var(--e-32);
 }
@@ -1649,7 +1516,6 @@ dialog.agenda {
   .hero__botones { flex-direction: row; flex-wrap: wrap; width: auto; }
   .hero__botones .boton { width: auto; }
 
-  .pasaporte { width: min(392px, 100% - 34px); }
 
   .boletos { gap: var(--e-24); max-width: 700px; }
 
@@ -1709,17 +1575,7 @@ dialog.agenda {
 
   /* Hero */
   .hero { padding-block: 150px var(--seccion-y); }
-  .hero__interior {
-    display: grid;
-    grid-template-columns: minmax(0, 690px) minmax(0, 470px);
-    align-items: center;
-    gap: 48px;
-  }
   .hero__logo { width: 470px; }
-  .planeta { width: 560px; height: 560px; right: -8%; bottom: -22%; }
-  .orbita { width: 820px; height: 250px; right: -16%; bottom: -4%; }
-  .destello--a { top: 16%; right: 32%; }
-  .destello--b { top: 42%; right: 40%; }
 
   /* Entradas */
   .boletos { grid-template-columns: repeat(2, 300px); justify-content: center; gap: var(--e-32); max-width: none; }

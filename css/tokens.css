@@ -85,6 +85,7 @@
   --e-26: 26px;
   --e-32: 32px;
   --e-40: 40px;
+  --fundido: clamp(48px, 6vw, 88px); /* degradado entre secciones vecinas */
 
   /* ---------- Radios ---------- */
   --r-pastilla: 999px;

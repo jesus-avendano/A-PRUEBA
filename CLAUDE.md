@@ -14,35 +14,50 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 - **Interacciones v2:** `docs/CAMBIOS-INTERACCION.md` reemplaza lo que este archivo dice de entradas, aliados, ruta y nav. Si se contradicen, gana ese archivo.
 - **Cambios v3:** `docs/CAMBIOS-RUTA-HERO.md` (ruta, hero, textos y ubicación) tiene prioridad sobre los dos anteriores donde se contradigan.
 - **Cambios v4:** `docs/CAMBIOS-VIDEO-AGENDA.md` (video de fondo en Entradas y agenda del evento) tiene prioridad sobre todos los anteriores donde se contradigan.
+- **Cambios del 18 de octubre** (mandan sobre todos los documentos): el hero
+  ya no tiene el pasaporte, ni la ola de colores en "futuro profesional", ni el cielo de estrellas con el
+  planeta: pasa a pantalla completa con el video del campus de fondo y el texto centrado. Además, los
+  videos de fondo no tienen botón de pausa, y las
+  secciones se funden entre sí en vez de cortarse en línea recta. El detalle está en las decisiones de abajo.
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
 - **Registro:** Luma. No hay base de datos ni formulario propio.
 - **Publicación:** martes 20 de octubre de 2026.
 
 ## Estado actual
 
-**Fases 1–4 terminadas**, con las interacciones v2 y los cambios v3 (`docs/CAMBIOS-INTERACCION.md` y
-`docs/CAMBIOS-RUTA-HERO.md`). Falta solo lo que depende de datos o de aparatos reales (abajo).
+**Fases 1–4 terminadas**, con las interacciones v2, los cambios v3 y v4 (`docs/CAMBIOS-INTERACCION.md`,
+`docs/CAMBIOS-RUTA-HERO.md` y `docs/CAMBIOS-VIDEO-AGENDA.md`) y los cambios del 18 de octubre.
+Falta solo lo que depende de datos, de una decisión sobre el peso de los videos o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
-(`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `entradas.js`, `countdown.js`,
-`ruta.js`, `enfoque.js`, `tabs.js`, `aliados.js`, `starfield.js`), `assets/img/sede-norte.{webp,jpg}` y
-`assets/og/og-image.png` (provisional).
+(`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `video.js`, `entradas.js`,
+`countdown.js`, `ruta.js`, `enfoque.js`, `agenda.js`, `tabs.js`, `aliados.js`, `starfield.js`),
+`assets/img/sede-norte.{webp,jpg}`, `assets/video/` y `assets/og/og-image.png` (provisional).
 
-**QA hecho en la Fase 4:**
+**QA (último, 18 de octubre, con el video del hero):**
 
-- **Lighthouse: 100 en las cuatro categorías, en móvil y en escritorio** (móvil: FCP 1.2 s, LCP 1.5 s,
-  CLS 0.001, 648 KiB). Se mide con el servidor comprimiendo, como cualquier hosting: sin compresión,
-  rendimiento en móvil baja a 86.
-- **Chrome:** 62 corridas automáticas en 360, 390, 768, 1024 y 1440, con y sin movimiento reducido,
-  táctil, con la config vacía y con la config llena. Sin errores de JS ni recursos rotos.
-- **WebKit (el motor de Safari), con Playwright:** las mismas pruebas en 375, 390, 768, 1024 y 1440 pasan
-  enteras. Están comprobados `<dialog>`, `inert`, `:has()`, `dvh`, el desenfoque con `-webkit-`, el
-  degradado recortado al texto y la transición de `grid-template-rows`. Ojo: en Safari el Tab, por
+- **Lighthouse:** móvil 99 en rendimiento y 100 en accesibilidad, buenas prácticas y SEO (FCP 1.2 s,
+  LCP 1.8 s, CLS 0.001; el LCP es el texto del hero); escritorio 100 en las cuatro. Se mide con el
+  servidor comprimiendo, como cualquier hosting: sin compresión, rendimiento en móvil baja bastante.
+- **Peso:** la primera carga sin videos ronda los 700 KB, pero los videos se piden apenas termina y
+  Lighthouse los cuenta: **1.9 MB en móvil** (970 KB del campus y 195 KB del auditorio) y 3.6 MB en
+  escritorio. Pasa el presupuesto de 1.5 MB; está pendiente decidir si se recorta el video del campus.
+- **Chrome:** 86 corridas automáticas en 360, 390, 768, 1024 y 1440, con y sin movimiento reducido,
+  táctil, con ahorro de datos, con la config vacía y con la config llena. Sin errores de JS ni recursos
+  rotos. Dos fallas intermitentes en 1440 (diálogos y nav) bajo carga, que no se reproducen solas.
+- **WebKit (el motor de Safari), con Playwright:** 24 corridas en 375, 390 y 1440 (hero con video, Entradas,
+  botón de la ruta, agenda, diálogos, movimiento y revisión general) pasan enteras. Dos fallaron una vez
+  en 390 bajo carga (agenda y diálogos) y pasan solas. Están comprobados `<dialog>`, `inert`, `:has()`,
+  `dvh`, el desenfoque con `-webkit-`, la transición de `grid-template-rows`, el `clip-path` del círculo
+  de la agenda y los videos (MP4 H.264 en Safari). Ojo: en Safari el Tab, por
   defecto, no pasa por enlaces ni botones; con Opción+Tab (o con "Resaltar cada elemento con Tab")
   el recorrido llega a todo, en orden y con foco visible.
-- **Gama baja:** con la CPU 4× y 6× más lenta, el hero (estrellas y letras) y la ruta (estrellas, trazo
-  y cometa) van a 60 fps.
+- **Gama baja:** con la CPU 4× más lenta, el hero (con su video) y la ruta (estrellas, trazo y cometa)
+  van a 60 fps.
 
 **Lo que queda pendiente de verdad:**
+
+- **El peso de los videos:** el del campus dura 55 s. Recortarlo a un tramo de 15 a 20 s bajaría el de
+  móvil de 970 KB a unos 300 KB y dejaría la carga dentro del presupuesto. Es una decisión pendiente.
 
 - **Un iPhone y un Android reales.** Sobre todo el bloqueo de scroll con el dedo cuando hay un diálogo
   o el menú abierto (`overflow: hidden` en `<html>`; iOS dice respetarlo desde la versión 16, pero falta
@@ -80,10 +95,34 @@ Decisiones que conviene no deshacer sin querer:
   con la variable `--escala`, así el hover y el saludo no se pisan.
 - **La clase `saluda` de los boletos se quita al terminar su `menear`.** Si se queda, el hover encuentra
   su `menear` "ya terminado" en la misma posición de la lista y no lo repite (el boleto crece pero no menea).
-- **Video de Entradas** (`js/video.js`): `auditorio.webm` es el original; `auditorio.mp4`,
-  `auditorio-movil.mp4` y el poster se generaron a partir de él (H.264 Baseline, 24 fps, índice al inicio).
-  Si llegan los originales, se reemplazan con el mismo nombre. Safari exige que el servidor responda por
-  rangos de bytes para reproducir video; cualquier hosting lo hace.
+- **Hero (18 oct):** pantalla completa (`min-height: 100svh`) con el video del campus de fondo, un velo azul
+  marino (más oscuro arriba, por la nav, y navy puro abajo, donde empieza Entradas) y el texto centrado.
+  Ya no hay pasaporte, ni ola, ni brillo de colores: "futuro profesional" queda en celeste fijo y
+  `js/hero.js` solo divide el título en palabras para su entrada. Tampoco hay cielo de estrellas,
+  destellos, planeta ni órbita: con el video, solo quedan el velo y el texto. El cielo de estrellas
+  (`starfield.js`) vive ahora solo en la ruta y en la agenda.
+- **Videos de fondo** (`js/video.js`, `<video class="video-fondo" data-fondo>`): cada uno trae sus fuentes en
+  atributos (`data-movil` para menos de 768px, `data-webm` si el navegador lee VP9, `data-escritorio`). El
+  del hero se pide cuando la página terminó de cargar (`data-carga="al-cargar"`), para no competir con la
+  primera pantalla; el de Entradas, cuando la sección está a 300px. Se pausan fuera de pantalla, con la
+  pestaña oculta y con la agenda abierta; con movimiento reducido o ahorro de datos no se cargan y queda el
+  poster. **No tienen botón de pausa (desde el 18 oct).** Ojo: un video en bucle de más de
+  5 s sin forma de pausarlo no cumple el criterio 2.2.2 de WCAG (nivel A); lo mitiga que con movimiento
+  reducido no se reproducen. Lighthouse no lo mide.
+- **Archivos de video** (`assets/video/`): `videoplayback.mp4` es el original del campus (55 s, con audio,
+  4.2 MB) y la página no lo carga. A partir de él se generaron `campus.mp4` (640×360, sin audio, 2.5 MB),
+  `campus-movil.mp4` y `campus-poster.jpg`. **El de móvil es solo la franja central (256×360):** en un
+  celular vertical el video 16:9 se recorta y solo se ve ese centro, así pesa 1 MB en vez de 1.5 y se ve
+  más nítido. Igual con el auditorio: `auditorio.webm` es el original y los demás se generaron de él.
+  Todos en H.264 Baseline, 24 fps, con el índice al inicio. Si llegan originales mejores, se reemplazan
+  con el mismo nombre. Safari exige que el servidor responda por rangos de bytes para reproducir video;
+  cualquier hosting lo hace.
+- **Las secciones se funden (18 oct):** el token `--fundido` (48px en celular, hasta 88px) es el alto del
+  degradado entre secciones vecinas. Cada borde lleva, en el fondo de la sección, un degradado del color de
+  su vecina: el contador arriba y abajo (navy), Ubicación arriba (navy), Aliados arriba (blanco) y el pie
+  arriba (nube-50). Los velos del hero y de Entradas terminan en navy puro, y el cielo de estrellas de la
+  ruta se desvanece arriba y abajo con `mask-image`. **Si cambia el orden o el color de una
+  sección, hay que revisar los degradados de sus vecinas.**
 - **Agenda** (`js/agenda.js`, variante `agenda` de `js/dialog.js`): la línea de tiempo sale de
   `CONFIG.agenda`, y las estaciones leen título, pregunta, descripción e ícono de sus tarjetas en la Ruta,
   así no hay textos duplicados. El cielo y la ✕ son hijos del `<dialog>` y no de la caja que se desplaza:
@@ -148,11 +187,14 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   ├── nav.js          nav fija + menú móvil
 │   ├── entradas.js     selector Presencial/Virtual con panel que se abre en el mismo lugar
 │   ├── countdown.js    cuenta regresiva
-│   ├── starfield.js    cielo de estrellas en <canvas> (hero y ruta)
+│   ├── starfield.js    cielo de estrellas en <canvas> (ruta y agenda)
+│   ├── video.js        videos de fondo: campus (hero) y auditorio (Entradas)
+│   ├── agenda.js       agenda del evento a pantalla completa
 │   ├── ruta.js         animación de la ruta 1–4
 │   └── tabs.js         pestañas Presencial/Virtual de Ubicación
 ├── assets/
 │   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
+│   ├── video/          campus (hero) y auditorio (Entradas): originales y versiones livianas
 │   └── og/             og-image.png (provisional)
 └── docs/PROYECTO.md
 ```
@@ -289,6 +331,11 @@ El orden sigue los ids, que son los destinos del menú.
 - **Todos los CTA genéricos** ("Regístrate", "¡Regístrate gratis…!", "Quiero mi pasaporte", "Quiero vivir la ruta"): hacen scroll suave a `#entradas` y disparan un `menear` en los dos botones de entrada como saludo. No abren otra página.
 
 ### 1. Hero (`#inicio`)
+
+> **Reemplazado el 18 de octubre:** ya no hay pasaporte, ni dos columnas, ni ola de colores, ni estrellas,
+> destellos o planeta. El hero es de
+> pantalla completa, con el video del campus de fondo y el texto centrado (ver "Estado actual"). Lo de
+> abajo queda como referencia de los textos y los tamaños del título.
 
 Fondo `--navy-900` con el cielo de estrellas en `<canvas>` (ver "Cielo de estrellas").
 

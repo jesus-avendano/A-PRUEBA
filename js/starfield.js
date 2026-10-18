@@ -1,4 +1,5 @@
-/* Cielo de estrellas en <canvas>, detrás del hero, de la ruta y de la agenda.
+/* Cielo de estrellas en <canvas>, detrás de la ruta y de la agenda (el hero
+   ya no lo tiene: desde el 18 oct lleva el video del campus).
    Se pausa cuando no está en pantalla o la pestaña está oculta, y cuando
    otra vista lo tapa (suspenderCielos). Con movimiento reducido se dibuja
    una sola vez, quieto. */

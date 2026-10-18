@@ -7,7 +7,7 @@
      la misma fuente, sin copiar textos.
    - El relleno de la línea sigue el progreso del scroll de la agenda; al
      llegar a un hito, su nodo late y se queda encendido y su tarjeta entra.
-   - Mientras está abierta se pausan los cielos de la página y el video. */
+   - Mientras está abierta se pausan los cielos y los videos de la página. */
 
 import { CONFIG } from './config.js';
 import { openDialog, closeDialog, dialogoAbierto } from './dialog.js';
