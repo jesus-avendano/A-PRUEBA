@@ -84,6 +84,13 @@ Decisiones que conviene no deshacer sin querer:
   `auditorio-movil.mp4` y el poster se generaron a partir de él (H.264 Baseline, 24 fps, índice al inicio).
   Si llegan los originales, se reemplazan con el mismo nombre. Safari exige que el servidor responda por
   rangos de bytes para reproducir video; cualquier hosting lo hace.
+- **Agenda** (`js/agenda.js`, variante `agenda` de `js/dialog.js`): la línea de tiempo sale de
+  `CONFIG.agenda`, y las estaciones leen título, pregunta, descripción e ícono de sus tarjetas en la Ruta,
+  así no hay textos duplicados. El cielo y la ✕ son hijos del `<dialog>` y no de la caja que se desplaza:
+  así el `clip-path` del círculo los recorta y no se mueven con el scroll. El brillo del encabezado es un
+  fondo `local` de la caja, porque como pseudo-elemento más ancho la desbordaba.
+- **`suspenderCielos()` y `suspenderVideo()`** existen porque el `IntersectionObserver` no se entera de que
+  algo tapa al canvas o al video: mientras la agenda está abierta, los de la página se pausan a mano.
 - **La nav** alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
 - **Los enlaces que dependen de CONFIG salen del HTML como `<span role="link" aria-disabled="true">`**,
   no como `<a>` sin `href` (Lighthouse marca `aria-disabled` en un `<a>` sin `href`). `enlazar(el, url)`

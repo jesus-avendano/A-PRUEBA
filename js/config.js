@@ -43,6 +43,25 @@ export const CONFIG = {
 
   legal: { privacidadUrl: '', terminosUrl: '' },
 
+  // Agenda del evento (docs/CAMBIOS-VIDEO-AGENDA.md §3), de arriba hacia abajo.
+  // Las estaciones (estacion: N) toman título, pregunta, descripción e ícono de
+  // su tarjeta en la sección Ruta: es la misma fuente, no se copian aquí.
+  // PENDIENTE: las horas y los lugares (salvo la Explanada) los dan los
+  // organizadores. Mientras estén vacíos no se muestran. Nunca inventarlos.
+  // color: blanco | celeste | verde | naranja · icono (solo los que no son estación): qr-code | flag
+  agenda: [
+    { id: 'llegada', color: 'blanco', icono: 'qr-code', hora: '',
+      titulo: 'Llegada y registro',
+      descripcion: 'Presenta el QR que te llegó al correo al inscribirte.',
+      lugar: '' },
+    { id: 'e1', estacion: 1, color: 'celeste', hora: '', lugar: '' },
+    { id: 'e2', estacion: 2, color: 'verde', hora: '', lugar: 'Explanada' },
+    { id: 'e3', estacion: 3, color: 'naranja', hora: '', lugar: '' },
+    { id: 'e4', estacion: 4, color: 'blanco', hora: '', lugar: '' },
+    { id: 'cierre', color: 'verde', icono: 'flag', hora: '',
+      titulo: 'Cierre', descripcion: '[POR CONFIRMAR]', lugar: '' },
+  ],
+
   // Panel de cada aliado (docs/CAMBIOS-INTERACCION.md §2).
   // PENDIENTE: descripcion y queOfrece son texto de relleno, igual en los seis.
   // Reemplazar con el texto real de cada aliado; nunca inventar datos.

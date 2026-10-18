@@ -8,6 +8,7 @@
    Variantes:
    - ticket   centrado; se abre desde el boleto de origen (FLIP)
    - aliado   panel lateral en escritorio, hoja inferior en móvil
+   - agenda   pantalla completa; un círculo nace desde el botón de origen
    Cualquier otra entra centrada con fundido y subida. */
 
 const EASE_OUT = 'cubic-bezier(.22, 1, .36, 1)';
@@ -49,7 +50,7 @@ export function liberarScroll() {
  * @param {object} o
  * @param {string} o.id        id del <dialog>
  * @param {Element} [o.origin] quien lo abrió; recibe el foco al cerrar
- * @param {'ticket'|'aliado'} [o.variant]
+ * @param {'ticket'|'aliado'|'agenda'} [o.variant]
  * @param {Element} [o.focus]  a dónde va el foco al abrir (por defecto, [data-foco-inicial] visible o la ✕)
  * @param {Function} [o.onClose]
  */
@@ -141,6 +142,7 @@ function terminar(a, { yaCerrado = false } = {}) {
   actual = null;
   if (!yaCerrado && a.dialogo.open) a.dialogo.close();
   a.dialogo.classList.remove('dialogo--cerrando');
+  a.dialogo.getAnimations().forEach((an) => an.cancel()); // el círculo de la agenda
   a.caja.getAnimations({ subtree: true }).forEach((an) => an.cancel());
   if (a.origen) a.origen.style.visibility = '';
   liberarScroll();
@@ -154,10 +156,12 @@ function cerrarSinAnimar(a) {
 }
 
 /* ---------------------------------------------------------------
-   Animaciones (solo transform y opacity)
+   Animaciones (transform y opacity; la agenda, además, clip-path)
    --------------------------------------------------------------- */
 function animarEntrada(a, rectOrigen) {
   const { caja, variante } = a;
+
+  if (variante === 'agenda') return entrarAgenda(a);
 
   if (reducido()) {
     return terminada(caja.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: 'linear' }));
@@ -202,6 +206,8 @@ function entrarDesdeOrigen(a, rectOrigen) {
 function animarSalida(a) {
   const { caja, variante, origen } = a;
 
+  if (variante === 'agenda') return salirAgenda(a);
+
   if (reducido()) {
     return terminada(caja.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' }));
   }
@@ -231,6 +237,46 @@ function animarSalida(a) {
     [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(16px) scale(.98)' }],
     { duration: 250, easing: EASE_OUT, fill: 'forwards' },
   ));
+}
+
+/* Agenda: un círculo nace desde el centro del botón y cubre la pantalla;
+   después el contenido marcado con [data-aparece] entra escalonado.
+   Al cerrar, el círculo vuelve hacia el botón. Con movimiento reducido,
+   un fundido de 200ms. */
+function entrarAgenda(a) {
+  const { dialogo, origen } = a;
+  if (reducido()) {
+    return terminada(dialogo.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'linear' }));
+  }
+  const { x, y } = centroDe(origen);
+  const circulo = dialogo.animate(
+    [{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(150vmax at ${x}px ${y}px)` }],
+    { duration: 650, easing: EASE_OUT },
+  );
+  dialogo.querySelectorAll('[data-aparece]').forEach((el, i) => el.animate(
+    [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }],
+    { duration: 500, delay: 380 + i * 90, easing: EASE_OUT, fill: 'backwards' },
+  ));
+  return terminada(circulo);
+}
+
+function salirAgenda(a) {
+  const { dialogo, origen } = a;
+  if (reducido()) {
+    return terminada(dialogo.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: 'forwards' }));
+  }
+  const { x, y } = centroDe(origen);
+  return terminada(dialogo.animate(
+    [{ clipPath: `circle(150vmax at ${x}px ${y}px)` }, { clipPath: `circle(0px at ${x}px ${y}px)` }],
+    { duration: 450, easing: EASE_OUT, fill: 'forwards' },
+  ));
+}
+
+/** El centro de un elemento en la pantalla; sin elemento, el de la pantalla. */
+function centroDe(el) {
+  if (!el || !el.isConnected) return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const r = el.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
 }
 
 /** El transform que lleva la caja `hasta` a ocupar el rect `desde`. */

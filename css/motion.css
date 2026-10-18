@@ -370,6 +370,32 @@
   .ruta__cta:hover .ruta__cta-icono { animation: none; }
 }
 
+/* ===========================================================
+   Agenda (CAMBIOS-VIDEO-AGENDA §3). La apertura en círculo está en
+   js/dialog.js. Al llegar el relleno a un hito (js/agenda.js agrega
+   .hito--alcanzado), su nodo late y se queda encendido, y su tarjeta
+   entra desde su lado (transición en styles.css).
+   =========================================================== */
+
+.hito--alcanzado .hito__nodo { animation: latido 500ms var(--ease-spring); }
+
+@media (hover: hover) and (pointer: fine) {
+  /* crece con el brillo de su color; nada más se mueve */
+  .hito__tarjeta:hover {
+    scale: 1.04;
+    box-shadow: 0 18px 44px -14px rgba(var(--rgb-hito), .55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* todo visible desde el inicio, con la línea llena y sin animaciones */
+  .hito__nodo,
+  .hito__tarjeta { transition: none; }
+  .hito--alcanzado .hito__nodo { animation: none; }
+  .hito__tarjeta:hover { scale: none; }
+  .agenda__cometa { display: none; }
+}
+
 /* Panel del aliado: las flechas ← → cambian de aliado sin cerrar (js/aliados.js) */
 .ficha-aliado__contenido--anima { animation: panel-entra 250ms var(--ease-out) both; }
 
