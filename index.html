@@ -266,97 +266,67 @@
       <p class="lead lead--sobre-oscuro">Una mañana, cuatro paradas. Al final sabrás qué tan seguro estás de tu elección.</p>
     </header>
 
-    <div class="ruta__mapa">
-      <svg class="ruta__trazo" viewBox="0 0 1200 96" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path class="ruta__linea" d="M0 48 C 60 48 100 48 141 48 S 300 88 447 48 S 600 8 753 48 S 910 88 1059 48 S 1160 48 1200 48" fill="none"/>
-        <path class="ruta__linea-solida" d="M0 48 C 60 48 100 48 141 48 S 300 88 447 48 S 600 8 753 48 S 910 88 1059 48 S 1160 48 1200 48" fill="none"/>
-        <g class="cometa">
-          <circle class="cometa__estela" r="4"/>
-          <circle class="cometa__estela" r="4"/>
-          <circle class="cometa__estela" r="4"/>
-          <circle class="cometa__estela" r="4"/>
-          <circle class="cometa__estela" r="4"/>
-          <circle class="cometa__cabeza" r="5"/>
-        </g>
-      </svg>
+    <!-- Carrusel 3D de fotos (js/carrusel.js, lo arma js/ruta.js). Va en un hijo del
+         escenario: .circular-carousel lleva width: 100% y le pisaría el ancho a sangre. -->
+    <div class="ruta__escenario" hidden><div data-carrusel></div></div>
 
-      <ol class="estaciones">
-        <li class="estacion estacion--1" data-estacion="1">
-          <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <button class="estacion__nodo" type="button" aria-expanded="false" aria-controls="estacion-desc-1" aria-label="Estación 1: Conócete"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">1</span></span><span class="estacion__aqui" aria-hidden="true">Estás aquí</span></button>
-          <article class="estacion__tarjeta">
-            <div class="estacion__cabecera">
-              <span class="estacion__burbuja">
-                <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-              </span>
-            </div>
+    <!-- Sin JS: las 4 estaciones en grilla. Con JS: las pestañas eligen cuál se ve. -->
+    <div class="ruta__control">
+      <div class="ruta__nodos" role="tablist" aria-label="Estaciones de la ruta" hidden>
+        <button class="ruta__nodo ruta__nodo--1" type="button" role="tab" id="tab-estacion-1" aria-controls="estacion-1" aria-selected="true" aria-label="Estación 1: Conócete">1</button>
+        <button class="ruta__nodo ruta__nodo--2" type="button" role="tab" id="tab-estacion-2" aria-controls="estacion-2" aria-selected="false" tabindex="-1" aria-label="Estación 2: Experimenta">2</button>
+        <button class="ruta__nodo ruta__nodo--3" type="button" role="tab" id="tab-estacion-3" aria-controls="estacion-3" aria-selected="false" tabindex="-1" aria-label="Estación 3: Escucha y conecta">3</button>
+        <button class="ruta__nodo ruta__nodo--4" type="button" role="tab" id="tab-estacion-4" aria-controls="estacion-4" aria-selected="false" tabindex="-1" aria-label="Estación 4: Valida y consolida">4</button>
+      </div>
+      <div class="ruta__paneles">
+        <article class="estacion estacion--1 estacion--activa" id="estacion-1" data-foto="assets/img/ruta/conocete.webp">
+          <span class="estacion__burbuja">
+            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          </span>
+          <div class="estacion__texto">
             <p class="overline estacion__overline">Estación 1</p>
-            <h3 class="estacion__titulo"><button class="estacion__boton" type="button" aria-expanded="false" aria-controls="estacion-desc-1">Conócete</button></h3>
+            <h3 class="estacion__titulo">Conócete</h3>
             <p class="estacion__pregunta">¿Qué podría encajar conmigo?</p>
-            <div class="estacion__detalle" id="estacion-desc-1">
-              <div class="estacion__detalle-interior"><p class="estacion__desc">Realiza un diagnóstico vocacional en tiempo real desde tu celular. Descubre tus principales intereses, identifica carreras sugeridas y regístralas en tu Pasaporte Vocacional.</p></div>
-            </div>
-            <span class="estacion__invitacion" aria-hidden="true"><span class="estacion__invitacion-texto">Ver qué harás</span> <span class="estacion__invitacion-signo">+</span></span>
-          </article>
-        </li>
+            <p class="estacion__desc">Realiza un diagnóstico vocacional en tiempo real desde tu celular. Descubre tus principales intereses, identifica carreras sugeridas y regístralas en tu Pasaporte Vocacional.</p>
+          </div>
+        </article>
 
-        <li class="estacion estacion--2" data-estacion="2">
-          <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <button class="estacion__nodo" type="button" aria-expanded="false" aria-controls="estacion-desc-2" aria-label="Estación 2: Experimenta"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">2</span></span><span class="estacion__aqui" aria-hidden="true">Estás aquí</span></button>
-          <article class="estacion__tarjeta">
-            <div class="estacion__cabecera">
-              <span class="estacion__burbuja">
-                <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>
-              </span>
-            </div>
+        <article class="estacion estacion--2" id="estacion-2" data-foto="assets/img/ruta/experimenta.webp">
+          <span class="estacion__burbuja">
+            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>
+          </span>
+          <div class="estacion__texto">
             <p class="overline estacion__overline">Estación 2</p>
-            <h3 class="estacion__titulo"><button class="estacion__boton" type="button" aria-expanded="false" aria-controls="estacion-desc-2">Experimenta</button></h3>
+            <h3 class="estacion__titulo">Experimenta</h3>
             <p class="estacion__pregunta">¿Cómo resolverías un problema real desde la profesión que quieres ejercer?</p>
-            <div class="estacion__detalle" id="estacion-desc-2">
-              <div class="estacion__detalle-interior"><p class="estacion__desc">Trabaja en equipo en la explanada con un reto basado en los ODS (Salud, Educación, Sostenibilidad o Consumo Responsable). Prepara un pitch, compite por mentorías, membresías y premios en efectivo, y demuestra tu talento.</p></div>
-            </div>
-            <span class="estacion__invitacion" aria-hidden="true"><span class="estacion__invitacion-texto">Ver qué harás</span> <span class="estacion__invitacion-signo">+</span></span>
-          </article>
-        </li>
+            <p class="estacion__desc">Trabaja en equipo en la explanada con un reto basado en los ODS (Salud, Educación, Sostenibilidad o Consumo Responsable). Prepara un pitch, compite por mentorías, membresías y premios en efectivo, y demuestra tu talento.</p>
+          </div>
+        </article>
 
-        <li class="estacion estacion--3" data-estacion="3">
-          <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <button class="estacion__nodo" type="button" aria-expanded="false" aria-controls="estacion-desc-3" aria-label="Estación 3: Escucha y conecta"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">3</span></span><span class="estacion__aqui" aria-hidden="true">Estás aquí</span></button>
-          <article class="estacion__tarjeta">
-            <div class="estacion__cabecera">
-              <span class="estacion__burbuja">
-                <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-              </span>
-            </div>
+        <article class="estacion estacion--3" id="estacion-3" data-foto="assets/img/ruta/escucha.webp">
+          <span class="estacion__burbuja">
+            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          </span>
+          <div class="estacion__texto">
             <p class="overline estacion__overline">Estación 3</p>
-            <h3 class="estacion__titulo"><button class="estacion__boton" type="button" aria-expanded="false" aria-controls="estacion-desc-3">Escucha y conecta</button></h3>
+            <h3 class="estacion__titulo">Escucha y conecta</h3>
             <p class="estacion__pregunta">¿Cómo es realmente estudiar y ejercer estas carreras?</p>
-            <div class="estacion__detalle" id="estacion-desc-3">
-              <div class="estacion__detalle-interior"><p class="estacion__desc">Paneles en vivo con estudiantes y profesionales, sin filtros ni discursos armados. Descubre los mitos, las sorpresas, las dificultades reales y el impacto de la inteligencia artificial en cada profesión.</p></div>
-            </div>
-            <span class="estacion__invitacion" aria-hidden="true"><span class="estacion__invitacion-texto">Ver qué harás</span> <span class="estacion__invitacion-signo">+</span></span>
-          </article>
-        </li>
+            <p class="estacion__desc">Paneles en vivo con estudiantes y profesionales, sin filtros ni discursos armados. Descubre los mitos, las sorpresas, las dificultades reales y el impacto de la inteligencia artificial en cada profesión.</p>
+          </div>
+        </article>
 
-        <li class="estacion estacion--4" data-estacion="4">
-          <span class="estacion__riel" aria-hidden="true"><i class="estacion__relleno"></i></span>
-          <button class="estacion__nodo" type="button" aria-expanded="false" aria-controls="estacion-desc-4" aria-label="Estación 4: Valida y consolida"><span class="estacion__nodo-circulo"><span class="estacion__nodo-num">4</span></span><span class="estacion__aqui" aria-hidden="true">Estás aquí</span></button>
-          <article class="estacion__tarjeta">
-            <div class="estacion__cabecera">
-              <span class="estacion__burbuja">
-                <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              </span>
-            </div>
+        <article class="estacion estacion--4" id="estacion-4" data-foto="assets/img/ruta/valida.webp">
+          <span class="estacion__burbuja">
+            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </span>
+          <div class="estacion__texto">
             <p class="overline estacion__overline">Estación 4</p>
-            <h3 class="estacion__titulo"><button class="estacion__boton" type="button" aria-expanded="false" aria-controls="estacion-desc-4">Valida y consolida</button></h3>
+            <h3 class="estacion__titulo">Valida y consolida</h3>
             <p class="estacion__pregunta">Después de todo lo vivido, ¿qué tan seguro estás?</p>
-            <div class="estacion__detalle" id="estacion-desc-4">
-              <div class="estacion__detalle-interior"><p class="estacion__desc">Evalúa tu evolución antes y después del evento. Descubre si confirmas tu carrera, encuentras una nueva vocación o decides explorar más. ¡Conecta directo con organizaciones que potenciarán tu futuro!</p></div>
-            </div>
-            <span class="estacion__invitacion" aria-hidden="true"><span class="estacion__invitacion-texto">Ver qué harás</span> <span class="estacion__invitacion-signo">+</span></span>
-          </article>
-        </li>
-      </ol>
+            <p class="estacion__desc">Evalúa tu evolución antes y después del evento. Descubre si confirmas tu carrera, encuentras una nueva vocación o decides explorar más. ¡Conecta directo con organizaciones que potenciarán tu futuro!</p>
+          </div>
+        </article>
+      </div>
     </div>
 
     <div class="ruta__cierre">

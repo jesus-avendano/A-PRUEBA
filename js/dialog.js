@@ -1,4 +1,4 @@
-/* Sistema de diálogos compartido: entradas, estaciones y aliados.
+/* Sistema de diálogos compartido: entradas, aliados, agenda y foto de la sede.
 
    Usa <dialog> nativo con showModal(): el navegador ya pone el foco
    atrapado, el cierre con Esc, el fondo inerte y aria-modal. Este módulo

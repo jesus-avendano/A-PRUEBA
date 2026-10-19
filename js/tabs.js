@@ -1,7 +1,8 @@
-/* Pestañas Presencial/Virtual de Ubicación (patrón ARIA tabs). */
+/* Pestañas Presencial/Virtual de Ubicación (patrón ARIA tabs).
+   Solo las .pestanas: las de la ruta (1–4) las maneja js/ruta.js. */
 
 export function iniciarPestanas() {
-  document.querySelectorAll('[role="tablist"]').forEach(prepararLista);
+  document.querySelectorAll('.pestanas[role="tablist"]').forEach(prepararLista);
 }
 
 function prepararLista(lista) {

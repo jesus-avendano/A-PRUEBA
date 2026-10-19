@@ -7,7 +7,8 @@
      la misma fuente, sin copiar textos.
    - El relleno de la línea sigue el progreso del scroll de la agenda; al
      llegar a un hito, su nodo late y se queda encendido y su tarjeta entra.
-   - Mientras está abierta se pausan los cielos y los videos de la página. */
+   - Mientras está abierta se pausan los cielos, los videos y el carrusel de
+     la ruta de la página. */
 
 import { CONFIG } from './config.js';
 import { openDialog, closeDialog, dialogoAbierto } from './dialog.js';
@@ -34,11 +35,13 @@ const agenda = {
   cometa: null,
   hitos: [],
   cielos: [], // el cielo propio: no se pausa con los de la página
+  ruta: null, // { suspender } de js/ruta.js: el carrusel de atrás
   medidas: { alto: 0, posiciones: [] },
   cuadro: 0,
 };
 
-export function iniciarAgenda() {
+export function iniciarAgenda({ ruta = null } = {}) {
+  agenda.ruta = ruta;
   encenderAnillo();
 
   const dialogo = document.getElementById(ID);
@@ -94,6 +97,7 @@ export function abrirAgenda(origen) {
   agenda.hitos.forEach((li) => li.classList.remove('hito--alcanzado'));
   suspenderCielos(true, agenda.cielos);
   suspenderVideo(true);
+  if (agenda.ruta) agenda.ruta.suspender(true);
 
   openDialog({
     id: ID,
@@ -103,6 +107,7 @@ export function abrirAgenda(origen) {
     onClose: () => {
       suspenderCielos(false, agenda.cielos);
       suspenderVideo(false);
+      if (agenda.ruta) agenda.ruta.suspender(false);
     },
   });
   agenda.caja.scrollTop = 0;

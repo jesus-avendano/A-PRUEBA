@@ -63,24 +63,10 @@
   50%      { transform: translateY(-10px); }
 }
 
-@keyframes flotar-nodo {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
-}
-
 @keyframes vaiven {
   from { transform: scale(var(--escala, 1)) rotate(-2deg); }
   to   { transform: scale(var(--escala, 1)) rotate(2deg); }
 }
-
-@keyframes anillo {
-  from { box-shadow: 0 0 0 0 rgba(var(--rgb-estacion), .6); }
-  to   { box-shadow: 0 0 0 24px rgba(var(--rgb-estacion), 0); }
-}
-
-@keyframes dibujar  { from { stroke-dashoffset: var(--largo, 0); } to { stroke-dashoffset: 0; } }
-@keyframes avanzar  { to { stroke-dashoffset: -14; } }
-@keyframes apagar   { to { opacity: 0; } }
 
 /* --- Patrón "crecer y menear" ---------------------------------
    Al entrar el puntero: crece con rebote y menea una vez.
@@ -88,15 +74,12 @@
    Todos componen su escala con --escala, para que el hover, el saludo
    y el estado atenuado del boleto no se pisen entre sí.              */
 .boleto__interior,
-.estacion__burbuja,
-.estacion__nodo-circulo,
 .aliado,
 .red,
 .red-aliado__circulo {
   transform: scale(var(--escala, 1));
   transition: transform var(--dur-rapida) var(--ease-out);
 }
-.estacion__nodo-circulo { transition-timing-function: var(--ease-spring); }
 
 @media (hover: hover) and (pointer: fine) {
   .boleto:hover .boleto__interior,
@@ -104,9 +87,6 @@
     animation: menear 600ms var(--ease-out),
                vaiven 1.6s ease-in-out 600ms infinite alternate;
   }
-  /* ruta: cada elemento se anima solo a sí mismo (CAMBIOS-RUTA-HERO §1).
-     El nodo crece a 1.25 y menea una vez; la tarjeta y su ícono no se mueven. */
-  .estacion__nodo:hover .estacion__nodo-circulo { --escala: 1.25; animation: crecer-menear 600ms var(--ease-out); }
   .boleto:hover .boleto__interior { --escala: 1.08; }
   .red:hover { --escala: 1.1; }
 
@@ -123,18 +103,6 @@
   .boleto:hover .boleto__forma {
     filter: drop-shadow(0 12px 0 var(--color-boleto)) drop-shadow(0 20px 36px rgba(0, 0, 0, .4));
   }
-
-  /* la tarjeta crece sola, por encima de sus vecinas; el ícono, el nodo y
-     las otras tarjetas no se mueven. Entra en 300ms con spring y sale en 250ms. */
-  .estacion .estacion__tarjeta:hover {
-    z-index: 3;
-    transform: translateY(-6px) scale(1.05);
-    border-color: var(--color-estacion);
-    box-shadow: 0 20px 50px -12px rgba(var(--rgb-estacion), .4);
-    transition: transform 300ms var(--ease-spring),
-                border-color 300ms var(--ease-out),
-                box-shadow 300ms var(--ease-out);
-  }
 }
 
 /* En táctil, el boleto responde al dedo */
@@ -147,102 +115,56 @@
 .boleto { animation: flotar 4s ease-in-out infinite; }
 .boleto--virtual { animation-delay: 2s; }
 
-.estacion__nodo { animation: flotar-nodo 3s ease-in-out infinite; }
-.estacion--1 .estacion__nodo { animation-delay: 0s; }
-.estacion--2 .estacion__nodo { animation-delay: .4s; }
-.estacion--3 .estacion__nodo { animation-delay: .8s; }
-.estacion--4 .estacion__nodo { animation-delay: 1.2s; }
-
-/* --- La ruta --- */
-.estacion--1 { --rgb-estacion: 62, 198, 242; --color-estacion: var(--celeste-400); }
-.estacion--2 { --rgb-estacion: 126, 211, 72; --color-estacion: var(--verde-400); }
-.estacion--3 { --rgb-estacion: 238, 108, 20; --color-estacion: var(--naranja-500); }
-.estacion--4 { --rgb-estacion: 255, 255, 255; --color-estacion: var(--blanco); }
-
-/* el cometa llega al nodo */
-.estacion__nodo--llega .estacion__nodo-circulo { animation: latido 500ms var(--ease-spring); }
-.estacion__nodo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
+/* --- La ruta: las pestañas y el panel de la estación (js/ruta.js) ---
+   La pestaña elegida crece y late; el panel cambia con un fundido. Las
+   pestañas no flotan: son controles. */
+.ruta__nodo {
+  transition: transform var(--dur-rapida) var(--ease-spring),
+              box-shadow var(--dur-rapida) var(--ease-out);
 }
-.estacion__nodo--llega::after { animation: anillo var(--dur-lenta) var(--ease-out); }
-
-.estacion__tarjeta {
-  transition: transform var(--dur-rapida) var(--ease-out),
-              border-color var(--dur-rapida) var(--ease-out),
-              box-shadow var(--dur-rapida) var(--ease-out),
-              opacity 300ms var(--ease-out),
-              filter 300ms var(--ease-out);
+.ruta__nodo[aria-selected="true"] { animation: latido 500ms var(--ease-spring); }
+@media (hover: hover) and (pointer: fine) {
+  .ruta__nodo[aria-selected="false"]:hover { transform: scale(.9); }
 }
-.estacion--encendida .estacion__tarjeta {
-  transform: translateY(-6px);
-  border-color: var(--color-estacion);
+/* el que entra es visible (y enfocable) de inmediato; el que sale se
+   oculta recién al terminar su fundido */
+.ruta--carrusel .estacion {
+  transition: opacity 300ms var(--ease-out),
+              transform 300ms var(--ease-out),
+              visibility 0s;
 }
-
-/* los puntos del trazo avanzan sin parar */
-.ruta__linea { animation: avanzar 1.2s linear infinite; }
-
-.cometa { opacity: 1; filter: drop-shadow(0 0 6px var(--celeste-400)); }
-.cometa--apagado { opacity: 0; }
-
-/* entrada de la sección, una sola vez */
-.ruta__mapa--entra .ruta__linea-solida {
-  opacity: .9;
-  animation: dibujar 1.2s var(--ease-out) forwards, apagar 500ms linear 1.2s forwards;
+.ruta--carrusel .estacion:not(.estacion--activa) {
+  transition: opacity 300ms var(--ease-out),
+              transform 300ms var(--ease-out),
+              visibility 0s linear 300ms;
 }
-/* backwards, no both: cubren el retraso escalonado, pero al terminar no deben
-   seguir pisando el transform ni la opacidad (hover, cometa y modo enfoque) */
-.ruta__mapa--entra .estacion__nodo-circulo { animation: latido 500ms var(--ease-spring) var(--retraso, 0s) backwards; }
-.ruta__mapa--entra .estacion__tarjeta { animation: aparecer 500ms var(--ease-out) var(--retraso, 0s) backwards; }
-.estacion--1 { --retraso: 0s; }
-.estacion--2 { --retraso: .15s; }
-.estacion--3 { --retraso: .3s; }
-.estacion--4 { --retraso: .45s; }
-
-/* línea de tiempo móvil: el relleno avanza con el scroll */
-.estacion__relleno { transition: height 120ms linear; }
-.estacion--alcanzada .estacion__nodo-circulo {
-  box-shadow: 0 0 0 4px var(--navy-900), 0 0 18px 2px rgba(var(--rgb-estacion), .7);
-}
-.estacion--alcanzada .estacion__nodo--llega .estacion__nodo-circulo { animation: latido 500ms var(--ease-spring); }
 
 @media (prefers-reduced-motion: reduce) {
   .boleto,
   .boleto--virtual,
-  .estacion__nodo,
-  .ruta__linea,
-  .ruta__mapa--entra .ruta__linea-solida,
-  .ruta__mapa--entra .estacion__nodo-circulo,
-  .ruta__mapa--entra .estacion__tarjeta,
-  .estacion__nodo--llega .estacion__nodo-circulo,
-  .estacion__nodo--llega::after {
+  .ruta__nodo[aria-selected="true"] {
     animation: none;
   }
-  .estacion__nodo-circulo,
-  .estacion__tarjeta,
   .boleto__interior,
-  .estacion__burbuja,
   .aliado,
   .red,
   .red-aliado__circulo,
-  .estacion__relleno {
+  .ruta__nodo,
+  .ruta--carrusel .estacion,
+  .ruta--carrusel .estacion:not(.estacion--activa),
+  .circular-carousel__stage {
     transition: none;
   }
   /* hover: sin meneo, sin vaivén y sin crecer */
   .boleto:hover .boleto__interior,
-  .estacion__nodo:hover .estacion__nodo-circulo,
   .aliado:hover,
   .red:hover,
   .red-aliado:hover .red-aliado__circulo {
     --escala: 1;
     animation: none;
   }
-  .estacion .estacion__tarjeta:hover { transform: none; } /* sin escalas; el color y el brillo sí */
-  .ruta__linea-solida { opacity: 0; }
-  .cometa { display: none; }
+  .ruta__nodo[aria-selected="false"]:hover { transform: scale(.82); }
+  .ruta--carrusel .estacion:not(.estacion--activa) { transform: none; }
 }
 
 /* ===========================================================
@@ -386,61 +308,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ficha-aliado__contenido--anima { animation: funde 150ms linear both; }
-}
-
-/* ===========================================================
-   Ruta: modo enfoque (CAMBIOS-RUTA-HERO §2, js/enfoque.js)
-   La tarjeta elegida se queda grande y con su color; las demás se
-   apagan pero siguen siendo clicables. El cometa la alcanza, el nodo
-   queda encendido y el trazo hasta él pasa a línea sólida.
-   =========================================================== */
-
-.estaciones--compactas .estacion__detalle {
-  transition: grid-template-rows 400ms var(--ease-out);
-}
-
-.estacion--enfocada .estacion__tarjeta {
-  z-index: 3;
-  transform: translateY(-6px) scale(1.05);
-  border-color: var(--color-estacion);
-  box-shadow: 0 20px 50px -12px rgba(var(--rgb-estacion), .4);
-}
-.estaciones--enfoque .estacion:not(.estacion--enfocada) .estacion__tarjeta {
-  opacity: .45;
-  transform: scale(.97);
-  filter: saturate(.6);
-}
-
-/* el nodo enfocado queda encendido, con un anillo de brillo de su color */
-.estacion--aqui .estacion__nodo-circulo {
-  box-shadow: 0 0 0 4px var(--navy-900),
-              0 0 0 7px rgba(var(--rgb-estacion), .55),
-              0 0 22px 4px rgba(var(--rgb-estacion), .6);
-}
-@media (min-width: 1200px) {
-  .estacion--aqui .estacion__nodo-circulo {
-    box-shadow: 0 0 0 6px var(--navy-900),
-                0 0 0 9px rgba(var(--rgb-estacion), .55),
-                0 0 26px 6px rgba(var(--rgb-estacion), .6);
-  }
-  .estacion--aqui .estacion__aqui { visibility: visible; animation: aparecer 500ms var(--ease-out); }
-}
-
-/* el tramo desde el inicio hasta la estación (lo dibuja js/ruta.js) */
-.ruta__linea-solida { transition: opacity 250ms var(--ease-out); }
-.ruta__linea-solida.ruta__linea-solida--tramo { opacity: 1; }
-
-/* en móvil el riel se rellena hasta la estación con más calma que con el scroll */
-.estaciones--enfoque .estacion__relleno { transition: height 400ms var(--ease-out); }
-
-@media (prefers-reduced-motion: reduce) {
-  .estaciones--compactas .estacion__detalle,
-  .estaciones--enfoque .estacion__relleno,
-  .ruta__linea-solida { transition: none; }
-  /* sin escalas: el enfoque se nota por el color, el brillo y la opacidad */
-  .estacion--enfocada .estacion__tarjeta,
-  .estaciones--enfoque .estacion:not(.estacion--enfocada) .estacion__tarjeta { transform: none; }
-  .estacion--aqui .estacion__aqui { animation: none; }
 }
 
 /* ===========================================================

@@ -752,128 +752,126 @@ button {
 
 /* ---------------- La ruta ---------------- */
 
-.ruta__mapa { position: relative; margin-top: var(--e-40); }
+/* Carrusel 3D de fotos, pestañas 1–4 y el panel de la estación que está
+   adelante (js/ruta.js). Sin JS, el escenario y las pestañas siguen hidden
+   y las 4 estaciones se ven completas, en grilla. */
 
-.ruta__trazo { display: none; }
-.ruta__linea {
-  stroke: rgba(62, 198, 242, .7);
-  stroke-width: 3;
-  stroke-dasharray: 2 12;
-  stroke-linecap: round;
+/* el color de cada estación: lo usan su panel, su pestaña y el número sobre
+   su foto (js/ruta.js lo lee con getComputedStyle) */
+.estacion--1, .ruta__nodo--1 { --color: var(--celeste-400); --rgb-estacion: 62, 198, 242; }
+.estacion--2, .ruta__nodo--2 { --color: var(--verde-400); --rgb-estacion: 126, 211, 72; }
+.estacion--3, .ruta__nodo--3 { --color: var(--naranja-500); --rgb-estacion: 238, 108, 20; }
+.estacion--4, .ruta__nodo--4 { --color: var(--blanco); --rgb-estacion: 255, 255, 255; }
+
+/* a sangre en celular, para que el anillo use todo el ancho */
+.ruta__escenario {
+  height: clamp(300px, 34vw, 440px);
+  margin: var(--e-32) calc(-1 * var(--margen-lateral)) 0;
 }
-.ruta__linea-solida {
-  stroke: var(--celeste-400);
-  stroke-width: 3;
-  stroke-linecap: round;
-  opacity: 0;
-}
-/* el cometa lo mueve js/ruta.js en la fase 3 */
-.cometa { opacity: 0; }
-.cometa__cabeza { fill: var(--celeste-400); }
-.cometa__estela { fill: var(--celeste-400); opacity: .45; }
+.ruta__escenario > [data-carrusel] { height: 100%; }
+.ruta__escenario .circular-carousel { --cc-inner-color: var(--navy-900); }
 
-.estaciones { display: flex; flex-direction: column; gap: var(--e-24); }
-
-.estacion {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--e-16);
-}
-
-.estacion__riel {
+/* el número de la estación sobre su foto (opción overlay del carrusel) */
+.ruta__marca {
   position: absolute;
-  left: 20px;
-  top: 40px;
-  bottom: calc(-1 * var(--e-24));
-  width: 3px;
-  background: rgba(62, 198, 242, .45);
-  transform: translateX(-50%);
-}
-.estacion:last-child .estacion__riel { display: none; }
-
-.estacion__relleno {
-  display: block;
-  width: 100%;
-  height: 0;
-  background: var(--celeste-400);
-}
-
-.estacion__nodo {
-  position: relative;
-  z-index: 2;
+  top: 14px;
+  left: 14px;
   display: grid;
   place-items: center;
-  flex: none;
   width: 40px;
   height: 40px;
-}
-.estacion__nodo::before { content: ""; position: absolute; inset: -2px; } /* 44px de área táctil */
-.estacion__tarjeta { cursor: pointer; }
-
-.estacion__nodo-circulo {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
   border-radius: 50%;
+  background: var(--color);
   box-shadow: 0 0 0 4px var(--navy-900);
-}
-.estacion__nodo-num {
   font-family: var(--fuente-titulo);
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   line-height: 1;
   font-weight: 700;
   color: var(--navy-900);
 }
 
-.estacion--1 .estacion__nodo-circulo { background: var(--celeste-400); }
-.estacion--2 .estacion__nodo-circulo { background: var(--verde-400); }
-.estacion--3 .estacion__nodo-circulo { background: var(--naranja-500); }
-.estacion--4 .estacion__nodo-circulo { background: var(--blanco); }
+.ruta__control { margin-top: var(--e-40); }
+.ruta--carrusel .ruta__control { margin-top: var(--e-24); }
 
-.estacion__tarjeta {
-  position: relative; /* el hover y el enfoque la suben por encima de sus vecinas */
+/* Pestañas: los nodos 1–4 unidos por la línea punteada */
+.ruta__nodos {
+  --nodo: 44px; /* el mínimo táctil */
+  position: relative;
+  display: flex;
+  gap: 36px;
+  width: fit-content;
+  margin: 0 auto var(--e-32);
+}
+.ruta__nodos::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(var(--nodo) / 2);
+  right: calc(var(--nodo) / 2);
+  height: 3px;
+  margin-top: -1.5px;
+  background: radial-gradient(circle, rgba(62, 198, 242, .7) 1.5px, transparent 1.75px) 0 50% / 9px 3px repeat-x;
+}
+/* sin opacidad en las inactivas: la línea se vería a través */
+.ruta__nodo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--nodo);
+  height: var(--nodo);
+  border-radius: 50%;
+  background: var(--color);
+  box-shadow: 0 0 0 6px var(--navy-900);
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--navy-900);
+  transform: scale(.82);
+}
+/* el área táctil no se achica con la escala */
+.ruta__nodo::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+.ruta__nodo[aria-selected="true"] {
+  transform: scale(1);
+  box-shadow: 0 0 0 6px var(--navy-900),
+              0 0 0 9px rgba(var(--rgb-estacion), .55),
+              0 0 22px 4px rgba(var(--rgb-estacion), .6);
+}
+
+/* Paneles. Sin JS van en grilla; con JS, uno a la vez y los 4 en la misma
+   celda: la altura es la del más largo y nada salta al cambiar (CLS 0).
+   grid-template-columns: none anula las columnas de la grilla sin JS. */
+.ruta__paneles { display: grid; gap: var(--e-24); }
+.ruta--carrusel .ruta__paneles { grid-template-columns: none; max-width: 640px; margin-inline: auto; }
+.ruta--carrusel .estacion { grid-area: 1 / 1; }
+.ruta--carrusel .estacion:not(.estacion--activa) {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+}
+
+.estacion {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  gap: 14px;
   min-width: 0;
   padding: 22px;
   background: var(--navy-800);
-  border: 1.5px solid var(--navy-700);
+  border: 1.5px solid var(--color);
   border-radius: var(--r-estacion);
-  transition: transform var(--dur-rapida) var(--ease-out),
-              border-color var(--dur-rapida) var(--ease-out);
-}
-
-.estacion__cabecera {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
 }
 .estacion__burbuja {
   display: grid;
   place-items: center;
+  flex: none;
   width: 56px;
   height: 56px;
   border-radius: var(--r-burbuja);
+  background: var(--color);
   color: var(--navy-900);
 }
-.estacion--1 .estacion__burbuja { background: var(--celeste-400); }
-.estacion--2 .estacion__burbuja { background: var(--verde-400); }
-.estacion--3 .estacion__burbuja { background: var(--naranja-500); }
-.estacion--4 .estacion__burbuja { background: var(--blanco); }
-
-
-.estacion__overline { margin-bottom: 6px; }
-.estacion--1 .estacion__overline, .estacion--1 .estacion__pregunta { color: var(--celeste-400); }
-.estacion--2 .estacion__overline, .estacion--2 .estacion__pregunta { color: var(--verde-400); }
-.estacion--3 .estacion__overline, .estacion--3 .estacion__pregunta { color: var(--naranja-500); }
-.estacion--4 .estacion__overline, .estacion--4 .estacion__pregunta { color: var(--blanco); }
-
+.estacion__texto { min-width: 0; }
+.estacion__overline { margin-bottom: 6px; color: var(--color); }
 .estacion__titulo { margin-bottom: 8px; }
 .estacion__pregunta {
   margin-bottom: 10px;
@@ -881,58 +879,13 @@ button {
   line-height: var(--lh-pregunta);
   font-weight: 600;
   font-style: italic;
+  color: var(--color);
 }
 .estacion__desc {
   font-size: var(--t-card);
   line-height: var(--lh-card);
   color: var(--tinta-sobre-oscuro);
 }
-
-/* Modo enfoque (js/enfoque.js): tarjeta compacta con la descripción plegada.
-   Sin JS no existe .estaciones--compactas y las tarjetas se ven completas. */
-.estacion__boton {
-  display: block;
-  width: 100%;
-  padding: 0;
-  font: inherit;
-  line-height: inherit;
-  text-align: left;
-}
-/* botón estirado: su área táctil es la tarjeta entera, no solo el título;
-   el anillo de foco también va en la tarjeta */
-.estacion__boton::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-.estacion__tarjeta:has(.estacion__boton:focus-visible) {
-  outline: 3px solid var(--celeste-400);
-  outline-offset: 4px;
-}
-.estacion__tarjeta .estacion__boton:focus-visible { outline: none; }
-
-.estacion__detalle { display: grid; grid-template-rows: 1fr; }
-.estacion__detalle-interior { min-height: 0; overflow: hidden; }
-
-.estacion__invitacion { display: none; }
-
-.estaciones--compactas .estacion__tarjeta { min-height: var(--alto-compacto, 0px); }
-.estaciones--compactas .estacion__detalle { grid-template-rows: 0fr; }
-.estaciones--compactas .estacion--enfocada .estacion__detalle { grid-template-rows: 1fr; }
-.estaciones--compactas .estacion__invitacion {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: auto; /* al pie, aunque la tarjeta sea más alta que su contenido */
-  padding-top: 14px;
-  font-size: var(--t-small);
-  line-height: var(--lh-small);
-  font-weight: 800;
-  color: var(--color-estacion);
-}
-
-/* "Estás aquí": solo sobre el nodo del trazo horizontal */
-.estacion__aqui { display: none; }
 
 .ruta__cierre { margin-top: var(--e-40); text-align: center; }
 .ruta__cta { position: relative; }
@@ -1023,7 +976,7 @@ dialog.agenda {
   transform: scaleY(0);
   transform-origin: top;
 }
-/* el mismo cometa de la ruta: un punto celeste con brillo */
+/* el cometa: un punto celeste con brillo */
 .agenda__cometa {
   position: absolute;
   top: -6px;
@@ -1522,6 +1475,14 @@ dialog.agenda {
 
   .contador__caja { width: 104px; }
 
+  /* Ruta: el escenario deja de ir a sangre; el panel lleva el ícono a la izquierda */
+  .ruta__escenario { margin-inline: 0; }
+  .ruta__nodos { --nodo: 52px; gap: 56px; }
+  .ruta__nodo { font-size: 1.5rem; }
+  .ruta__paneles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .estacion { padding: 28px; }
+  .ruta--carrusel .estacion { flex-direction: row; align-items: flex-start; gap: 20px; }
+
   .aliados__lista { gap: 28px; }
   .aliado { width: 120px; height: 120px; }
 
@@ -1626,59 +1587,123 @@ dialog.agenda {
 
 /* ===========================================================
    Escritorio ancho · desde 1200px
-   La ruta pasa a trazo horizontal solo cuando las tarjetas
-   tienen ancho suficiente para leerse.
    =========================================================== */
 
 @media (min-width: 1200px) {
-  .ruta__trazo {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 34px;
-    width: 100%;
-    height: 96px;
-    transform: translateY(-50%);
-  }
-  .estaciones {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--e-24);
-    align-items: start; /* al abrirse una tarjeta, las demás no se estiran */
-  }
-  /* aire para "Estás aquí", que flota con su nodo, sin tocar el texto de arriba */
-  .ruta__mapa { margin-top: 72px; }
-  .estacion__aqui {
-    position: absolute;
-    bottom: calc(100% + 14px);
-    left: 50%;
-    translate: -50% 0; /* centra sin usar transform, que lo anima "aparecer" */
-    display: block;
-    padding: 5px 12px;
-    border-radius: var(--r-pastilla);
-    background: var(--blanco);
-    color: var(--navy-900);
-    font-size: 0.8125rem;
-    line-height: 1.3;
-    font-weight: 800;
-    white-space: nowrap;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
-    visibility: hidden;
-    pointer-events: none;
-  }
-  .estacion__aqui::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -6px;
-    border: 6px solid transparent;
-    border-top-color: var(--blanco);
-  }
-  .estacion { flex-direction: column; align-items: center; gap: 28px; }
-  .estacion__riel { display: none; }
-  .estacion__nodo { width: 68px; height: 68px; }
-  .estacion__nodo-circulo { box-shadow: 0 0 0 6px var(--navy-900); }
-  .estacion__nodo-num { font-size: 1.75rem; }
-  .estacion__tarjeta { width: 100%; padding: 28px; }
+  /* Ruta sin JS: las 4 estaciones en una fila */
+  .ruta__paneles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------------- Carrusel 3D (js/carrusel.js) ----------------
+   Port del CSS de CircularCarousel (React Bits), solo con lo que usa el
+   preset "cylinder". Se conservan los nombres de clase del original. */
+
+.circular-carousel {
+  --cc-fade: #000000;
+  --cc-radius: 12px;
+  --cc-inner: 0.4;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: none;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.circular-carousel[data-draggable] {
+  cursor: grab;
+}
+
+.circular-carousel[data-dragging] {
+  cursor: grabbing;
+}
+
+.circular-carousel__view {
+  position: absolute;
+  inset: 0;
+}
+
+.circular-carousel__stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.circular-carousel[data-ready] .circular-carousel__stage {
+  opacity: 1;
+}
+
+.circular-carousel__camera,
+.circular-carousel__ring,
+.circular-carousel__card {
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+.circular-carousel__camera {
+  position: relative;
+}
+
+.circular-carousel__ring,
+.circular-carousel__card {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.circular-carousel__tile {
+  position: absolute;
+  outline: 1px solid transparent;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.circular-carousel__frame {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.circular-carousel__photo {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Capa opcional sobre la foto (opción overlay): se corta en tiras igual que la foto. */
+.circular-carousel__overlay {
+  position: absolute;
+  pointer-events: none;
+}
+
+.circular-carousel__shade,
+.circular-carousel__inner {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.circular-carousel__shade {
+  background: var(--cc-fade);
+  opacity: var(--cc-depth, 0);
+}
+
+/* El revés de las tarjetas (cara interna del cilindro). El original usa negro fijo. */
+.circular-carousel__inner {
+  background: var(--cc-inner-color, #000000);
+  opacity: var(--cc-inner);
 }

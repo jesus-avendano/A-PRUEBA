@@ -11,7 +11,6 @@ import { iniciarPestanas } from './tabs.js';
 import { iniciarCielo } from './starfield.js';
 import { iniciarRuta } from './ruta.js';
 import { iniciarAliados } from './aliados.js';
-import { iniciarEnfoque } from './enfoque.js';
 import { openDialog } from './dialog.js';
 import { enlazar } from './enlaces.js';
 
@@ -25,9 +24,9 @@ iniciarVideos();
 iniciarCuentaRegresiva();
 iniciarPestanas();
 iniciarCielo();
-iniciarEnfoque(iniciarRuta());
+const ruta = iniciarRuta(document.getElementById('ruta'));
 iniciarAliados();
-iniciarAgenda();
+iniciarAgenda({ ruta });
 conectarFoto();
 conectarCTAs();
 
