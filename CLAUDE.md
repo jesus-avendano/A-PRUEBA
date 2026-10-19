@@ -17,11 +17,13 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
   - v4 `docs/CAMBIOS-VIDEO-AGENDA.md`: video de fondo en Entradas y la agenda (que después se quitó, ver abajo).
   - v5 `docs/CAMBIOS-CARRUSEL-VIDEO.md`: carrusel 3D en la ruta, video del hero sin pixelado y Entradas sin leyenda.
   - **v6 `docs/CAMBIOS-PORTAL-FONDO.md` (la más alta):** el carrusel abre cada estación en un portal, fondo de
-    partículas en la ruta y arcos entre secciones oscuras y claras.
+    partículas en la ruta y arcos entre secciones oscuras y claras (los arcos se cambiaron después por líneas
+    rectas).
 - **Cambios del 18 de octubre** (mandan sobre todos los documentos, también la v6): el hero
   ya no tiene el pasaporte, ni la ola de colores en "futuro profesional", ni el cielo de estrellas con el
   planeta: pasa a pantalla completa con el video del campus de fondo y el texto centrado. Los videos de fondo
-  no tienen botón de pausa. Las secciones se funden entre sí en vez de cortarse en línea recta. Y **no hay
+  no tienen botón de pausa. Las secciones se funden entre sí en vez de cortarse en línea recta, **salvo de la
+  ruta a Ubicación y de Aliados al pie, que cortan en línea recta** (ni degradado ni arco). Y **no hay
   agenda**: "Quiero vivir la ruta" baja a Entradas como los otros CTA. La v6 se escribió suponiendo que la agenda
   seguía (habla de pausar el video "con la agenda abierta" y de conservar `starfield.js` para ella): eso no
   aplica. El detalle está en las decisiones de abajo.
@@ -69,7 +71,8 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
   del fondo de la ruta no dé tirones en Safari. WebKit en la Mac no puede simular el arrastre del dedo.
 - **Datos de `docs/PROYECTO.md` (sección 8):** Luma (URL, IDs y el snippet del script donde dice
   `<!-- LUMA SCRIPT -->`), WhatsApp, redes, legales, el embed oficial del mapa (el actual es
-  provisional), el texto real de cada aliado (hoy es lorem ipsum en `CONFIG.aliados`) y el favicon oficial.
+  provisional), el texto real de cada aliado (hoy es lorem ipsum en `CONFIG.aliados`; sus Instagram ya están,
+  faltan TikTok, Facebook y web si los tienen) y el favicon oficial.
 - **El dominio:** con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url`
   (está anotado en el `<head>`).
 - **El video del campus en 1080p.** El de hoy es un 360p de YouTube estirado: ya no se pixela, pero nunca se va
@@ -179,12 +182,12 @@ Decisiones que conviene no deshacer sin querer:
   los velos solo llegan al 90% en el borde que comparten, y cada video se desvanece ahí con
   `mask-image`, así las dos imágenes se cruzan sin franja oscura ni línea recta. Abajo, Entradas sí termina en
   navy puro, para fundirse con el contador.
-  **Entre una sección oscura y una clara, un arco** (v6): un degradado entre navy y blanco pasa por un gris de
-  neblina. En Ruta → Ubicación y Aliados → Pie, la sección de abajo sube como un horizonte: un `::before` de
-  `--arco` de alto (28 a 56px) justo encima de ella, con un degradado elíptico (ancho 150% de la franja, sube
-  `--arco` en el medio y toca el borde a los costados). **No con un pseudo-elemento más ancho que la pantalla y
-  `border-radius`:** da scroll horizontal. **Si cambia el orden o el color de una sección, hay que revisar las
-  uniones de sus vecinas.**
+  **Entre una sección oscura y una clara, una línea recta** (18 oct): en Ruta → Ubicación y
+  Aliados → Pie. Un degradado entre navy y blanco pasa por un gris de neblina, y la v6 lo había cambiado por un
+  arco (un degradado elíptico en un `::before` encima de la sección), que también se descartó. Si alguna
+  vez vuelve el arco: está en el commit `52b7a4b`, y **no con un pseudo-elemento más ancho que la pantalla y
+  `border-radius`**, que da scroll horizontal. **Si cambia el orden o el color de una sección, hay que revisar
+  las uniones de sus vecinas.**
 - **Sin agenda (18 oct):** se quitó la agenda a pantalla completa (v4) con su JS, su CSS, la variante de
   `dialog.js` y `CONFIG.agenda`. "Quiero vivir la ruta" baja a Entradas y los boletos saludan, como los otros CTA.
   Está en `PROYECTO.md` con "No volver a ponerla".
@@ -273,7 +276,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 ├── index.html
 ├── favicon.svg
 ├── css/
-│   ├── tokens.css      variables: color, tipografía, espacios, radios, sombras, movimiento, --fundido, --arco
+│   ├── tokens.css      variables: color, tipografía, espacios, radios, sombras, movimiento, --fundido
 │   ├── styles.css      base, layout, componentes y secciones (al final, el CSS del carrusel)
 │   └── motion.css      keyframes, estados de animación y prefers-reduced-motion
 ├── js/
@@ -390,7 +393,7 @@ Interpola entre escritorio y móvil con `clamp()`.
 
 - **Contenedor:** máximo 1200px. El margen lateral es 120px en 1440 y 20px en móvil, con `clamp(20px, 8vw, 120px)`.
 - **Padding vertical de secciones:** 112px en escritorio y 64px en móvil.
-- **Uniones entre secciones:** `--fundido` (48 a 88px, el degradado) y `--arco` (28 a 56px, el arco).
+- **Uniones entre secciones:** `--fundido` (48 a 88px, el degradado entre secciones de tono parecido); entre oscuro y claro, línea recta.
 - **Radios:**
   - Botones y chips de pastilla: 999px
   - Tarjetas de entrada, diálogos y el portal: 28px
@@ -558,7 +561,7 @@ vuelve al boleto.
 ### 5. Ubicación (`#ubicacion`)
 
 > **Actualizado:** desde la v3 la dirección va en cuatro líneas (con la referencia) y hay una foto de la sede
-> tipo polaroid que se abre en grande. Ver `docs/CAMBIOS-RUTA-HERO.md`. Desde la v6 sube sobre la ruta con un arco.
+> tipo polaroid que se abre en grande. Ver `docs/CAMBIOS-RUTA-HERO.md`. Arriba corta con la ruta en línea recta.
 
 - **Fondo y encabezado:** fondo blanco. Overline "Cómo llegar" en `--verde-600` y h2 "¿Dónde nos vemos?".
 - **Pestañas:** pastilla `--nube-50` con borde `--linea` y dos pestañas: "Presencial" (pin) y "Virtual" (video). La activa va en navy con texto blanco.
@@ -597,7 +600,7 @@ vuelve al boleto.
 
 ### 7. Footer (`#contacto`)
 
-- **Fondo:** `--navy-900`; sube sobre Aliados con un arco (v6). Escritorio: 3 columnas; móvil: apiladas.
+- **Fondo:** `--navy-900`; arriba corta con Aliados en línea recta. Escritorio: 3 columnas; móvil: apiladas.
 - **Marca:** logo de 196px y "Descubre tu potencial antes de elegir tu camino."
 - **Contacto:**
   - Overline "Dudas e informes".

@@ -44,6 +44,7 @@ export const CONFIG = {
   legal: { privacidadUrl: '', terminosUrl: '' },
 
   // Panel de cada aliado (docs/CAMBIOS-INTERACCION.md §2).
+  // Instagram: los del 18 oct, sin los parámetros de rastreo.
   // PENDIENTE: descripcion y queOfrece son texto de relleno, igual en los seis.
   // Reemplazar con el texto real de cada aliado; nunca inventar datos.
   // Una red vacía se muestra deshabilitada con el texto "Próximamente".
@@ -52,37 +53,37 @@ export const CONFIG = {
       nombre: 'Face to Face',
       descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
       queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+      redes: { instagram: 'https://www.instagram.com/somosfacetoface', tiktok: '', facebook: '', web: '' },
     },
     'lead-ucsur': {
       nombre: 'LEAD UCSUR',
       descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
       queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+      redes: { instagram: 'https://www.instagram.com/lead_cientifica', tiktok: '', facebook: '', web: '' },
     },
     'bell': {
       nombre: 'BELL',
       descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
       queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+      redes: { instagram: 'https://www.instagram.com/comunidad.bell', tiktok: '', facebook: '', web: '' },
     },
     'red-astrum': {
       nombre: 'Red Astrum',
       descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
       queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+      redes: { instagram: 'https://www.instagram.com/red_astrum', tiktok: '', facebook: '', web: '' },
     },
     'club-tecnologia-electronica': {
       nombre: 'Club de Tecnología y Electrónica',
       descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
       queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+      redes: { instagram: 'https://www.instagram.com/clubtecnologia_ucsur', tiktok: '', facebook: '', web: '' },
     },
     'legado-stemos': {
       nombre: 'Legado STEMos',
       descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
       queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: '', tiktok: '', facebook: '', web: '' },
+      redes: { instagram: 'https://www.instagram.com/legado_stemos', tiktok: '', facebook: '', web: '' },
     },
   },
 };

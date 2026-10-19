@@ -225,7 +225,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - [ ] Lista de carreras para el desplegable del registro
 - [x] Imagen para compartir provisional (`assets/og/og-image.png`, 1200×630), hecha con el logo y los textos de la página. Reemplazarla si llega una oficial
 - [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
-- [ ] Texto real de cada aliado (descripción y qué ofrece) y sus redes: hoy es texto de relleno en `CONFIG.aliados`
+- [ ] Texto real de cada aliado (descripción y qué ofrece): hoy es texto de relleno en `CONFIG.aliados`. Los Instagram de los seis ya están (18 oct); faltan TikTok, Facebook y web, si los tienen
 - [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting? Con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url` (WhatsApp y Facebook las piden)
 
 ## 9. Decisiones tomadas
@@ -239,6 +239,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - **Video del auditorio de fondo en Entradas:** con un velo azul marino. Se carga al acercarse a la sección y se pausa fuera de pantalla; con movimiento reducido o ahorro de datos queda solo la imagen fija.
 - **Hero con el video del campus de fondo (18 de octubre):** a pantalla completa y con el texto centrado; sin el pasaporte, las estrellas ni el planeta.
 - **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
+- **Uniones rectas entre lo oscuro y lo claro (18 de octubre):** de la ruta a Ubicación y de Aliados al pie, el cambio de sección es una línea recta (ni degradado ni arco). Las demás uniones siguen con su fundido.
 - **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp:** fuera de alcance por ahora.

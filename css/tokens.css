@@ -86,7 +86,6 @@
   --e-32: 32px;
   --e-40: 40px;
   --fundido: clamp(48px, 6vw, 88px); /* degradado entre secciones vecinas */
-  --arco: clamp(28px, 4vw, 56px);    /* alto del arco entre una sección oscura y una clara */
 
   /* ---------- Radios ---------- */
   --r-pastilla: 999px;
