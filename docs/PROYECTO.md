@@ -94,6 +94,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - Overline: **Inscripción gratuita**
 - Título: **¡Asegura tu Pasaporte Vocacional!** / **Es gratis**
 - Bajada: Elige cómo vivir A+PRUEBA el 17 de noviembre. Los cupos presenciales son limitados.
+- Sin leyenda sobre el video de fondo: "Así es el Auditorio Norte" se quitó (18 oct). No volver a ponerla.
 - Botones flotantes:
 
 | | Presencial | Virtual |
