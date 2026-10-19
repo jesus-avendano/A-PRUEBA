@@ -608,11 +608,13 @@ export function crearCarrusel(root, opciones = {}) {
 
   const onKeyDown = event => {
     if (!o.label) return;
-    if (event.key === 'ArrowRight') paso(1);
-    else if (event.key === 'ArrowLeft') paso(-1);
-    else if (event.key === 'Enter' || event.key === ' ') o.onItemClick?.(items[active], active);
+    // announce va antes de paso(): con movimiento reducido, paso() pinta al instante
+    // y el cambio de tarjeta pasaría sin anunciarse
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      state.announce = true;
+      paso(event.key === 'ArrowRight' ? 1 : -1);
+    } else if (event.key === 'Enter' || event.key === ' ') o.onItemClick?.(items[active], active);
     else return;
-    if (event.key.startsWith('Arrow')) state.announce = true;
     event.preventDefault();
   };
 

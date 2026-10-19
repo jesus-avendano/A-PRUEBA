@@ -166,6 +166,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 | 3 | naranja | micrófono | Escucha y conecta | ¿Cómo es realmente estudiar y ejercer estas carreras? | Paneles en vivo con estudiantes y profesionales, sin filtros ni discursos armados. Descubre los mitos, las sorpresas, las dificultades reales y el impacto de la inteligencia artificial en cada profesión. |
 | 4 | blanco | diana | Valida y consolida | Después de todo lo vivido, ¿qué tan seguro estás? | Evalúa tu evolución antes y después del evento. Descubre si confirmas tu carrera, encuentras una nueva vocación o decides explorar más. ¡Conecta directo con organizaciones que potenciarán tu futuro! |
 
+- Pista debajo del carrusel (texto propuesto en `CAMBIOS-PORTAL-FONDO.md`; falta aprobarlo): **Toca una foto para descubrir cada estación**
 - Botón: **Quiero vivir la ruta**
 
 ### 5. Ubicación

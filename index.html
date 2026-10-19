@@ -272,20 +272,15 @@
       <p class="lead lead--sobre-oscuro">Una mañana, cuatro paradas. Al final sabrás qué tan seguro estás de tu elección.</p>
     </header>
 
-    <!-- Carrusel 3D de fotos (js/carrusel.js, lo arma js/ruta.js). Va en un hijo del
-         escenario: .circular-carousel lleva width: 100% y le pisaría el ancho a sangre. -->
+    <!-- Carrusel 3D de fotos (js/carrusel.js, lo arma js/ruta.js): cada foto abre su estación
+         en el portal (#dialogo-estacion). Va en un hijo del escenario: .circular-carousel lleva
+         width: 100% y le pisaría el ancho a sangre. -->
     <div class="ruta__escenario" hidden><div data-carrusel></div></div>
+    <p class="ruta__pista small">Toca una foto para descubrir cada estación</p>
 
-    <!-- Sin JS: las 4 estaciones en grilla. Con JS: las pestañas eligen cuál se ve. -->
-    <div class="ruta__control">
-      <div class="ruta__nodos" role="tablist" aria-label="Estaciones de la ruta" hidden>
-        <button class="ruta__nodo ruta__nodo--1" type="button" role="tab" id="tab-estacion-1" aria-controls="estacion-1" aria-selected="true" aria-label="Estación 1: Conócete">1</button>
-        <button class="ruta__nodo ruta__nodo--2" type="button" role="tab" id="tab-estacion-2" aria-controls="estacion-2" aria-selected="false" tabindex="-1" aria-label="Estación 2: Experimenta">2</button>
-        <button class="ruta__nodo ruta__nodo--3" type="button" role="tab" id="tab-estacion-3" aria-controls="estacion-3" aria-selected="false" tabindex="-1" aria-label="Estación 3: Escucha y conecta">3</button>
-        <button class="ruta__nodo ruta__nodo--4" type="button" role="tab" id="tab-estacion-4" aria-controls="estacion-4" aria-selected="false" tabindex="-1" aria-label="Estación 4: Valida y consolida">4</button>
-      </div>
-      <div class="ruta__paneles">
-        <article class="estacion estacion--1 estacion--activa" id="estacion-1" data-foto="assets/img/ruta/conocete.webp">
+    <!-- Sin JS: las 4 estaciones en grilla. Con JS no se ven: el portal copia su contenido. -->
+    <div class="ruta__estaciones">
+        <article class="estacion estacion--1" data-foto="assets/img/ruta/conocete.webp">
           <span class="estacion__burbuja">
             <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
           </span>
@@ -297,7 +292,7 @@
           </div>
         </article>
 
-        <article class="estacion estacion--2" id="estacion-2" data-foto="assets/img/ruta/experimenta.webp">
+        <article class="estacion estacion--2" data-foto="assets/img/ruta/experimenta.webp">
           <span class="estacion__burbuja">
             <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>
           </span>
@@ -309,7 +304,7 @@
           </div>
         </article>
 
-        <article class="estacion estacion--3" id="estacion-3" data-foto="assets/img/ruta/escucha.webp">
+        <article class="estacion estacion--3" data-foto="assets/img/ruta/escucha.webp">
           <span class="estacion__burbuja">
             <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
           </span>
@@ -321,7 +316,7 @@
           </div>
         </article>
 
-        <article class="estacion estacion--4" id="estacion-4" data-foto="assets/img/ruta/valida.webp">
+        <article class="estacion estacion--4" data-foto="assets/img/ruta/valida.webp">
           <span class="estacion__burbuja">
             <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
           </span>
@@ -332,7 +327,6 @@
             <p class="estacion__desc">Evalúa tu evolución antes y después del evento. Descubre si confirmas tu carrera, encuentras una nueva vocación o decides explorar más. ¡Conecta directo con organizaciones que potenciarán tu futuro!</p>
           </div>
         </article>
-      </div>
     </div>
 
     <div class="ruta__cierre">
@@ -341,6 +335,18 @@
         Quiero vivir la ruta
       </a>
     </div>
+
+    <!-- Portal de estación (js/dialog.js, variante "estacion"): crece desde la foto del
+         carrusel. js/ruta.js copia aquí el contenido de la estación elegida. -->
+    <dialog class="dialogo portal" id="dialogo-estacion" aria-labelledby="portal-titulo">
+      <div class="dialogo__caja portal__caja">
+        <img class="portal__foto" src="assets/img/ruta/conocete.webp" alt="" width="560" height="560" loading="lazy" decoding="async">
+        <div class="portal__contenido"></div>
+        <button class="dialogo__cerrar portal__cerrar" type="button" data-cerrar-dialogo aria-label="Cerrar">
+          <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+    </dialog>
   </div>
 </section>
 

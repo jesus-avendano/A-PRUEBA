@@ -1,4 +1,5 @@
-/* Sistema de diálogos compartido: entradas, aliados y foto de la sede.
+/* Sistema de diálogos compartido: entradas, estaciones de la ruta, aliados y
+   foto de la sede.
 
    Usa <dialog> nativo con showModal(): el navegador ya pone el foco
    atrapado, el cierre con Esc, el fondo inerte y aria-modal. Este módulo
@@ -7,13 +8,15 @@
 
    Variantes:
    - ticket   centrado; se abre desde el boleto de origen (FLIP)
+   - estacion el portal de la ruta: crece desde la foto del carrusel
    - aliado   panel lateral en escritorio, hoja inferior en móvil
    Cualquier otra entra centrada con fundido y subida. */
 
 const EASE_OUT = 'cubic-bezier(.22, 1, .36, 1)';
 const EASE_SPRING = 'cubic-bezier(.34, 1.56, .64, 1)';
+const PORTAL = 480; // lo que tarda el portal de una estación en crecer desde su foto
 
-let actual = null; // el diálogo abierto: { dialogo, caja, origen, variante, alCerrar, cerrando }
+let actual = null; // el diálogo abierto: { dialogo, caja, origen, variante, rect, alCerrar, cerrando }
 let bloqueos = 0;
 
 const reducido = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -49,11 +52,12 @@ export function liberarScroll() {
  * @param {object} o
  * @param {string} o.id        id del <dialog>
  * @param {Element} [o.origin] quien lo abrió; recibe el foco al cerrar
- * @param {'ticket'|'aliado'|'foto'} [o.variant]
+ * @param {'ticket'|'estacion'|'aliado'|'foto'} [o.variant]
  * @param {Element} [o.focus]  a dónde va el foco al abrir (por defecto, [data-foco-inicial] visible o la ✕)
+ * @param {Function} [o.rect]  variante estacion: devuelve el rectángulo en pantalla de la foto de origen
  * @param {Function} [o.onClose]
  */
-export function openDialog({ id, origin = null, variant = 'ticket', focus = null, onClose = null } = {}) {
+export function openDialog({ id, origin = null, variant = 'ticket', focus = null, rect = null, onClose = null } = {}) {
   const dialogo = document.getElementById(id);
   if (!dialogo) return Promise.resolve();
   if (actual) cerrarSinAnimar(actual);
@@ -63,7 +67,7 @@ export function openDialog({ id, origin = null, variant = 'ticket', focus = null
   const rectOrigen = variant === 'ticket' && origin ? origin.getBoundingClientRect() : null;
 
   actual = {
-    dialogo, caja, origen: origin, variante: variant, alCerrar: onClose,
+    dialogo, caja, origen: origin, variante: variant, rect, alCerrar: onClose,
     flip: Boolean(rectOrigen), cerrando: false,
   };
   dialogo.classList.remove('dialogo--cerrando');
@@ -154,6 +158,7 @@ function cerrarSinAnimar(a) {
 function animarEntrada(a, rectOrigen) {
   const { caja, variante } = a;
 
+  if (variante === 'estacion') return entrarEstacion(a);
 
   if (reducido()) {
     return terminada(caja.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: 'linear' }));
@@ -198,6 +203,7 @@ function entrarDesdeOrigen(a, rectOrigen) {
 function animarSalida(a) {
   const { caja, variante, origen } = a;
 
+  if (variante === 'estacion') return salirEstacion(a);
 
   if (reducido()) {
     return terminada(caja.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' }));
@@ -228,6 +234,60 @@ function animarSalida(a) {
     [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(16px) scale(.98)' }],
     { duration: 250, easing: EASE_OUT, fill: 'forwards' },
   ));
+}
+
+/* Estación: no se usa el FLIP de los boletos, que escala distinto a lo ancho
+   y a lo alto y estiraría la foto cuadrada hasta la forma de la caja. La caja
+   arranca con una escala uniforme que calza su foto sobre la tarjeta del
+   carrusel, recortada a esa foto (clip-path), y crece hasta su lugar: parece
+   que la foto se suelta del carrusel y el panel se despliega desde ella. El
+   texto aparece a mitad de camino. Al cerrar, el mismo camino al revés (la
+   tarjeta sigue al frente: el carrusel queda suspendido mientras tanto).
+   Con movimiento reducido abre y cierra sin animación. */
+const SUELTO = { transform: 'translate(0px, 0px) scale(1)', clipPath: 'inset(0px 0px 0px 0px round 28px)' };
+
+function entrarEstacion(a) {
+  if (reducido() || !a.rect) return Promise.resolve();
+  const { caja } = a;
+  const crecer = caja.animate([pegado(caja, a.rect()), SUELTO], { duration: PORTAL, easing: EASE_OUT });
+  const texto = caja.querySelector('.portal__contenido').animate(
+    [{ opacity: 0 }, { opacity: 1 }],
+    { duration: 220, delay: PORTAL * 0.55, easing: 'ease-out', fill: 'backwards' },
+  );
+  return Promise.all([terminada(crecer), terminada(texto)]);
+}
+
+function salirEstacion(a) {
+  const { caja } = a;
+  if (reducido()) return Promise.resolve();
+  // sin el origen, o con la caja desplazada (celular), la foto ya no calza: sale con fundido
+  if (!a.rect || caja.scrollTop > 0) {
+    return terminada(caja.animate(
+      [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(16px) scale(.98)' }],
+      { duration: 250, easing: EASE_OUT, fill: 'forwards' },
+    ));
+  }
+  caja.querySelector('.portal__contenido').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+  return terminada(caja.animate([SUELTO, pegado(caja, a.rect())], { duration: PORTAL * 0.8, easing: EASE_OUT, fill: 'forwards' }));
+}
+
+/** El estado "pegado a la tarjeta" de la caja del portal para el rect `r` de
+    la tarjeta: transform uniforme y clip-path a su foto. Si la foto del portal
+    no es del todo cuadrada, calza su cuadrado central. */
+function pegado(caja, r) {
+  const foto = caja.querySelector('.portal__foto');
+  const c = caja.getBoundingClientRect();
+  const f = foto.getBoundingClientRect();
+  const lado = Math.min(f.width, f.height);
+  const s = r.width / lado;
+  const fx = f.left - c.left + (f.width - lado) / 2;
+  const fy = f.top - c.top + (f.height - lado) / 2;
+  const tx = r.left - (c.left + fx * s);
+  const ty = r.top - (c.top + fy * s);
+  return {
+    transform: `translate(${tx}px, ${ty}px) scale(${s})`,
+    clipPath: `inset(${fy}px ${c.width - fx - lado}px ${c.height - fy - lado}px ${fx}px round ${12 / s}px)`,
+  };
 }
 
 /** El transform que lleva la caja `hasta` a ocupar el rect `desde`. */

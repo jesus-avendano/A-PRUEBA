@@ -9,9 +9,11 @@
      (Entradas), cuando la sección está a 300px de la pantalla.
    - Fuera de pantalla o con la pestaña oculta se pausan; al volver siguen.
    - Con movimiento reducido o ahorro de datos no se cargan: queda el poster.
-   - No tienen botón de pausa (ver CLAUDE.md). */
+   - No tienen botón de pausa (ver CLAUDE.md).
+   suspenderVideo() los detiene mientras el portal de una estación los tapa. */
 
 const videos = [];
+let suspendidos = false;
 
 export function iniciarVideos() {
   const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -20,6 +22,12 @@ export function iniciarVideos() {
 
   document.querySelectorAll('video[data-fondo]').forEach((video) => videos.push(new VideoDeFondo(video)));
   document.addEventListener('visibilitychange', () => videos.forEach((v) => v.actualizar()));
+}
+
+/** Detiene los videos mientras otra vista los tapa, y los retoma al terminar. */
+export function suspenderVideo(suspender) {
+  suspendidos = suspender;
+  videos.forEach((v) => v.actualizar());
 }
 
 class VideoDeFondo {
@@ -63,7 +71,7 @@ class VideoDeFondo {
   actualizar() {
     const { video } = this;
     if (!this.cargado) return;
-    const reproducir = this.enPantalla && !document.hidden;
+    const reproducir = this.enPantalla && !document.hidden && !suspendidos;
     if (reproducir && video.paused) {
       // sin permiso para reproducir solo (iOS en ahorro de energía) queda el poster
       const promesa = video.play();

@@ -115,43 +115,15 @@
 .boleto { animation: flotar 4s ease-in-out infinite; }
 .boleto--virtual { animation-delay: 2s; }
 
-/* --- La ruta: las pestañas y el panel de la estación (js/ruta.js) ---
-   La pestaña elegida crece y late; el panel cambia con un fundido. Las
-   pestañas no flotan: son controles. */
-.ruta__nodo {
-  transition: transform var(--dur-rapida) var(--ease-spring),
-              box-shadow var(--dur-rapida) var(--ease-out);
-}
-.ruta__nodo[aria-selected="true"] { animation: latido 500ms var(--ease-spring); }
-@media (hover: hover) and (pointer: fine) {
-  .ruta__nodo[aria-selected="false"]:hover { transform: scale(.9); }
-}
-/* el que entra es visible (y enfocable) de inmediato; el que sale se
-   oculta recién al terminar su fundido */
-.ruta--carrusel .estacion {
-  transition: opacity 300ms var(--ease-out),
-              transform 300ms var(--ease-out),
-              visibility 0s;
-}
-.ruta--carrusel .estacion:not(.estacion--activa) {
-  transition: opacity 300ms var(--ease-out),
-              transform 300ms var(--ease-out),
-              visibility 0s linear 300ms;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .boleto,
-  .boleto--virtual,
-  .ruta__nodo[aria-selected="true"] {
+  .boleto--virtual {
     animation: none;
   }
   .boleto__interior,
   .aliado,
   .red,
   .red-aliado__circulo,
-  .ruta__nodo,
-  .ruta--carrusel .estacion,
-  .ruta--carrusel .estacion:not(.estacion--activa),
   .circular-carousel__stage {
     transition: none;
   }
@@ -163,8 +135,6 @@
     --escala: 1;
     animation: none;
   }
-  .ruta__nodo[aria-selected="false"]:hover { transform: scale(.82); }
-  .ruta--carrusel .estacion:not(.estacion--activa) { transform: none; }
 }
 
 /* ===========================================================
