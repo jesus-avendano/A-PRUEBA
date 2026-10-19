@@ -691,6 +691,7 @@ button {
   margin-top: var(--e-32);
 }
 
+/* overflow: lo que asoma del rodillo por arriba no sale de la caja blanca */
 .contador__caja {
   display: flex;
   flex-direction: column;
@@ -698,6 +699,7 @@ button {
   gap: 2px;
   width: 76px;
   padding: 10px 4px 12px;
+  overflow: hidden;
   background: var(--blanco);
   border-radius: var(--r-contador);
   box-shadow: var(--sombra-contador);
@@ -709,6 +711,9 @@ button {
   font-weight: 700;
   color: var(--navy-900);
   font-variant-numeric: tabular-nums;
+  /* el rodillo asoma .3em arriba y abajo mientras rueda (su fundido):
+     así la unidad queda fuera */
+  margin-bottom: .3em;
 }
 .contador__unidad {
   font-size: var(--t-overline);
@@ -1499,4 +1504,62 @@ button {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* ---------------- Rodillo (js/rodillo.js) ----------------
+   Los dígitos de la cuenta regresiva ruedan. Port del CSS de Counter
+   (React Bits), solo lo que se usa. */
+.rodillo {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  line-height: 1;
+  white-space: nowrap;
+  direction: ltr;
+  unicode-bidi: isolate;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.rodillo__digito {
+  position: relative;
+  display: inline-block;
+  width: var(--rodillo-ancho, auto);
+  line-height: 1;
+  text-align: center;
+}
+
+.rodillo__medida {
+  visibility: hidden;
+}
+
+.rodillo__ventana {
+  position: absolute;
+  top: calc(var(--rodillo-fade, 0em) * -1);
+  right: 0;
+  bottom: calc(var(--rodillo-fade, 0em) * -1);
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rodillo__tira {
+  position: absolute;
+  inset: 0;
+}
+
+.rodillo__numeral {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.rodillo__blur {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }

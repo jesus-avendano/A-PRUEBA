@@ -1,6 +1,11 @@
-/* Cuenta regresiva hasta el inicio del evento. */
+/* Cuenta regresiva hasta el inicio del evento. Los números ruedan como un
+   odómetro (js/rodillo.js, Counter de React Bits): un rodillo por caja,
+   creado con el valor del primer tic. Las cajas y los rodillos son
+   aria-hidden; el número accesible es el texto aria-live, que cambia una vez
+   por minuto. */
 
 import { CONFIG } from './config.js';
+import { crearRodillo } from './rodillo.js';
 
 const MENSAJES = {
   durante: '¡Está pasando ahora!',
@@ -30,6 +35,7 @@ export function iniciarCuentaRegresiva() {
 
   let ultimoMinuto = null;
   let temporizador = null;
+  let rodillos = null; // { dias, horas, minutos, segundos }
 
   function pintar() {
     const ahora = Date.now();
@@ -50,10 +56,18 @@ export function iniciarCuentaRegresiva() {
     const minutos = Math.floor((segundos % 3600) / 60);
     const segs = segundos % 60;
 
-    if (numeros.dias) numeros.dias.textContent = dos(dias);
-    if (numeros.horas) numeros.horas.textContent = dos(horas);
-    if (numeros.minutos) numeros.minutos.textContent = dos(minutos);
-    if (numeros.segundos) numeros.segundos.textContent = dos(segs);
+    const valores = { dias, horas, minutos, segundos: segs };
+    if (!rodillos) {
+      rodillos = {};
+      Object.entries(valores).forEach(([unidad, valor]) => {
+        if (!numeros[unidad]) return;
+        // los días pueden pasar de 99; el resto, nunca
+        const digitos = unidad === 'dias' ? Math.max(2, String(valor).length) : 2;
+        rodillos[unidad] = crearRodillo(numeros[unidad], { digitos, valor });
+      });
+    } else {
+      Object.entries(valores).forEach(([unidad, valor]) => rodillos[unidad]?.fijar(valor));
+    }
 
     // el texto para lectores de pantalla cambia una vez por minuto, no cada segundo
     if (aria && minutos !== ultimoMinuto) {
@@ -65,6 +79,8 @@ export function iniciarCuentaRegresiva() {
   }
 
   function terminar(texto) {
+    if (rodillos) Object.values(rodillos).forEach((r) => r.destruir());
+    rodillos = null;
     cajas.hidden = true;
     separadores.forEach((s) => { s.hidden = true; });
     mensaje.hidden = false;
@@ -83,5 +99,4 @@ export function iniciarCuentaRegresiva() {
   });
 }
 
-const dos = (n) => String(n).padStart(2, '0');
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
