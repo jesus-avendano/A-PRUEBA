@@ -222,8 +222,6 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - [ ] Texto de consentimiento de datos y autorización del apoderado (lo valida UCSUR)
 - [ ] URLs de política de privacidad y términos
 - [ ] Lista de carreras para el desplegable del registro
-- [ ] Horario de la agenda (llegada, cada estación y cierre) y lugar de cada estación. Van en `CONFIG.agenda` (`hora` y `lugar`); mientras estén vacíos no se muestran
-- [ ] Qué pasa en el cierre (hoy la agenda dice "[POR CONFIRMAR]")
 - [x] Imagen para compartir provisional (`assets/og/og-image.png`, 1200×630), hecha con el logo y los textos de la página. Reemplazarla si llega una oficial
 - [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
 - [ ] Texto real de cada aliado (descripción y qué ofrece) y sus redes: hoy es texto de relleno en `CONFIG.aliados`
@@ -240,6 +238,6 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - **Video del auditorio de fondo en Entradas:** con un velo azul marino. Se carga al acercarse a la sección, se pausa fuera de pantalla y tiene botón de pausa; con movimiento reducido o ahorro de datos queda solo la imagen fija.
 - **Hero con el video del campus de fondo (18 de octubre):** a pantalla completa y con el texto centrado; sin el pasaporte, las estrellas ni el planeta.
 - **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
-- **El botón "Quiero vivir la ruta" abre la agenda a pantalla completa:** ya no baja a Entradas. La agenda muestra la mañana de la llegada al cierre, y su botón final lleva a las entradas.
+- **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp:** fuera de alcance por ahora.

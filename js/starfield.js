@@ -1,8 +1,7 @@
-/* Cielo de estrellas en <canvas>, detrás de la ruta y de la agenda (el hero
-   ya no lo tiene: desde el 18 oct lleva el video del campus).
-   Se pausa cuando no está en pantalla o la pestaña está oculta, y cuando
-   otra vista lo tapa (suspenderCielos). Con movimiento reducido se dibuja
-   una sola vez, quieto. */
+/* Cielo de estrellas en <canvas>, detrás de la ruta (el hero ya no lo
+   tiene: desde el 18 oct lleva el video del campus).
+   Se pausa cuando no está en pantalla o la pestaña está oculta. Con
+   movimiento reducido se dibuja una sola vez, quieto. */
 
 const MAX_ESCRITORIO = 140;
 const MAX_MOVIL = 60;
@@ -13,24 +12,8 @@ const CAPAS = [
   { velocidad: 1.0,  radio: [1.2, 2.0] },
 ];
 
-const todos = [];
-
 export function iniciarCielo(selector = '.cielo') {
-  const lienzos = [...document.querySelectorAll(selector)];
-  const nuevos = lienzos.map((lienzo) => new Cielo(lienzo)).filter((cielo) => cielo.ctx);
-  todos.push(...nuevos);
-  return nuevos;
-}
-
-/** Pausa (o reanuda) todos los cielos salvo los de `excepto`: p. ej., los de
-    la página mientras la agenda los tapa. El IntersectionObserver no se entera
-    de que algo los tapa, por eso hay que pedirlo. */
-export function suspenderCielos(suspender, excepto = []) {
-  todos.forEach((cielo) => {
-    if (excepto.includes(cielo)) return;
-    cielo.suspendido = suspender;
-    cielo.revisar();
-  });
+  document.querySelectorAll(selector).forEach((lienzo) => new Cielo(lienzo));
 }
 
 class Cielo {
@@ -41,7 +24,6 @@ class Cielo {
 
     this.estrellas = [];
     this.visible = false;
-    this.suspendido = false;
     this.animando = false;
     this.ultimo = 0;
     this.quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -113,7 +95,7 @@ class Cielo {
   }
 
   revisar() {
-    const debe = this.visible && !this.suspendido && !document.hidden && !this.quieto.matches;
+    const debe = this.visible && !document.hidden && !this.quieto.matches;
     if (debe && !this.animando) {
       this.animando = true;
       this.ultimo = performance.now();

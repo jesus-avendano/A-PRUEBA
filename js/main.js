@@ -5,7 +5,6 @@ import { iniciarNav, irA } from './nav.js';
 import { iniciarHero } from './hero.js';
 import { iniciarEntradas, saludar } from './entradas.js';
 import { iniciarVideos } from './video.js';
-import { iniciarAgenda, abrirAgenda } from './agenda.js';
 import { iniciarCuentaRegresiva } from './countdown.js';
 import { iniciarPestanas } from './tabs.js';
 import { iniciarCielo } from './starfield.js';
@@ -24,9 +23,8 @@ iniciarVideos();
 iniciarCuentaRegresiva();
 iniciarPestanas();
 iniciarCielo();
-const ruta = iniciarRuta(document.getElementById('ruta'));
+iniciarRuta(document.getElementById('ruta'));
 iniciarAliados();
-iniciarAgenda({ ruta });
 conectarFoto();
 conectarCTAs();
 
@@ -105,8 +103,7 @@ function deshabilitarEnlace(el) {
 }
 
 /* ---------------------------------------------------------
-   CTAs: los genéricos bajan a #entradas y saludan;
-   "Quiero vivir la ruta" abre la agenda
+   CTAs: bajan a #entradas y los boletos saludan
    --------------------------------------------------------- */
 function conectarCTAs() {
   const entradas = document.getElementById('entradas');
@@ -141,14 +138,6 @@ function conectarCTAs() {
       });
     });
   }
-
-  // "Quiero vivir la ruta" ya no baja: late y abre la agenda (CAMBIOS-VIDEO-AGENDA §2)
-  document.querySelectorAll('[data-abrir-agenda]').forEach((cta) => {
-    cta.addEventListener('click', () => {
-      if (cta.classList.contains('late')) return; // ya va a abrirse
-      latirY(cta, () => abrirAgenda(cta));
-    });
-  });
 }
 
 /* ---------------------------------------------------------

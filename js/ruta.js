@@ -11,8 +11,7 @@
      ella y apaga el giro automático hasta que la sección sale de pantalla.
    - Desde 768px cada foto va dos veces y a la mitad de velocidad: con 4
      tarjetas el cilindro parece una caja chica. Al cruzar ese ancho se
-     rearma, en la misma estación.
-   Devuelve { suspender } para la agenda, que tapa la página. */
+     rearma, en la misma estación. */
 
 // Los valores ajustados en el configurador de React Bits. Solo cambia fadeColor;
 // la velocidad y la cantidad de tarjetas van en ANILLO.
@@ -45,12 +44,12 @@ const ANILLO = {
 };
 
 export function iniciarRuta(seccion) {
-  if (!seccion) return null;
+  if (!seccion) return;
   const tabs = [...seccion.querySelectorAll('[role="tab"]')];
   const paneles = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
   const escenario = seccion.querySelector('[data-carrusel]');
   const control = seccion.querySelector('.ruta__control');
-  if (!tabs.length || paneles.some((panel) => !panel) || !escenario || !control) return null;
+  if (!tabs.length || paneles.some((panel) => !panel) || !escenario || !control) return;
 
   const N = paneles.length;
   const ancho = window.matchMedia('(min-width: 768px)');
@@ -59,7 +58,6 @@ export function iniciarRuta(seccion) {
   let rep = 1;
   let actual = 0;
   let elegida = false; // el usuario eligió una estación: el giro automático queda apagado
-  let suspendida = false;
 
   // sin JS son una grilla; con JS, los paneles de las pestañas
   seccion.classList.add('ruta--carrusel');
@@ -135,7 +133,6 @@ export function iniciarRuta(seccion) {
     });
     if (!carrusel) return;
     if (elegida) carrusel.girar(false);
-    if (suspendida) carrusel.suspender(true);
     if (control.matches(':hover')) carrusel.pausar('panel', true);
     if (control.querySelector(':focus-visible')) carrusel.pausar('foco', true);
   };
@@ -190,11 +187,4 @@ export function iniciarRuta(seccion) {
     if (carrusel) montar();
   });
 
-  return {
-    /** Con la agenda abierta encima, el carrusel deja de animar. */
-    suspender(activo) {
-      suspendida = Boolean(activo);
-      if (carrusel) carrusel.suspender(suspendida);
-    },
-  };
 }
