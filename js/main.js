@@ -62,19 +62,34 @@ function aplicarConfig() {
     else deshabilitarEnlace(el);
   });
 
-  // mapa embebido: mientras no haya embedUrl se queda la ilustración CSS
+  // mapa embebido: mientras no haya embedUrl se queda la ilustración CSS.
+  // El iframe se crea recién con Ubicación a 400px: solo con loading="lazy",
+  // en conexiones lentas Chrome lo pedía con la primera carga (unos 450 KB
+  // de scripts de Google), porque ahí empieza a cargar desde 2500px.
   const caja = document.querySelector('[data-mapa]');
   if (caja && CONFIG.mapa.embedUrl) {
-    const marco = document.createElement('iframe');
-    marco.src = CONFIG.mapa.embedUrl;
-    marco.title = 'Mapa de UCSUR Sede Norte';
-    marco.loading = 'lazy';
-    marco.referrerPolicy = 'no-referrer-when-downgrade';
-    marco.allowFullscreen = true;
-    // fuera del orden de Tab: el mapa tiene decenas de controles y lugares
-    // enfocables. Con teclado, el mismo dato está en texto y en "Abrir en Google Maps".
-    marco.tabIndex = -1;
-    caja.replaceChildren(marco);
+    const ponerMapa = () => {
+      const marco = document.createElement('iframe');
+      marco.src = CONFIG.mapa.embedUrl;
+      marco.title = 'Mapa de UCSUR Sede Norte';
+      marco.loading = 'lazy';
+      marco.referrerPolicy = 'no-referrer-when-downgrade';
+      marco.allowFullscreen = true;
+      // fuera del orden de Tab: el mapa tiene decenas de controles y lugares
+      // enfocables. Con teclado, el mismo dato está en texto y en "Abrir en Google Maps".
+      marco.tabIndex = -1;
+      caja.replaceChildren(marco);
+    };
+    if (!('IntersectionObserver' in window)) {
+      ponerMapa();
+    } else {
+      const cerca = new IntersectionObserver((entradas) => {
+        if (!entradas.some((e) => e.isIntersecting)) return;
+        cerca.disconnect();
+        ponerMapa();
+      }, { rootMargin: '400px 0px' });
+      cerca.observe(caja);
+    }
   }
 }
 
