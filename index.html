@@ -257,7 +257,13 @@
 </section>
 
 <section class="seccion seccion--oscura ruta" id="ruta" aria-labelledby="ruta-titulo">
-  <canvas class="cielo" id="cielo-ruta" aria-hidden="true"></canvas>
+  <!-- Fondo: partículas de colores (CAMBIOS-PORTAL-FONDO, Fase A). El cuadro quieto va en un
+       <img lazy> y no en poster, que se pediría con la página; queda solo con movimiento
+       reducido o ahorro de datos. Solo MP4: ref=12 lo deja más liviano que un WebM. -->
+  <img class="ruta__fondo" src="assets/video/fondo-ruta-poster.webp" alt="" width="1920" height="1080"
+       loading="lazy" decoding="async" aria-hidden="true">
+  <video class="video-fondo ruta__fondo" muted loop playsinline preload="none" aria-hidden="true"
+         data-fondo data-movil="assets/video/fondo-ruta-movil.mp4" data-escritorio="assets/video/fondo-ruta.mp4"></video>
 
   <div class="contenedor">
     <header class="encabezado">

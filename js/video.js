@@ -1,8 +1,9 @@
-/* Videos de fondo, sin audio y en bucle: el campus en el hero y el auditorio
-   en Entradas. Cada <video data-fondo> trae sus fuentes en atributos: en
-   celular (<768px) data-movil-webm o data-movil, y si no data-webm o
-   data-escritorio. El WebM (VP9, más liviano) se usa si el navegador lo lee;
-   si no, el MP4 (H.264), que lee cualquiera.
+/* Videos de fondo, sin audio y en bucle: el campus en el hero, el auditorio
+   en Entradas y las partículas en la ruta. Cada <video data-fondo> trae sus
+   fuentes en atributos: en celular (<768px) data-movil-webm o data-movil, y
+   si no data-webm o data-escritorio. El WebM (VP9, más liviano) se usa si
+   existe y el navegador lo lee; si no, el MP4 (H.264), que lee cualquiera.
+   La ruta no tiene WebM: su MP4 pesa menos (ver CAMBIOS-PORTAL-FONDO).
    - data-carga="al-cargar" (hero): el src se asigna cuando la página terminó
      de cargar, para no competir con lo que se ve primero. Sin ese atributo
      (Entradas), cuando la sección está a 300px de la pantalla.

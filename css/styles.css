@@ -428,18 +428,6 @@ button {
   pointer-events: none;
 }
 
-.cielo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.ruta > .cielo {
-  -webkit-mask-image: linear-gradient(180deg, transparent, #000 var(--fundido), #000 calc(100% - var(--fundido)), transparent);
-  mask-image: linear-gradient(180deg, transparent, #000 var(--fundido), #000 calc(100% - var(--fundido)), transparent);
-}
-
 .hero__interior {
   position: relative;
   z-index: 2;
@@ -750,6 +738,24 @@ button {
 .contador .boton { margin-top: var(--e-32); }
 
 /* ---------------- La ruta ---------------- */
+
+/* Fondo: el video de partículas (y su cuadro quieto debajo). El navy ya
+   viene dentro del archivo; arriba y abajo se funde con las vecinas. Sin el
+   desenfoque ni la escala de .video-fondo: borrarían las partículas. */
+.ruta { isolation: isolate; }
+.ruta__fondo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+  transform: none;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 var(--fundido), #000 calc(100% - var(--fundido)), transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 var(--fundido), #000 calc(100% - var(--fundido)), transparent);
+}
 
 /* Carrusel 3D de fotos, pestañas 1–4 y el panel de la estación que está
    adelante (js/ruta.js). Sin JS, el escenario y las pestañas siguen hidden
