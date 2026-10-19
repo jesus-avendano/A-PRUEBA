@@ -235,8 +235,8 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - **El hosting debe comprimir** (brotli o gzip). Netlify, Vercel, Cloudflare Pages y GitHub Pages lo hacen solos. Sin compresión, Lighthouse móvil baja de 100 a 86 en rendimiento.
 - **Cupos virtuales:** 800, no ilimitados.
 - **Inscripción:** no navega a otro lugar. Los botones flotantes Presencial/Virtual abren la explicación en el mismo sitio, y el registro de Luma se abre como overlay sobre la página.
-- **Ruta animada:** estrellas en movimiento constante, trazo que avanza, cometa que pasa por los nodos 1–4 y nodos que crecen al recibirlo.
-- **Video del auditorio de fondo en Entradas:** con un velo azul marino. Se carga al acercarse a la sección, se pausa fuera de pantalla y tiene botón de pausa; con movimiento reducido o ahorro de datos queda solo la imagen fija.
+- **Ruta (v6):** un carrusel 3D con una foto por estación que gira solo; cada foto abre su estación en un portal que crece desde ella. De fondo, un video de partículas de colores. Ya no hay estrellas, trazo, cometa ni nodos.
+- **Video del auditorio de fondo en Entradas:** con un velo azul marino. Se carga al acercarse a la sección y se pausa fuera de pantalla; con movimiento reducido o ahorro de datos queda solo la imagen fija.
 - **Hero con el video del campus de fondo (18 de octubre):** a pantalla completa y con el texto centrado; sin el pasaporte, las estrellas ni el planeta.
 - **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
 - **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
