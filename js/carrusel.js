@@ -30,6 +30,12 @@
 //   de gama baja; con 4 la curva se ve un poco facetada.
 // - Mientras enfocar() viaja a una tarjeta, onChange no avisa las tarjetas por las que pasa: solo la
 //   de llegada.
+// - Cartas que se voltean (v7, con la física de FlipCard de React Bits: resorte 170/20). Con la opción
+//   back(item, i), cada tarjeta lleva un reverso plano con ese contenido en vez de la foto vista desde
+//   adentro. voltear(i, true/false) la gira 180° sobre su propio eje (se acerca un poco a mitad de
+//   giro); al arrastrar, girar con la rueda o con las flechas, las volteadas vuelven solas.
+//   anunciar(texto) escribe en la región aria-live. minFit: escala mínima del anillo (en celular, 1
+//   deja la carta grande y recorta los costados del anillo en vez de achicarlo todo).
 //
 // Uso:
 //   const carrusel = crearCarrusel(contenedor, {
@@ -91,6 +97,10 @@ const DEFAULTS = {
   innerShade: 0.6,
   cornerRadius: 12,
   overlay: null,
+  back: null,
+  flipStiffness: 170,
+  flipDamping: 20,
+  minFit: 0,
   label: '',
   hint: '',
   itemLabel: null,
@@ -148,6 +158,14 @@ export function crearCarrusel(root, opciones = {}) {
       const move = `translate3d(${shift}px, 0px, ${-sink}px) rotateY(${turn}deg)`;
       return { index, total, start, end, size: end - start, move };
     });
+  })();
+
+  // El reverso plano va en la cuerda de la tarjeta curva (de borde a borde), detrás de la foto
+  const reverso = (() => {
+    if (curveValue <= 0.001) return { ancho: along, z: 0 };
+    const bend = radius / curveValue;
+    const alfa = along / 2 / bend;
+    return { ancho: 2 * bend * Math.sin(alfa), z: -bend * (1 - Math.cos(alfa)) };
   })();
 
   // DOM
@@ -220,7 +238,24 @@ export function crearCarrusel(root, opciones = {}) {
     const card = crear('div', 'circular-carousel__card', ring);
     card.dataset.ccIndex = String(index);
     tiles.forEach(tile => card.appendChild(renderTile(item, index, tile, false)));
-    tiles.forEach(tile => card.appendChild(renderTile(item, index, tile, true))); // el cilindro muestra el revés
+    if (o.back) {
+      const dorso = crear('div', 'circular-carousel__back', card);
+      Object.assign(dorso.style, {
+        left: `${-reverso.ancho / 2}px`,
+        top: `${-cardH / 2}px`,
+        width: `${reverso.ancho}px`,
+        height: `${cardH}px`,
+        transform: `translateZ(${reverso.z - 0.5}px) rotateY(180deg)`,
+      });
+      const contenido = crear('div', 'circular-carousel__back-content', dorso);
+      const hecho = o.back(item, index);
+      if (typeof hecho === 'string') contenido.innerHTML = hecho;
+      else if (hecho) contenido.appendChild(hecho);
+      crear('div', 'circular-carousel__inner', dorso);
+      crear('div', 'circular-carousel__shade', dorso);
+    } else {
+      tiles.forEach(tile => card.appendChild(renderTile(item, index, tile, true))); // el cilindro muestra el revés
+    }
     return card;
   });
 
@@ -251,6 +286,7 @@ export function crearCarrusel(root, opciones = {}) {
     drop: 0,
     last: 0,
   };
+  const vueltas = items.map(() => ({ angulo: 0, vel: 0, meta: 0 }));
   let ready = false;
   let active = ((Math.round(-state.angle / step) % count) + count) % count || 0;
   let raf = 0;
@@ -309,7 +345,7 @@ export function crearCarrusel(root, opciones = {}) {
     }
     const spanX = Math.max(maxX - minX, 1);
     const spanY = Math.max(maxY - minY, 1);
-    const fit = Math.min(1, width / spanX, height / spanY);
+    const fit = Math.max(o.minFit, Math.min(1, width / spanX, height / spanY));
     state.fit = fit;
     state.shift = -((minY + maxY) / 2) * fit;
     state.drop = (rect.height / fit) * 0.55 + cardH;
@@ -338,7 +374,12 @@ export function crearCarrusel(root, opciones = {}) {
     }
 
     const paused =
-      (o.pauseOnHover && state.hover) || state.focus || state.drag || now < state.holdUntil || pausas.size > 0;
+      (o.pauseOnHover && state.hover) ||
+      state.focus ||
+      state.drag ||
+      now < state.holdUntil ||
+      pausas.size > 0 ||
+      vueltas.some(v => v.meta !== 0);
     const cruise = s.autoplay === 'drift' && !paused && !state.intro ? o.speed * state.dir : 0;
     let busy = Boolean(state.intro) || state.drag;
 
@@ -373,6 +414,29 @@ export function crearCarrusel(root, opciones = {}) {
 
     if (now < state.holdUntil) busy = true;
 
+    // Volteos: resorte por tarjeta (rigidez y amortiguación de FlipCard)
+    for (const v of vueltas) {
+      if (v.angulo === v.meta && v.vel === 0) continue;
+      if (reduced) {
+        v.angulo = v.meta;
+        v.vel = 0;
+        continue;
+      }
+      let resto = dt;
+      while (resto > 0) {
+        const h = Math.min(resto, 1 / 240);
+        v.vel += (-o.flipStiffness * (v.angulo - v.meta) - o.flipDamping * v.vel) * h;
+        v.angulo += v.vel * h;
+        resto -= h;
+      }
+      if (Math.abs(v.angulo - v.meta) < 0.05 && Math.abs(v.vel) < 0.1) {
+        v.angulo = v.meta;
+        v.vel = 0;
+      } else {
+        busy = true;
+      }
+    }
+
     const ease = 1 - Math.exp(-dt / 0.35);
     const aimYaw = state.pointer.inside ? state.pointer.x * s.parallax * 9 : 0;
     const aimPitch = state.pointer.inside ? -state.pointer.y * s.parallax * 6 : 0;
@@ -396,9 +460,14 @@ export function crearCarrusel(root, opciones = {}) {
       const card = cards[index];
       const base = index * step;
       const mod = introCard(elapsed, base);
-      let transform = `rotateY(${base}deg) translateZ(${R * mod.radius}px)`;
+      const v = vueltas[index];
+      const avance = clamp(v.angulo / 180, 0, 1);
+      const acerca = v.angulo ? cardW * 0.1 * Math.sin(Math.PI * avance) : 0;
+      let transform = `rotateY(${base}deg) translateZ(${R * mod.radius + acerca}px)`;
       if (mod.lift) transform += ` translateY(${mod.lift}px)`;
+      if (v.angulo) transform += ` rotateY(${v.angulo}deg)`;
       card.style.transform = transform;
+      card.style.setProperty('--cc-flip', avance.toFixed(3));
 
       const world = wrap(base + angle);
       const facing = Math.cos(world * TO_RAD);
@@ -493,6 +562,7 @@ export function crearCarrusel(root, opciones = {}) {
       state.target = null;
       state.velocity = 0;
       settle(false);
+      enderezar();
       root.dataset.dragging = '';
       try {
         root.setPointerCapture(event.pointerId);
@@ -543,6 +613,23 @@ export function crearCarrusel(root, opciones = {}) {
     wake();
   };
 
+  // Volteo de cartas
+  const voltear = (index, si = true) => {
+    const v = vueltas[index];
+    if (!v) return;
+    v.meta = si ? 180 : 0;
+    if (reduced) {
+      v.angulo = v.meta;
+      v.vel = 0;
+      render(ajustes(), performance.now());
+    }
+    wake();
+  };
+  function enderezar() {
+    vueltas.forEach(v => (v.meta = 0));
+    wake();
+  }
+
   const enfocar = (index, { mantener = HOLD } = {}) => {
     state.seek = index === active ? null : index;
     let target = -index * step;
@@ -575,6 +662,7 @@ export function crearCarrusel(root, opciones = {}) {
 
   // Gira de a una tarjeta (teclado), como stepBy del original
   const paso = delta => {
+    enderezar();
     const base = state.target ?? nearest(state.angle);
     state.seek = null;
     state.target = base - delta * step;
@@ -650,6 +738,7 @@ export function crearCarrusel(root, opciones = {}) {
     state.target = null;
     state.seek = null;
     settle(false);
+    enderezar();
     state.angle -= delta * perPixel;
     state.velocity = -delta * perPixel * 30;
     state.holdUntil = performance.now() + 1600;
@@ -721,6 +810,16 @@ export function crearCarrusel(root, opciones = {}) {
     enfocar,
     paso,
     rectDe,
+    voltear,
+    enderezar,
+    /** Índice de la carta volteada (o -1). */
+    get volteada() {
+      return vueltas.findIndex(v => v.meta !== 0);
+    },
+    /** Escribe en la región aria-live (con la opción label). */
+    anunciar(texto) {
+      if (vivo) vivo.textContent = texto;
+    },
     /** Enciende o apaga el giro automático. Al encenderlo vuelve a la dirección configurada. */
     girar(encendido) {
       giroActivo = Boolean(encendido) && o.autoplay === 'drift';

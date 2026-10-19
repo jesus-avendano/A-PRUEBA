@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<title>Imagen para compartir · A+PRUEBA</title>
+<!-- Plantilla de la imagen que aparece al compartir el link (og:image). No es parte de la página:
+     se abre a 1200×630 y se captura (ver docs/CAMBIOS-CARTAS-CONTADOR.md, Fase A). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@700;800&display=block">
+<style>
+  :root {
+    --navy-900: #0B1040; --celeste-400: #3EC6F2; --verde-400: #7ED348; --naranja-500: #EE6C14;
+    --tinta-sobre-oscuro: #C3CCF0;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--navy-900); }
+  .og { position: relative; width: 1200px; height: 630px; overflow: hidden; display: grid; place-items: center;
+    font-family: 'Nunito', system-ui, sans-serif; color: #fff; text-align: center; }
+  /* El campus, como el hero: desenfocado y bajo el velo navy */
+  .og__fondo { position: absolute; inset: -24px; width: calc(100% + 48px); height: calc(100% + 48px); object-fit: cover;
+    filter: blur(5px) saturate(1.1); }
+  .og__velo { position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 48%, rgba(11, 16, 64, .55), rgba(11, 16, 64, .86) 100%),
+      linear-gradient(to bottom, rgba(11, 16, 64, .35), rgba(11, 16, 64, .2) 50%, rgba(11, 16, 64, .55)); }
+  .og__contenido { position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 0 80px; }
+  .og__pastilla { display: inline-flex; align-items: center; gap: 10px; padding: 10px 22px; border-radius: 999px;
+    background: var(--verde-400); color: var(--navy-900); font-weight: 800; font-size: 22px; letter-spacing: .12em; text-transform: uppercase; }
+  .og__pastilla svg { width: 24px; height: 24px; }
+  .og__logo { width: 600px; height: auto; display: block; filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .35)); }
+  .og__fecha { margin: 4px 0 0; font: 700 54px/1.1 'Fredoka', system-ui, sans-serif; letter-spacing: -.01em; }
+  .og__fecha span { color: var(--celeste-400); }
+  .og__datos { margin: 0; font-weight: 800; font-size: 28px; color: var(--tinta-sobre-oscuro); }
+  .og__gratis { color: var(--verde-400); }
+</style>
+</head>
+<body>
+<div class="og">
+  <img class="og__fondo" src="../../assets/video/campus-poster.jpg" alt="">
+  <div class="og__velo"></div>
+  <div class="og__contenido">
+    <span class="og__pastilla">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></svg>
+      La ruta del estudiante
+    </span>
+    <img class="og__logo" src="../../assets/logos/aprueba.png" alt="A+PRUEBA" width="1000" height="408">
+    <p class="og__fecha">Martes <span>17 de noviembre</span>, 9:00 a.m.</p>
+    <p class="og__datos"><span class="og__gratis">Gratis</span> · Presencial en UCSUR Sede Norte o virtual</p>
+  </div>
+</div>
+<script>
+  // Lista para capturar cuando cargaron las fuentes y las dos imágenes
+  Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))])
+    .then(() => document.documentElement.classList.add('listo'));
+</script>
+</body>
+</html>
