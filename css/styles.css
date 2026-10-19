@@ -890,12 +890,28 @@ button {
 
 /* ---------------- Ubicación ---------------- */
 
-/* arriba se funde con la ruta (navy) */
+/* Arriba sube sobre la ruta como un horizonte (CAMBIOS-PORTAL-FONDO, Fase C).
+   Entre oscuro y claro un degradado pasa por un gris de neblina; el arco es
+   un borde limpio y no es una línea recta. Lo dibuja un degradado elíptico
+   en una franja justo encima de la sección: ancho 150% de la franja, sube
+   --arco en el medio y toca el borde a los costados. No un pseudo-elemento
+   más ancho que la pantalla con border-radius: daría scroll horizontal. */
 .ubicacion {
-  background:
-    linear-gradient(180deg, var(--navy-900), rgba(11, 16, 64, 0)) top / 100% var(--fundido) no-repeat,
-    var(--blanco);
+  position: relative;
+  background: var(--blanco);
 }
+.ubicacion::before,
+.pie::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--arco));
+  z-index: 1;
+  height: var(--arco);
+  pointer-events: none;
+}
+.ubicacion::before { background: radial-gradient(75% 392% at 50% 392%, var(--blanco) 99.6%, transparent 100%); }
 
 .pestanas {
   display: flex;
@@ -1209,14 +1225,14 @@ button {
 
 /* ---------------- Pie ---------------- */
 
-/* arriba se funde con Aliados (nube-50) */
+/* arriba sube sobre Aliados con un arco, como Ubicación sobre la ruta */
 .pie {
-  background:
-    linear-gradient(180deg, var(--nube-50), rgba(244, 247, 255, 0)) top / 100% var(--fundido) no-repeat,
-    var(--navy-900);
+  position: relative;
+  background: var(--navy-900);
   color: var(--blanco);
   padding-block: var(--seccion-y) var(--e-32);
 }
+.pie::before { background: radial-gradient(75% 392% at 50% 392%, var(--navy-900) 99.6%, transparent 100%); }
 
 .pie__interior { display: flex; flex-direction: column; gap: var(--e-40); }
 .pie__marca img { width: 196px; height: auto; }
