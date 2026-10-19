@@ -223,7 +223,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - [ ] Texto de consentimiento de datos y autorización del apoderado (lo valida UCSUR)
 - [ ] URLs de política de privacidad y términos
 - [ ] Lista de carreras para el desplegable del registro
-- [x] Imagen para compartir provisional (`assets/og/og-image.png`, 1200×630), hecha con el logo y los textos de la página. Reemplazarla si llega una oficial
+- [x] Imagen para compartir (`assets/og/og-aprueba.jpg`, 1200×630, 105 KB), como el hero de ahora: el campus bajo el velo navy, la pastilla, el logo, "Martes 17 de noviembre, 9:00 a.m." y "Gratis · Presencial en UCSUR Sede Norte o virtual". Se genera con `docs/og/og.html` (19 oct). Reemplazarla si llega una oficial, con otro nombre para saltar la caché de WhatsApp
 - [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
 - [ ] Texto real de cada aliado (descripción y qué ofrece): hoy es texto de relleno en `CONFIG.aliados`. Los Instagram de los seis ya están (18 oct); faltan TikTok, Facebook y web, si los tienen
 - [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting? Con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url` (WhatsApp y Facebook las piden)
