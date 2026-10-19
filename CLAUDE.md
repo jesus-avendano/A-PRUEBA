@@ -219,6 +219,13 @@ npx playwright@1.63.0 install webkit                                 # una vez: 
 npx playwright@1.63.0 open --device="iPhone 13" http://localhost:3000   # la página en WebKit, como iPhone
 ```
 
+**Publicado en Vercel:** proyecto `aprueba` (cuenta `jesusavendanocastro36-5297`), en
+**https://aprueba-jade.vercel.app**. Para publicar de nuevo: `npx vercel deploy --prod` desde la carpeta. Es un
+sitio estático sin build. `.vercelignore` deja afuera los originales de video, `docs/` y los `.md`. `vercel link`
+creó `.vercel/` y un `.env.local` con un token de Vercel: están en `.gitignore` y en `.vercelignore`, y nunca se
+suben. Vercel cumple los tres requisitos de abajo (comprobado: brotli, 206 y tipos correctos). Ojo: el primer
+pedido de un archivo recién publicado puede tardar unos segundos, mientras se llena la caché de Vercel.
+
 **No uses `python3 -m http.server` para probar esto.** Con todos los módulos pidiéndose a la vez deja caer
 peticiones cada tantas cargas: el grafo de módulos falla entero y la página se queda estática, sin ningún
 error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor decente) no tiene el problema.

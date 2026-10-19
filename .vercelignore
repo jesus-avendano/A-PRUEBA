@@ -1,0 +1,10 @@
+# Lo que no usa la página no se sube a Vercel: los originales de video,
+# la documentación interna y los archivos del sistema.
+docs/
+*.md
+.DS_Store
+assets/video/videoplayback.mp4
+assets/video/auditorio-original.webm
+assets/video/117606-712421887.mp4
+.env*
+.vercel
