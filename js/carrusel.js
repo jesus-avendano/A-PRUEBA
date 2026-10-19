@@ -625,8 +625,21 @@ export function crearCarrusel(root, opciones = {}) {
     }
     wake();
   };
+  // Sin bucle (fuera de pantalla, suspendido, pestaña oculta) los volteos pendientes se asientan al
+  // instante: si no, la carta quedaría a medio girar y se la vería terminar al volver.
+  const asentarVueltas = () => {
+    let cambio = false;
+    vueltas.forEach(v => {
+      if (v.angulo === v.meta && !v.vel) return;
+      v.angulo = v.meta;
+      v.vel = 0;
+      cambio = true;
+    });
+    if (cambio) render(ajustes(), performance.now());
+  };
   function enderezar() {
     vueltas.forEach(v => (v.meta = 0));
+    if (!puedeCorrer()) asentarVueltas();
     wake();
   }
 
@@ -779,7 +792,10 @@ export function crearCarrusel(root, opciones = {}) {
   const io = new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
     if (visible) wake();
-    else parar();
+    else {
+      parar();
+      asentarVueltas();
+    }
   });
   io.observe(root);
 

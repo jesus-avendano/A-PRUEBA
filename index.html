@@ -252,13 +252,14 @@
       <p class="lead lead--sobre-oscuro">Una mañana, cuatro paradas. Al final sabrás qué tan seguro estás de tu elección.</p>
     </header>
 
-    <!-- Carrusel 3D de fotos (js/carrusel.js, lo arma js/ruta.js): cada foto abre su estación
-         en el portal (#dialogo-estacion). Va en un hijo del escenario: .circular-carousel lleva
-         width: 100% y le pisaría el ancho a sangre. -->
+    <!-- Carrusel 3D de cartas (js/carrusel.js, lo arma js/ruta.js): al tocar una carta se
+         voltea y en el reverso está su estación. Va en un hijo del escenario: .circular-carousel
+         lleva width: 100% y le pisaría el ancho a sangre. -->
     <div class="ruta__escenario" hidden><div data-carrusel></div></div>
-    <p class="ruta__pista small">Toca una foto para descubrir cada estación</p>
+    <p class="ruta__pista small">Toca una carta para voltearla</p>
 
-    <!-- Sin JS: las 4 estaciones en grilla. Con JS no se ven: el portal copia su contenido. -->
+    <!-- Sin JS: las 4 estaciones en grilla. Con JS quedan solo para lectores de pantalla, y el
+         reverso de cada carta copia su contenido. -->
     <div class="ruta__estaciones">
         <article class="estacion estacion--1" data-foto="assets/img/ruta/conocete.webp">
           <span class="estacion__burbuja">
@@ -308,18 +309,6 @@
           </div>
         </article>
     </div>
-
-    <!-- Portal de estación (js/dialog.js, variante "estacion"): crece desde la foto del
-         carrusel. js/ruta.js copia aquí el contenido de la estación elegida. -->
-    <dialog class="dialogo portal" id="dialogo-estacion" aria-labelledby="portal-titulo">
-      <div class="dialogo__caja portal__caja">
-        <img class="portal__foto" src="assets/img/ruta/conocete.webp" alt="" width="560" height="560" loading="lazy" decoding="async">
-        <div class="portal__contenido"></div>
-        <button class="dialogo__cerrar portal__cerrar" type="button" data-cerrar-dialogo aria-label="Cerrar">
-          <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
-      </div>
-    </dialog>
   </div>
 </section>
 

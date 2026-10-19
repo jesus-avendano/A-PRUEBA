@@ -762,12 +762,12 @@ button {
   mask-image: linear-gradient(180deg, transparent, #000 var(--fundido), #000 calc(100% - var(--fundido)), transparent);
 }
 
-/* El carrusel 3D de fotos es la navegación de las estaciones: cada foto abre
-   su estación en el portal (js/ruta.js). Sin JS, el escenario y la pista no
-   se ven y las 4 estaciones van en grilla. */
+/* El carrusel 3D de cartas que se voltean es la navegación de las estaciones:
+   en el reverso de cada carta está su estación (js/ruta.js). Sin JS, el
+   escenario y la pista no se ven y las 4 estaciones van en grilla. */
 
-/* el color de cada estación: lo usan su tarjeta y el portal (js/ruta.js lo
-   lee con getComputedStyle) */
+/* el color de cada estación: lo usan su tarjeta y el reverso de su carta
+   (js/ruta.js lo lee con getComputedStyle) */
 .estacion--1 { --color: var(--celeste-400); }
 .estacion--2 { --color: var(--verde-400); }
 .estacion--3 { --color: var(--naranja-500); }
@@ -775,7 +775,7 @@ button {
 
 /* centrado y protagonista; a sangre en celular, para que el anillo use todo el ancho */
 .ruta__escenario {
-  height: clamp(340px, 40vw, 520px);
+  height: clamp(420px, 42vw, 560px);
   margin: var(--e-32) calc(-1 * var(--margen-lateral)) 0;
 }
 .ruta__escenario > [data-carrusel] { height: 100%; }
@@ -796,9 +796,61 @@ button {
 }
 .ruta:not(.ruta--carrusel) .ruta__pista { display: none; }
 
-/* Sin JS, en grilla. Con JS no se ven: el portal copia su contenido. */
+/* El número de la estación sobre su foto: "sin color", blanco y sin círculo
+   (opción overlay del carrusel). La sombra, para que se lea sobre fotos claras. */
+.ruta__numero {
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  font: 700 44px/1 var(--fuente-titulo);
+  color: rgba(255, 255, 255, .94);
+  text-shadow: 0 2px 12px rgba(11, 16, 64, .55);
+}
+
+/* El reverso de cada carta: una copia de su estación, en un panel plano (no
+   cortado en tiras como la foto, así el texto sale nítido). --letra-dorso
+   (de 1 a 0.86) la baja js/ruta.js si el texto no entra en alguna carta. */
+.ruta__dorso {
+  --k: var(--letra-dorso, 1);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(6px * var(--k));
+  padding: calc(20px * var(--k)) calc(20px * var(--k)) calc(16px * var(--k));
+  background: var(--navy-800);
+  border: 2px solid var(--color);
+  border-radius: inherit;
+  color: var(--blanco);
+}
+/* el texto aparece con el volteo, desde la mitad del giro: visto desde
+   adentro del anillo, el reverso de las cartas de atrás es un panel liso */
+.ruta__dorso > * { opacity: clamp(0, calc(var(--cc-flip, 0) * 2 - 1), 1); }
+.ruta__dorso .estacion__burbuja { display: none; }
+.ruta__dorso .estacion__texto { display: flex; flex-direction: column; gap: calc(6px * var(--k)); }
+.ruta__dorso .estacion__overline { margin: 2px 0 0; font-size: 12px; }
+.ruta__dorso .estacion__titulo { margin: 0; font: 700 calc(24px * var(--k))/1.15 var(--fuente-titulo); }
+.ruta__dorso .estacion__pregunta { margin: 2px 0 0; font-size: calc(15px * var(--k)); line-height: 1.4; }
+.ruta__dorso .estacion__desc { margin: 4px 0 0; font-size: calc(14px * var(--k)); line-height: 1.5; }
+.ruta__dorso-volver {
+  margin: auto 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .6);
+}
+
+/* Sin JS, en grilla. Con JS quedan solo para lectores de pantalla (no
+   display: none): así leen las 4 estaciones en orden. */
 .ruta__estaciones { display: grid; gap: var(--e-24); margin-top: var(--e-40); }
-.ruta--carrusel .ruta__estaciones { display: none; }
+.ruta--carrusel .ruta__estaciones {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
 
 .estacion {
   display: flex;
@@ -837,59 +889,6 @@ button {
   color: var(--tinta-sobre-oscuro);
 }
 
-
-/* Portal de una estación (#dialogo-estacion, variante "estacion" de
-   js/dialog.js). Crece desde la foto del carrusel: la caja se escala desde
-   su esquina (transform-origin) y su foto es cuadrada, como la tarjeta.
-   Celular: la foto arriba a todo el ancho y el texto debajo; si la pantalla
-   es baja, la caja se desplaza. Desde 768px, la foto de 400×400 a la
-   izquierda define el alto; si el texto no entra, su columna se desplaza. */
-.portal { color: var(--blanco); } /* <dialog> trae color: CanvasText (negro) */
-.portal .dialogo__caja {
-  width: min(440px, calc(100vw - 32px));
-  padding: 0;
-  background: var(--navy-800);
-  border: 1.5px solid var(--color, var(--navy-700));
-  box-shadow: 0 24px 48px rgba(0, 0, 0, .35);
-  transform-origin: 0 0;
-}
-.portal__foto {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-.portal__contenido {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 22px;
-}
-/* el foco va al título para orientar a los lectores de pantalla; no es un control */
-.portal #portal-titulo:focus { outline: none; }
-.portal__cerrar { background: rgba(11, 16, 64, .6); color: var(--blanco); }
-
-@media (hover: hover) and (pointer: fine) {
-  .portal__cerrar:hover { background: var(--navy-900); color: var(--blanco); }
-}
-
-@media (min-width: 768px) {
-  .portal .dialogo__caja {
-    display: grid;
-    grid-template-columns: 400px minmax(0, 1fr);
-    width: min(820px, calc(100vw - 48px));
-    padding: 0;
-    overflow: hidden;
-  }
-  .portal__foto { width: 400px; height: 400px; }
-  .portal__contenido {
-    max-height: 400px;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 32px 64px 32px 32px; /* a la derecha, lugar para la ✕ */
-  }
-}
 
 /* ---------------- Ubicación ---------------- */
 
@@ -1470,6 +1469,26 @@ button {
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/* Reverso plano de las cartas que se voltean (opción back) */
+.circular-carousel__back {
+  position: absolute;
+  overflow: hidden;
+  border-radius: var(--cc-radius);
+  outline: 1px solid transparent;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.circular-carousel__back-content {
+  position: absolute;
+  inset: 0;
+}
+
+/* visto desde adentro del anillo se oscurece; volteado hacia afuera, no */
+.circular-carousel__back .circular-carousel__inner {
+  opacity: calc(var(--cc-inner) * (1 - var(--cc-flip, 0)));
 }
 
 /* Capa opcional sobre la foto (opción overlay): se corta en tiras igual que la foto. */
