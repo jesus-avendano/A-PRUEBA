@@ -146,6 +146,8 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - Botón sin enlace de Luma: **Inscripciones muy pronto**
 
 ### 3. Cuenta regresiva
+
+> Desde el 19 de octubre va **después de la ruta** (orden: Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie). Los textos no cambian.
 - Overline: **Martes 17 de noviembre, 9:00 a.m.**
 - Título: **El evento que transformará tus dudas en certeza**
 - Unidades: Días, Horas, Min, Seg
@@ -167,7 +169,7 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 | 4 | blanco | diana | Valida y consolida | Después de todo lo vivido, ¿qué tan seguro estás? | Evalúa tu evolución antes y después del evento. Descubre si confirmas tu carrera, encuentras una nueva vocación o decides explorar más. ¡Conecta directo con organizaciones que potenciarán tu futuro! |
 
 - Pista debajo del carrusel (texto propuesto en `CAMBIOS-PORTAL-FONDO.md`; falta aprobarlo): **Toca una foto para descubrir cada estación**
-- Botón: **Quiero vivir la ruta**
+- ~~Botón "Quiero vivir la ruta"~~: se quitó (19 oct). No volver a ponerlo.
 
 ### 5. Ubicación
 - Overline: **Cómo llegar**
@@ -241,5 +243,6 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
 - **Uniones rectas entre lo oscuro y lo claro (18 de octubre):** de la ruta a Ubicación y de Aliados al pie, el cambio de sección es una línea recta (ni degradado ni arco). Las demás uniones siguen con su fundido.
 - **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
+- **Sin "Quiero vivir la ruta" y la cuenta regresiva después de la ruta (19 de octubre):** cambios de la v7 (`CAMBIOS-CARTAS-CONTADOR.md`). La cuenta regresiva se funde arriba con el navy de la ruta y abajo corta con Ubicación en línea recta.
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp:** fuera de alcance por ahora.
