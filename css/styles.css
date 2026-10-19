@@ -1054,7 +1054,7 @@ button {
 .mapa-falso__bloque--explanada {
   left: 26%; top: 72%; width: 32%; height: 18%;
   background: rgba(126, 211, 72, .24);
-  color: var(--verde-600);
+  color: #2e6b14; /* verde-600 un poco más oscuro: sobre este verde, 4.99:1 (con verde-600 era 4.08) */
 }
 .mapa-falso__pin { position: absolute; left: 44%; top: 28%; width: 34px; height: 34px; color: var(--naranja-500); }
 .mapa-falso__pin svg { width: 100%; height: 100%; }

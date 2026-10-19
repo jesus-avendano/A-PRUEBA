@@ -16,71 +16,82 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
   - v3 `docs/CAMBIOS-RUTA-HERO.md`: ruta, hero, textos y ubicación.
   - v4 `docs/CAMBIOS-VIDEO-AGENDA.md`: video de fondo en Entradas y la agenda (que después se quitó, ver abajo).
   - v5 `docs/CAMBIOS-CARRUSEL-VIDEO.md`: carrusel 3D en la ruta, video del hero sin pixelado y Entradas sin leyenda.
-  - **v6 `docs/CAMBIOS-PORTAL-FONDO.md` (la más alta):** el carrusel abre cada estación en un portal, fondo de
-    partículas en la ruta y arcos entre secciones oscuras y claras (los arcos se cambiaron después por líneas
-    rectas).
+  - v6 `docs/CAMBIOS-PORTAL-FONDO.md`: fondo de partículas en la ruta, el carrusel como control accesible y
+    arcos entre secciones oscuras y claras (el portal y los arcos ya no están: ver abajo).
+  - **v7 `docs/CAMBIOS-CARTAS-CONTADOR.md` (la más alta, 19 oct):** imagen nueva para compartir, sin "Quiero
+    vivir la ruta", la cuenta regresiva después de la ruta, sus números que ruedan (`js/rodillo.js`) y las
+    cartas del carrusel que se voltean (reemplazan al portal de la v6).
 - **Cambios del 18 de octubre** (mandan sobre todos los documentos, también la v6): el hero
   ya no tiene el pasaporte, ni la ola de colores en "futuro profesional", ni el cielo de estrellas con el
   planeta: pasa a pantalla completa con el video del campus de fondo y el texto centrado. Los videos de fondo
-  no tienen botón de pausa. Las secciones se funden entre sí en vez de cortarse en línea recta, **salvo de la
-  ruta a Ubicación y de Aliados al pie, que cortan en línea recta** (ni degradado ni arco). Y **no hay
-  agenda**: "Quiero vivir la ruta" baja a Entradas como los otros CTA. La v6 se escribió suponiendo que la agenda
-  seguía (habla de pausar el video "con la agenda abierta" y de conservar `starfield.js` para ella): eso no
-  aplica. El detalle está en las decisiones de abajo.
+  no tienen botón de pausa. Las secciones se funden entre sí en vez de cortarse en línea recta, **salvo entre una
+  oscura y una clara (de la cuenta regresiva a Ubicación y de Aliados al pie), que cortan en línea recta** (ni
+  degradado ni arco). Y **no hay agenda**. La v6 y la v7 se escribieron suponiendo que la agenda seguía y que
+  había un arco antes de Ubicación: eso no aplica. El detalle está en las decisiones de abajo.
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
 - **Registro:** Luma. No hay base de datos ni formulario propio.
 - **Publicación:** martes 20 de octubre de 2026.
 
 ## Estado actual
 
-**Terminado**, con los cambios v2 a v6 y los cambios del 18 de octubre. Falta solo lo que depende de
-datos, de decisiones pendientes o de aparatos reales (abajo).
+**Terminado**, con los cambios v2 a v7 y los cambios del 18 y el 19 de octubre. Falta solo lo que
+depende de datos, de decisiones pendientes o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
 (`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `video.js`, `entradas.js`,
-`countdown.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`), `assets/img/` (`sede-norte.{webp,jpg}` y
-`ruta/`), `assets/video/` y `assets/og/og-image.png` (provisional).
+`countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`), `assets/img/`
+(`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba.jpg` (la imagen para compartir).
 
-**QA (último, 18 de octubre, con la v6):**
+**QA (último, 19 de octubre, con la v7):**
 
 - **Lighthouse:** móvil 99 en rendimiento y 100 en accesibilidad, buenas prácticas y SEO (FCP 1.2 s,
-  LCP 2.2 s, TBT 0 ms, CLS 0.001; el LCP es el texto del hero); escritorio 100 en las cuatro. Se mide con el
+  LCP 2.1 s, TBT 0 ms, CLS 0.001; el LCP es el texto del hero); escritorio 100 en las cuatro. Se mide con el
   servidor comprimiendo, como cualquier hosting: sin compresión, rendimiento en móvil baja bastante.
-- **Peso:** **1,253 KiB en móvil** (presupuesto de 1.5 MB), y 1,856 KiB en escritorio. Lo más pesado en móvil:
+- **Peso:** **1,274 KiB en móvil** (presupuesto de 1.5 MB), y 2,163 KiB en escritorio. Lo más pesado en móvil:
   el video del campus (578 KB), la foto de la sede (286 KB) y el auditorio (146 KB). Lighthouse emula una
   conexión lenta, y ahí Chrome empieza a cargar lo `lazy` desde 2500px y no desde 1250px como en 4G: por eso
   entran la foto de la sede y el cuadro quieto de la ruta (13 KB). El carrusel, sus fotos y el video de la ruta
   no entran; el mapa tampoco (ver decisiones).
-- **Chrome y WebKit (el motor de Safari), con Playwright:** 35 corridas automáticas en 360, 390, 768, 1024 y
-  1440, con y sin movimiento reducido y táctil. Cubren el portal desde las 4 fotos y desde una lateral, el
-  cierre con ✕, Esc y clic afuera, el foco y el teclado (Tab al carrusel, flechas que anuncian, Enter), la nav
-  y el menú móvil, las pestañas de Ubicación, los boletos, los aliados, la foto de la sede, los CTA, la cuenta
-  regresiva y el fondo de la ruta (carga diferida, pausa fuera de pantalla, cuadro quieto con movimiento
-  reducido). Sin errores de JS ni recursos rotos, sin scroll horizontal y con áreas táctiles de 44px. Sin JS,
-  las estaciones se ven en grilla. WebKit decodifica los MP4 del fondo de la ruta (nivel 5.0 y 4.0) y les da la
-  vuelta. Ojo: en Safari el Tab, por defecto, no pasa por enlaces ni botones; con Opción+Tab (o con "Resaltar
-  cada elemento con Tab") el recorrido llega a todo, en orden y con foco visible.
+- **Chrome y WebKit (el motor de Safari), con Playwright:** 52 corridas automáticas en 360, 390, 768, 1024 y
+  1440, con y sin movimiento reducido y táctil. Cubren las cartas (las 4 y una lateral, con mouse, dedo y
+  teclado; derecha, volteada y enderezada; una volteada a la vez; arrastrar, flechas y trackpad la enderezan;
+  al salir se endereza y al volver gira), la cuenta regresiva (un rodillo por caja, la intro, cada segundo, la
+  unidad nunca pisada, movimiento reducido), la nav y el menú móvil, las pestañas de Ubicación, los boletos, los
+  aliados, la foto de la sede, los CTA, el orden nuevo y el fondo de la ruta. Sin errores de JS ni recursos rotos,
+  sin scroll horizontal y con áreas táctiles de 44px. Sin JS, las estaciones se ven en grilla. Lo único que falla
+  es lo anotado en los pendientes: el texto de Experimenta en celular (2px) y el cuadro repetido en cada vuelta
+  del fondo de la ruta. Ojo: en Safari el Tab, por defecto, no pasa por enlaces ni botones; con Opción+Tab (o con
+  "Resaltar cada elemento con Tab") el recorrido llega a todo, en orden y con foco visible.
 - **Gama baja:** con la CPU 4× más lenta, el carrusel y el fondo de la ruta van a 60 fps sin cuadros largos,
-  en 390 y en 1440.
+  en 390 y en 1440 (medido en la v6; la v7 suma el volteo, que solo anima mientras se voltea).
 
 **Lo que queda pendiente de verdad:**
 
 - **Un iPhone y un Android reales.** El bloqueo de scroll con el dedo cuando hay un diálogo o el menú abierto
-  (`overflow: hidden` en `<html>`; iOS dice respetarlo desde la versión 16, pero falta verlo); arrastrar el
-  carrusel con el dedo sin que se trabe el scroll vertical; el 3D del carrusel y el desenfoque detrás de los
-  diálogos en Safari (Playwright no los dibuja en sus capturas de WebKit, ver "Comandos"); y que el loop de 2 s
-  del fondo de la ruta no dé tirones en Safari. WebKit en la Mac no puede simular el arrastre del dedo.
+  (`overflow: hidden` en `<html>`; iOS dice respetarlo desde la versión 16, pero falta verlo); arrastrar y
+  voltear las cartas con el dedo sin que se trabe el scroll vertical; el 3D del carrusel y el desenfoque detrás
+  de los diálogos en Safari (Playwright no los dibuja en sus capturas de WebKit, ver "Comandos"); el desenfoque
+  del rodillo de la cuenta regresiva en Safari (usa un filtro SVG); y que el loop de 2 s del fondo de la ruta no
+  dé tirones en Safari. WebKit en la Mac no puede simular el arrastre del dedo.
+- **La vista previa del link:** compartir `https://aprueba-jade.vercel.app/?v=2` en WhatsApp (los mensajes ya
+  enviados conservan la imagen vieja, no hay forma de cambiarlo) y revisarla en el depurador de Facebook
+  (`https://developers.facebook.com/tools/debug/`), que además refresca su caché. Las dos piden una cuenta.
+- **El texto de Experimenta en el reverso de su carta, en celular:** aun con la letra al mínimo (la descripción
+  en 12px), "Toca para volver" se mete 2px en el margen de abajo (de 14px). No se corta nada, pero
+  `ajustarDorsos` lo cuenta como "no entra" y lo avisa en la consola. Falta decidir: acortar el
+  texto o aceptar esos 2px (y que la revisión los permita).
 - **Datos de `docs/PROYECTO.md` (sección 8):** Luma (URL, IDs y el snippet del script donde dice
   `<!-- LUMA SCRIPT -->`), WhatsApp, redes, legales, el embed oficial del mapa (el actual es
   provisional), el texto real de cada aliado (hoy es lorem ipsum en `CONFIG.aliados`; sus Instagram ya están,
   faltan TikTok, Facebook y web si los tienen) y el favicon oficial.
-- **El dominio:** con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url`
-  (está anotado en el `<head>`).
+- **El dominio:** `og:url`, `og:image` y `twitter:image` ya son URL absolutas, con el dominio de Vercel. Si
+  llega un dominio propio, se cambian (está anotado en el `<head>`).
 - **El video del campus en 1080p.** El de hoy es un 360p de YouTube estirado: ya no se pixela, pero nunca se va
   a ver HD. El video es de UCSUR; hay que pedir el original (cómo procesarlo: `CAMBIOS-CARRUSEL-VIDEO.md`, A2).
   Está recortado a 20.4 s: los 55 s completos se pasan del presupuesto en celular.
 - **Las fotos de la ruta** (`assets/img/ruta/`) son provisionales, vienen de internet: falta confirmar que se
-  pueden usar. Si llegan fotos propias, se reemplazan con el mismo nombre y 560×560.
-- **Textos por aprobar:** la pista "Toca una foto para descubrir cada estación" (propuesta en la v6).
+  pueden usar. Si llegan fotos propias, se reemplazan con el mismo nombre, en vertical 3:4 y 600×800.
+- **Textos por aprobar:** la pista "Toca una carta para voltearla" y el "Toca para volver" del reverso (los dos,
+  propuestos en la v7).
 - **Opcional, la foto de la sede:** `sede-norte.webp` pesa 286 KB y en la polaroid se ve a 210px. Una miniatura
   para la polaroid (y la grande solo en el diálogo) bajaría el peso en móvil unos 250 KB.
 - **Antes de publicar, sacar `assets/video/117606-712421887.mp4` de la carpeta:** es el original 4K del fondo de
@@ -96,7 +107,10 @@ Decisiones que conviene no deshacer sin querer:
 - **El iframe del mapa se crea recién con Ubicación a 400px** (`js/main.js`), no solo con `loading="lazy"`: en
   conexiones lentas Chrome carga lo `lazy` desde 2500px, y desde que la ruta de la v6 es más corta, Ubicación
   quedó a unos 2200px de la primera pantalla. El mapa metía unos 450 KB de scripts de Google en la primera
-  carga y el peso en móvil llegaba a 1.71 MB. Mientras tanto se ve la ilustración CSS del mapa.
+  carga y el peso en móvil llegaba a 1.71 MB. Mientras tanto se ve la ilustración CSS del mapa (su texto
+  "Explanada" va en `#2e6b14`, un verde-600 un poco más oscuro: sobre su bloque verde, verde-600 daba 4.08:1). Por
+  lo mismo, desde que la ruta va antes de la cuenta regresiva, el cuadro quieto de su fondo (13 KB) entra en la
+  primera carga.
 - **Las entradas se abren en `#dialogo-boleto`** (variante `ticket` de `js/dialog.js`), que crece desde
   el boleto con FLIP. **Al tocar el botón de Luma el diálogo se cierra al instante:** un `<dialog>` modal
   vive en el top layer, por encima de cualquier z-index, y deja inerte todo lo de fuera; el overlay de
@@ -112,40 +126,62 @@ Decisiones que conviene no deshacer sin querer:
   Ya no hay pasaporte, ni ola, ni brillo de colores: "futuro profesional" queda en celeste fijo y
   `js/hero.js` solo divide el título en palabras para su entrada. Tampoco hay cielo de estrellas,
   destellos, planeta ni órbita. El cielo de estrellas (`starfield.js`) ya no existe en ninguna sección.
-- **La ruta: un carrusel 3D de fotos que abre cada estación en un portal** (v5 y v6; detalle en "Secciones"):
-  - `js/carrusel.js` es CircularCarousel de React Bits portado a JS puro, solo con el preset `cylinder`.
-    **Conserva los nombres de las opciones y de las clases (`.circular-carousel__*`) del original**, para
-    compararlo y pegar valores del configurador de React Bits; es código de terceros portado, no se traduce. Lo
-    que cambia respecto del original está comentado al inicio del archivo. Un arreglo propio: con movimiento
-    reducido las flechas giraban sin anunciar (`announce` se marcaba después de pintar).
+- **La ruta: un carrusel 3D de cartas que se voltean** (v5, v6 y v7; detalle en "Secciones"):
+  - `js/carrusel.js` es CircularCarousel de React Bits portado a JS puro, solo con el preset `cylinder`, con el
+    volteo de FlipCard sumado en la v7. **Conserva los nombres de las opciones y de las clases
+    (`.circular-carousel__*`) del original**, para compararlo y pegar valores del configurador de React Bits; es
+    código de terceros portado, no se traduce. Lo que cambia respecto del original está comentado al inicio del
+    archivo. **Arreglos propios** (si llega una versión nueva del módulo, hay que conservarlos): con movimiento
+    reducido las flechas giraban sin anunciar (`announce` se marcaba después de pintar); y fuera de pantalla los
+    volteos pendientes no se asentaban, así que al volver a la sección se veía la carta terminar de enderezarse
+    (`asentarVueltas()`).
   - **El carrusel es el control accesible** (opción `label`): grupo enfocable, las flechas giran de a una
-    estación y una región `aria-live` la anuncia, Enter abre la de adelante. No hay pestañas ni panel (la v5
-    los tenía; la v6 los quitó, con los números sobre las fotos).
-  - **El portal crece con escala uniforme y `clip-path`, no con el FLIP de los boletos** (que escala distinto a
-    lo ancho y a lo alto y estiraría la foto cuadrada): la caja arranca calzada sobre la tarjeta, recortada a su
-    foto, y crece hasta su lugar (`pegado()` en `js/dialog.js`). Por eso la caja lleva `transform-origin: 0 0`.
-    Si al cerrar la caja está desplazada (celular), la foto ya no calza y sale con un fundido.
-  - El portal copia el contenido del `<article>` de la estación: no hay textos duplicados. Las estaciones siguen
-    en el HTML, en grilla sin JS y ocultas con JS. `<dialog>` trae `color: CanvasText` (negro): el portal
-    necesita su propio color.
-  - Abrir una estación apaga el giro automático hasta que la sección sale de pantalla y vuelve.
-  - 4 tarjetas en celular y 8 desde 768px (cada foto dos veces), con la velocidad a la mitad: así cada
-    estación queda unos 5 s adelante en los dos casos. Con 4 tarjetas en escritorio el cilindro parece una caja
-    chica; con 8 en celular la foto de adelante quedaría en 140px.
+    estación y una región `aria-live` la anuncia, Enter voltea la de adelante. Al voltear se anuncia la estación
+    completa (`anunciar()`) y al enderezar, su nombre. No hay pestañas, panel ni portal.
+  - **El reverso es un panel plano en la cuerda de la carta curva**, no cortado en tiras como la foto: así el
+    texto sale nítido. Su texto aparece desde la mitad del giro (`--cc-flip`): visto desde adentro del anillo,
+    el reverso de las cartas de atrás es un panel liso, sin letras que distraigan.
+  - **De FlipCard no se trajo:** el volteo arrastrando (choca con el arrastre que gira el anillo), la inclinación
+    y el brillo que siguen al puntero (el anillo ya tiene su parallax, y sumarlos marea), el agrandado al pasar
+    el puntero (con el puntero encima el anillo ya se detiene) ni la sombra. Sí su resorte: rigidez 170 y
+    amortiguación 20.
+  - **La letra del reverso se ajusta sola** (`ajustarDorsos` en `js/ruta.js`): si en alguna carta "Toca para
+    volver" se mete en el padding de abajo, `--letra-dorso` baja de a poco (1, 0.96, 0.92, 0.89 y 0.86) en todas
+    las cartas a la vez, para que tengan la misma letra. Si ni en 0.86 entra, avisa en la consola qué estación.
+    **Nunca se corta el texto.** Con los textos reales queda en 0.96 en escritorio y en 0.86 en celular.
+  - **`minFit: 1` en celular:** la carta queda a tamaño real (240×320; ~218px de ancho en pantalla, por la
+    curva) y el anillo se recorta a los costados en vez de achicarse entero. Si no, el reverso se leería a ~11px.
+  - El reverso y el anuncio copian el contenido del `<article>` de la estación: no hay textos duplicados. Las
+    estaciones siguen en el HTML: en grilla sin JS, y con JS ocultas a la vista pero no para los lectores de
+    pantalla (no `display: none`), que así las leen en orden.
+  - Una carta volteada a la vez. Voltear una apaga el giro automático; al salir de la sección se endereza y, al
+    volver, gira de nuevo. Arrastrar, girar con las flechas o con el trackpad la endereza.
+  - 4 cartas en celular y 8 desde 768px (cada foto dos veces), con la velocidad a la mitad: así cada
+    estación queda unos 5 s adelante en los dos casos. Con 4 en escritorio el cilindro parece una caja chica.
   - `fadeColor` y `--cc-inner-color` en navy (el original usa gris y negro, que sobre navy lavaban las fotos).
   - El carrusel y sus fotos se importan con `import()` recién cuando la sección está a 600px: la primera carga
-    no suma ni un byte. Al cruzar los 768px se rearma en la misma estación (si el portal está abierto, al cerrarlo).
+    no suma ni un byte. Al cruzar los 768px se rearma en la misma estación.
   - **El carrusel va en un hijo del escenario**, no en el escenario: `.circular-carousel` lleva `width: 100%` y
     le pisaría el ancho a sangre del celular.
-  - Con el portal abierto, el carrusel queda suspendido y los videos, pausados (`suspenderVideo()`): el
-    `IntersectionObserver` no se entera de que algo los tapa.
+- **La cuenta regresiva rueda** (`js/rodillo.js`, Counter de React Bits portado, v7): un rodillo por caja,
+  creado con el valor del primer tic, y `fijar()` cada segundo. Valores del original (`duration` 0.65, `bounce`
+  0.2, `stagger` 0.05, `fade` 0.3, desenfoque con filtro SVG e intro), más **2 dígitos** (siempre "08") y
+  **`direccion: 'down'`** (en una cuenta regresiva los números bajan; con `auto`, en el 00 → 59 de cada minuto
+  las decenas subirían). El tamaño y el peso de la letra los toma del CSS de la caja. Mientras rueda, el número
+  asoma 0.3em arriba y abajo: por eso `.contador__num` lleva **`margin-bottom: .3em`** (la unidad queda fuera
+  del fundido) y la caja, `overflow: hidden`. Es `aria-hidden`: el número accesible sigue siendo el texto
+  `aria-live`, una vez por minuto. Con movimiento reducido no hay intro y los números cambian sin rodar.
+- **La imagen para compartir** (`assets/og/og-aprueba.jpg`, v7): se genera con `docs/og/og.html` (ver
+  "Comandos"), en **JPG de menos de 300 KB** (más pesada, WhatsApp suele no mostrarla; hoy pesa 105 KB). WhatsApp
+  y Facebook guardan las vistas previas: si se cambia, **va con un nombre nuevo**, así la piden de nuevo.
+  `og:image`, `twitter:image` y `og:url` van con URL absolutas.
 - **Videos de fondo** (`js/video.js`, `<video class="video-fondo" data-fondo>`): el campus en el hero, el
   auditorio en Entradas y las partículas en la ruta. Cada uno trae sus fuentes en atributos: en celular (menos
   de 768px) `data-movil-webm` si existe y el navegador lee VP9, y si no `data-movil`; en escritorio, `data-webm`
   o `data-escritorio`. El del hero se pide cuando la página terminó de cargar (`data-carga="al-cargar"`), para
-  no competir con la primera pantalla; los otros, cuando su sección está a 300px. Se pausan fuera de pantalla,
-  con la pestaña oculta y con el portal de una estación abierto; con movimiento reducido o ahorro de datos no se
-  cargan y queda el poster (en la ruta, su cuadro quieto). **No tienen botón de pausa
+  no competir con la primera pantalla; los otros, cuando su sección está a 300px. Se pausan fuera de pantalla y
+  con la pestaña oculta; con movimiento reducido o ahorro de datos no se cargan y queda el poster (en la ruta,
+  su cuadro quieto). **No tienen botón de pausa
   (18 oct).** Ojo: un video en bucle de más de 5 s sin forma de pausarlo no cumple el criterio 2.2.2 de WCAG
   (nivel A); lo mitiga que con movimiento reducido no se reproducen. Lighthouse no lo mide.
 - **Archivos de video** (`assets/video/`). Los originales no los carga la página: `videoplayback.mp4` (campus,
@@ -177,22 +213,23 @@ Decisiones que conviene no deshacer sin querer:
   - Safari exige que el servidor responda por rangos de bytes para reproducir video; cualquier hosting lo hace.
 - **Las secciones se unen sin saltos (18 oct y v6).** Entre secciones de luminosidad parecida, un degradado:
   el token `--fundido` (48px en celular, hasta 88px) es su alto, y cada borde lleva en el fondo de la sección un
-  degradado del color de su vecina: el contador arriba y abajo (navy) y Aliados arriba (blanco). El fondo de la
-  ruta se desvanece arriba y abajo con `mask-image`. **Del hero a Entradas el paso casi no se nota**:
+  degradado del color de su vecina: la cuenta regresiva arriba (navy, viene de la ruta) y Aliados arriba
+  (blanco). El fondo de la ruta se desvanece arriba y abajo con `mask-image`. **Del hero a Entradas el paso casi no se nota**:
   los velos solo llegan al 90% en el borde que comparten, y cada video se desvanece ahí con
   `mask-image`, así las dos imágenes se cruzan sin franja oscura ni línea recta. Abajo, Entradas sí termina en
-  navy puro, para fundirse con el contador.
-  **Entre una sección oscura y una clara, una línea recta** (18 oct): en Ruta → Ubicación y
-  Aliados → Pie. Un degradado entre navy y blanco pasa por un gris de neblina, y la v6 lo había cambiado por un
+  navy puro, y el video de la ruta se funde ahí.
+  **Entre una sección oscura y una clara, una línea recta** (18 oct): en Cuenta regresiva →
+  Ubicación y Aliados → Pie. Un degradado entre navy y blanco pasa por un gris de neblina, y la v6 lo había cambiado por un
   arco (un degradado elíptico en un `::before` encima de la sección), que también se descartó. Si alguna
   vez vuelve el arco: está en el commit `52b7a4b`, y **no con un pseudo-elemento más ancho que la pantalla y
   `border-radius`**, que da scroll horizontal. **Si cambia el orden o el color de una sección, hay que revisar
   las uniones de sus vecinas.**
-- **Sin agenda (18 oct):** se quitó la agenda a pantalla completa (v4) con su JS, su CSS, la variante de
-  `dialog.js` y `CONFIG.agenda`. "Quiero vivir la ruta" baja a Entradas y los boletos saludan, como los otros CTA.
-  Está en `PROYECTO.md` con "No volver a ponerla".
+- **Sin agenda (18 oct) ni "Quiero vivir la ruta" (19 oct):** se quitó la agenda a pantalla completa (v4) con
+  su JS, su CSS, la variante de `dialog.js` y `CONFIG.agenda`; el botón que la abría, después, también. Están en
+  `PROYECTO.md` con "No volver a ponerla/o".
+- **El orden (v7):** Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie.
 - **`js/tabs.js` solo maneja las `.pestanas` de Ubicación.** Antes tomaba cualquier `role="tablist"`: con las
-  pestañas de la ruta de la v5 les cambiaba el color y les ocultaba los paneles.
+  pestañas que tuvo la ruta en la v5 les cambiaba el color y les ocultaba los paneles.
 - **La nav** alterna `.nav--fija` con un listener de scroll directo, sin `requestAnimationFrame`.
 - **Los enlaces que dependen de CONFIG salen del HTML como `<span role="link" aria-disabled="true">`**,
   no como `<a>` sin `href` (Lighthouse marca `aria-disabled` en un `<a>` sin `href`). `enlazar(el, url)`
@@ -229,6 +266,16 @@ creó `.vercel/` y un `.env.local` con un token de Vercel: están en `.gitignore
 suben. Vercel cumple los tres requisitos de abajo (comprobado: brotli, 206 y tipos correctos). Ojo: el primer
 pedido de un archivo recién publicado puede tardar unos segundos, mientras se llena la caché de Vercel.
 
+**La imagen para compartir** se genera desde la plantilla, con `npx serve .` corriendo (las fuentes vienen de
+Google Fonts: hace falta internet). Playwright no trae su Chromium aquí: se usa el Chrome instalado.
+
+```bash
+npx playwright@1.63.0 screenshot --channel chrome --viewport-size="1200,630" --wait-for-selector="html.listo" \
+  http://localhost:3000/docs/og/og.html assets/og/og-aprueba.png
+sips -s format jpeg -s formatOptions 82 assets/og/og-aprueba.png --out assets/og/og-aprueba.jpg
+rm assets/og/og-aprueba.png
+```
+
 **No uses `python3 -m http.server` para probar esto.** Con todos los módulos pidiéndose a la vez deja caer
 peticiones cada tantas cargas: el grafo de módulos falla entero y la página se queda estática, sin ningún
 error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor decente) no tiene el problema.
@@ -253,6 +300,14 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
   Captura solo lo visible.
 - Sin JavaScript, Chrome carga de una las imágenes `loading="lazy"`: no sirve para medir la primera carga.
 - Los boletos flotan sin parar: Playwright espera a que se queden quietos para hacer clic. Usa `force: true`.
+- **El toque emulado en WebKit deja un cursor sintético** donde fue el toque: si después la página vuelve a
+  poner el carrusel bajo ese punto, llega un `pointerenter` de tipo mouse y el carrusel se pausa (`pauseOnHover`).
+  En Chrome táctil y con mouse real no pasa; en un iPhone los toques son punteros `touch`. Para revisarlo en
+  un iPhone real.
+- El dígito de los segundos rueda ~0.8 s de cada segundo (el resorte de Counter): para leer el número en una
+  prueba, toma el numeral más cercano a su lugar, no el que está exactamente en `translateY(0)`.
+- **La polaroid se llama "Así luce la Sede Norte: ver la foto en grande":** el nombre accesible empieza con su
+  texto visible (WCAG 2.5.3, "Label in Name").
 
 - `cwebp` **no está instalado**. Si se quieren versiones .webp de los logos: `brew install webp`, y si no se instala, se dejan los PNG (pesan 120 KB en total, muy por debajo del presupuesto de 1.5 MB).
 - `ffmpeg` tampoco está instalado (ni Homebrew). Para los videos se usó `ffmpeg-static` de npm en una carpeta temporal.
@@ -282,22 +337,23 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 ├── js/
 │   ├── config.js       datos editables (ver abajo)
 │   ├── main.js         arranque: aplica CONFIG al DOM, inicializa módulos y conecta los CTA
-│   ├── dialog.js       sistema de diálogos: boleto, portal de estación, aliado y foto; bloqueo de scroll
+│   ├── dialog.js       sistema de diálogos: boleto, aliado y foto; bloqueo de scroll
 │   ├── enlaces.js      enlaces que dependen de CONFIG: <a> con URL, <span> deshabilitado sin ella
 │   ├── nav.js          nav fija + menú móvil
 │   ├── hero.js         entrada del título palabra por palabra
 │   ├── video.js        videos de fondo: campus (hero), auditorio (Entradas) y partículas (ruta)
 │   ├── entradas.js     boletos Presencial/Virtual que abren su diálogo; botones de Luma
 │   ├── countdown.js    cuenta regresiva
-│   ├── ruta.js         la ruta: arma el carrusel y abre cada estación en el portal
-│   ├── carrusel.js     carrusel 3D (CircularCarousel de React Bits, portado); se importa al acercarse
+│   ├── rodillo.js      números que ruedan (Counter de React Bits, portado)
+│   ├── ruta.js         la ruta: arma el carrusel de cartas y su reverso
+│   ├── carrusel.js     carrusel 3D con volteo (CircularCarousel + FlipCard de React Bits); se importa al acercarse
 │   ├── tabs.js         pestañas Presencial/Virtual de Ubicación
 │   └── aliados.js      panel de cada aliado
 ├── assets/
 │   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
 │   ├── img/            sede-norte.webp y .jpg (la foto de Ubicación); ruta/ con las 4 fotos de las estaciones
 │   ├── video/          campus (hero), auditorio (Entradas) y fondo-ruta (ruta): originales y versiones livianas
-│   └── og/             og-image.png (provisional)
+│   └── og/             og-aprueba.jpg (la imagen para compartir)
 └── docs/
     ├── PROYECTO.md                 textos, datos y pendientes (fuente de verdad)
     ├── CAMBIOS-INTERACCION.md      v2: entradas, aliados, ruta y nav
@@ -305,6 +361,8 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
     ├── CAMBIOS-VIDEO-AGENDA.md     v4: video en Entradas y agenda (la agenda se quitó)
     ├── CAMBIOS-CARRUSEL-VIDEO.md   v5: carrusel en la ruta, video del hero y Entradas
     ├── CAMBIOS-PORTAL-FONDO.md     v6: portal de las estaciones, fondo de la ruta y uniones
+    ├── CAMBIOS-CARTAS-CONTADOR.md  v7: imagen para compartir, cartas que se voltean y contador que rueda
+    ├── og/og.html                  la plantilla de la imagen para compartir
     └── referencia/                 el CircularCarousel original, las conexiones probadas y capturas
 ```
 
@@ -363,7 +421,7 @@ aliado). Ver los comentarios del archivo.
 
 - **Degradado del contador:** `linear-gradient(90deg, #2457E6, #3EC6F2)`.
 - **Color de cada estación:** las clases `.estacion--1` a `.estacion--4` definen `--color` (celeste, verde,
-  naranja y blanco); `js/ruta.js` lo lee con `getComputedStyle` para el portal.
+  naranja y blanco); `js/ruta.js` lo lee con `getComputedStyle` para el reverso de su carta.
 - **Botones naranjas:** texto blanco a **19px ExtraBold como mínimo**. El contraste es 3.1:1, así que solo cumple AA como texto grande.
 
 ### Tipografía
@@ -396,14 +454,14 @@ Interpola entre escritorio y móvil con `clamp()`.
 - **Uniones entre secciones:** `--fundido` (48 a 88px, el degradado entre secciones de tono parecido); entre oscuro y claro, línea recta.
 - **Radios:**
   - Botones y chips de pastilla: 999px
-  - Tarjetas de entrada, diálogos y el portal: 28px
+  - Tarjetas de entrada y diálogos: 28px
   - Tarjetas de estación: 24px
-  - Fotos del carrusel: 12px
+  - Cartas del carrusel: 18px (FlipCard usa 22; en el anillo, 18 se ve mejor)
   - Cajas del contador: 20px
   - Chips de info: 16px
 - **Sombras:**
   - `--sombra-tarjeta: 0 16px 40px rgba(11,16,64,.10)`
-  - `--sombra-pasaporte: 0 24px 48px rgba(0,0,0,.35)` (el mismo valor lleva el portal de las estaciones)
+  - `--sombra-pasaporte: 0 24px 48px rgba(0,0,0,.35)`
   - Caja del contador: `0 6px 0 rgba(11,16,64,.28)`
 - **Botón 3D:** `box-shadow: 0 5px 0 <tono oscuro>`, con `--naranja-700` en el naranja, `--azul-600` en el azul y `#3E8E1C` en el verde. En `:active` usa `translateY(3px)` y sombra `0 2px 0`.
 
@@ -422,8 +480,8 @@ Interpola entre escritorio y móvil con `clamp()`.
 | `latido` | scale 1 → 1.22 → 1, 500ms con `--ease-spring` |
 | `aparecer` | opacity 0 → 1 y translateY 16px → 0, 500ms con `--ease-out` |
 
-El giro del carrusel y el crecimiento del portal no están en `motion.css`: los hace el JS
-(`requestAnimationFrame` en `js/carrusel.js` y Web Animations en `js/dialog.js`).
+El giro y el volteo del carrusel y los números que ruedan no están en `motion.css`: los hace el JS, con
+resortes en `requestAnimationFrame` (`js/carrusel.js` y `js/rodillo.js`), y solo mientras algo se mueve.
 
 **Patrón "crecer y menear"** (el lenguaje de movimiento de toda la página):
 - Al entrar el puntero: `scale(1.08)` con `--ease-spring`, y `menear` una sola vez.
@@ -438,14 +496,15 @@ Con `prefers-reduced-motion: reduce` se anulan todas las animaciones infinitas y
 
 ## Secciones
 
-El orden sigue los ids, que son los destinos del menú.
+Orden (v7): Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie. Los ids son los destinos del
+menú.
 
 ### 0. Navegación
 
 - **Escritorio:** logo (`assets/logos/aprueba.png`, alto 54px) a la izquierda; enlaces al centro (La ruta → `#ruta`, Entradas → `#entradas`, Ubicación → `#ubicacion`, Aliados → `#aliados`, Contacto → `#contacto`) en blanco al 82%; a la derecha, botón naranja compacto "Regístrate gratis".
 - **Al pasar 40px de scroll:** la nav queda fija arriba, con fondo `rgba(11,16,64,.85)`, `backdrop-filter: blur(12px)` y alto 72px.
 - **Móvil:** logo de 44px de alto y botón hamburguesa (círculo de 44px, fondo blanco al 8%). Abre un menú a pantalla completa en navy con los enlaces grandes (Fredoka 30px) y el CTA. Bloquea el scroll del body; se cierra con ✕, con Esc o al tocar un enlace; el foco queda atrapado dentro mientras está abierto.
-- **Todos los CTA** ("Regístrate", "¡Regístrate gratis…!", "Quiero mi pasaporte", "Quiero vivir la ruta"): hacen scroll suave a `#entradas` y disparan un `menear` en los dos botones de entrada como saludo. No abren otra página.
+- **Todos los CTA** ("Regístrate", "¡Regístrate gratis…!", "Quiero mi pasaporte"): hacen scroll suave a `#entradas` y disparan un `menear` en los dos botones de entrada como saludo. No abren otra página.
 
 ### 1. Hero (`#inicio`)
 
@@ -508,7 +567,43 @@ vuelve al boleto.
 
 - **Nota final de la sección:** ícono info y "Al elegir tu entrada se abre el formulario de registro. Tu confirmación y tu QR llegan a tu correo."
 
-### 3. Cuenta regresiva
+### 3. La ruta (`#ruta`): cartas que se voltean
+
+> **v5, v6 y v7** (`CAMBIOS-CARRUSEL-VIDEO.md`, `CAMBIOS-PORTAL-FONDO.md` y `CAMBIOS-CARTAS-CONTADOR.md`). Ya no hay
+> trazo, cometa, nodos, modo enfoque, pestañas, panel, portal ni "Quiero vivir la ruta": el carrusel de cartas es
+> la navegación. Va antes de la cuenta regresiva. Las decisiones están en "Estado actual".
+
+- **Fondo:** el video de partículas de colores (`fondo-ruta`), con el navy dentro del archivo y su cuadro quieto
+  en un `<img lazy>` debajo. Se desvanece arriba y abajo con `mask-image`.
+- **Encabezado** centrado: overline "El recorrido" en celeste; h2 "Las 4 estaciones de la", salto de línea y
+  "**Ruta del Estudiante**" en celeste; lead "Una mañana, cuatro paradas. Al final sabrás qué tan seguro estás de
+  tu elección." en `--tinta-sobre-oscuro`.
+- **El carrusel 3D de cartas** (`js/carrusel.js`, preset `cylinder` con el volteo de FlipCard), centrado y
+  protagonista, con una foto por estación (`assets/img/ruta/`: `conocete`, `experimenta`, `escucha` y `valida`,
+  verticales 3:4 de 600×800). Escenario de `clamp(420px, 42vw, 560px)`, a sangre en celular. Opciones ajustadas
+  en React Bits: `aspectRatio: 0.75`, `gap: 38`, `tilt: -5`, `curve: 1`, `perspective: 1780`, `autoplay: 'drift'`,
+  `direction: 'left'`, `momentum: 0.6`, `snap`, `pauseOnHover`, `focusOnClick`, `draggable`, `parallax: 0.39`,
+  `stretch: 0.5`, `depthFade: 0.55`, `innerShade: 0.6`, `cornerRadius: 18`, `intro: 'rise'`, `fadeColor` navy,
+  `flipStiffness: 170` y `flipDamping: 20`. Celular: 4 cartas de 240×320 a velocidad 17 y `minFit: 1`; desde
+  768px, 8 cartas de 260×347 a 8.5.
+  - **Cada carta** lleva su número "sin color" (blanco, sin círculo, Fredoka 44px con una sombra suave para que se
+    lea sobre fotos claras) arriba a la izquierda, en el `overlay` de la foto. Si lo quieren hueco, es
+    `color: transparent; -webkit-text-stroke: 2px #fff`.
+  - **Al tocarla** viene al frente (si no lo estaba) y se voltea con el resorte de FlipCard; a mitad del giro se
+    acerca un poco. **En el reverso** (`.ruta__dorso`): "Estación N", el título, la pregunta en itálica de su
+    color, la descripción y "Toca para volver", sobre `--navy-800` con un borde de 2px de su color. Otro toque la
+    endereza.
+  - Gira solo cuando la sección aparece (la intro `rise` sube las cartas desde abajo). Puntero encima, foco de
+    teclado adentro o una carta volteada: no gira solo. Se arrastra con inercia (en táctil, un gesto vertical es
+    scroll de la página: `touch-action: pan-y`).
+  - Teclado: Tab llega al carrusel (anillo celeste alrededor del escenario), las flechas giran de a una estación
+    y la anuncian ("Estación 2: Experimenta. 2 de 4."), Enter o Espacio voltean la de adelante y la enderezan.
+  - Con movimiento reducido no gira solo, no hay intro y las cartas se voltean al instante.
+- **Pista** debajo, solo con JS: "Toca una carta para voltearla" (small, `--tinta-sobre-oscuro`).
+- **Sin JS:** el escenario y la pista no se ven, y las 4 estaciones van en grilla (1 columna en celular, 2 desde
+  768px y 4 desde 1200px), con su ícono, "Estación N", título, pregunta y descripción.
+
+### 4. Cuenta regresiva
 
 - **Fondo y texto:** el degradado azul → celeste, todo centrado.
   - Overline "Martes 17 de noviembre · 9:00 a.m." en blanco al 90%.
@@ -518,50 +613,20 @@ vuelve al boleto.
   - Número en Fredoka y unidad en overline `--tinta-600`: Días, Horas, Min, Seg.
 - **Párrafo:** "No busques una charla aburrida sobre carreras. Ven a **vibrar, experimentar y medir tu nivel de seguridad real** sobre lo que quieres hacer con tu vida.", con la parte resaltada en Nunito 800.
 - **CTA:** naranja "Quiero mi pasaporte" → `#entradas` con saludo.
+- **Va después de la ruta** (v7): arriba se funde con su navy y abajo corta con Ubicación en línea recta.
+- **Los números ruedan** (`js/rodillo.js`): al aparecer la sección, cada dígito da una vuelta completa,
+  escalonada; después, cada segundo, rueda lo que cambia (~0.65 s el de los segundos), hacia abajo y con
+  desenfoque de movimiento. Ver la decisión en "Estado actual".
 - **Lógica** (`countdown.js`):
-  - Calcula contra `CONFIG.evento.inicio` y actualiza cada segundo, con dos dígitos.
+  - Calcula contra `CONFIG.evento.inicio` y actualiza cada segundo, con dos dígitos (un rodillo por caja).
   - Entre el inicio y el fin muestra "¡Está pasando ahora!"; después del fin, "¡Gracias por vivir A+PRUEBA!".
   - Las cajas llevan `aria-hidden` y aparte hay un texto oculto con `aria-live="polite"` que se actualiza solo una vez por minuto.
-
-### 4. La ruta (`#ruta`): el carrusel abre las estaciones
-
-> **v5 y v6** (`CAMBIOS-CARRUSEL-VIDEO.md` y `CAMBIOS-PORTAL-FONDO.md`). Ya no hay trazo, cometa, riel, nodos,
-> modo enfoque, pestañas ni panel: el carrusel de fotos es la navegación. Las decisiones están en "Estado actual".
-
-- **Fondo:** el video de partículas de colores (`fondo-ruta`), con el navy dentro del archivo y su cuadro quieto
-  en un `<img lazy>` debajo. Se desvanece arriba y abajo con `mask-image`.
-- **Encabezado** centrado: overline "El recorrido" en celeste; h2 "Las 4 estaciones de la", salto de línea y
-  "**Ruta del Estudiante**" en celeste; lead "Una mañana, cuatro paradas. Al final sabrás qué tan seguro estás de
-  tu elección." en `--tinta-sobre-oscuro`.
-- **El carrusel 3D** (`js/carrusel.js`, preset `cylinder`), centrado y protagonista, con una foto por estación
-  (`assets/img/ruta/`: `conocete`, `experimenta`, `escucha` y `valida`, cuadradas de 560×560). Escenario de
-  `clamp(340px, 40vw, 520px)`, a sangre en celular. Opciones ajustadas en React Bits: `aspectRatio: 1`,
-  `gap: 38`, `tilt: -5`, `curve: 1`, `perspective: 1780`, `autoplay: 'drift'`, `direction: 'left'`,
-  `momentum: 0.6`, `snap`, `pauseOnHover`, `focusOnClick`, `draggable`, `parallax: 0.39`, `stretch: 0.5`,
-  `depthFade: 0.55`, `innerShade: 0.6`, `cornerRadius: 12`, `intro: 'rise'`, y `fadeColor` navy. Celular: 4
-  tarjetas de 266px a velocidad 17; desde 768px, 8 tarjetas de 300px a 8.5.
-  - Gira solo cuando la sección aparece (la intro `rise` sube las fotos desde abajo). Puntero encima o foco de
-    teclado adentro: se pausa y se asienta en la foto más cercana. Se arrastra con inercia (en táctil, un gesto
-    vertical es scroll de la página: `touch-action: pan-y`).
-  - Teclado: Tab llega al carrusel (anillo celeste alrededor del escenario), las flechas giran de a una estación
-    y la anuncian ("Estación 2: Experimenta. 2 de 4."), Enter o Espacio abren la de adelante.
-- **Pista** debajo, solo con JS: "Toca una foto para descubrir cada estación" (small, `--tinta-sobre-oscuro`).
-- **El portal** (`#dialogo-estacion`, variante `estacion` de `js/dialog.js`): al tocar una foto, viene al frente
-  y desde ella crece el portal (480ms con `--ease-out`; el texto aparece a mitad de camino) con la foto, la
-  burbuja de ícono, "Estación N", el título, la pregunta y la descripción. El borde, el overline y la pregunta van
-  del color de la estación (la 4, en blanco). Caja `--navy-800`, radio 28. **Celular:** la foto cuadrada arriba a
-  todo el ancho y el texto debajo; si la pantalla es baja, la caja se desplaza. **Desde 768px:** la foto de
-  400×400 a la izquierda define el alto, y si el texto no entra, su columna se desplaza. Se cierra con la ✕
-  (44×44), con Esc o tocando afuera, por el mismo camino al revés. El foco va al título y vuelve al carrusel.
-  Con movimiento reducido abre y cierra sin animación.
-- **Sin JS:** el escenario y la pista no se ven, y las 4 estaciones van en grilla (1 columna en celular, 2 desde
-  768px y 4 desde 1200px), con su ícono, "Estación N", título, pregunta y descripción.
-- **Cierre:** CTA naranja "Quiero vivir la ruta" con el ícono de ruta → `#entradas` con saludo.
 
 ### 5. Ubicación (`#ubicacion`)
 
 > **Actualizado:** desde la v3 la dirección va en cuatro líneas (con la referencia) y hay una foto de la sede
-> tipo polaroid que se abre en grande. Ver `docs/CAMBIOS-RUTA-HERO.md`. Arriba corta con la ruta en línea recta.
+> tipo polaroid que se abre en grande. Ver `docs/CAMBIOS-RUTA-HERO.md`. Arriba corta con la cuenta regresiva en
+> línea recta.
 
 - **Fondo y encabezado:** fondo blanco. Overline "Cómo llegar" en `--verde-600` y h2 "¿Dónde nos vemos?".
 - **Pestañas:** pastilla `--nube-50` con borde `--linea` y dos pestañas: "Presencial" (pin) y "Virtual" (video). La activa va en navy con texto blanco.
@@ -616,7 +681,7 @@ vuelve al boleto.
 ## Íconos
 
 - Usa SVG inline de **Lucide** (lucide.dev), con trazo 2, `stroke="currentColor"` y `aria-hidden="true"`.
-- Los que se usan: compass, key, mic, target, route, calendar, clock, map-pin, users, check, arrow-right, arrow-down, chevron-down, monitor, message-circle, ticket, video, external-link, info, qr-code, menu, x.
+- Los que se usan: compass, key, mic, target, calendar, clock, map-pin, users, check, arrow-right, arrow-down, chevron-down, monitor, message-circle, ticket, video, external-link, info, qr-code, menu, x.
 - Las marcas (Instagram, TikTok, Facebook, WhatsApp) salen de Simple Icons.
 
 ## Integración con Luma
@@ -635,8 +700,8 @@ El registro se abre como overlay de Luma en la misma página, así que no se sal
 - `<html lang="es-PE">`, landmarks (`header`, `nav`, `main`, `section` con `aria-labelledby`, `footer`), un solo h1 y títulos en orden.
 - Foco visible en todo lo interactivo (anillo de 3px `--celeste-400`) y áreas táctiles de 44×44px como mínimo.
 - Contraste: aplica los ajustes de la tabla de color (verde-600, tinta-600 para texto pequeño y botones naranjas a 19px).
-- Todo funciona con teclado: menú, entradas (Enter/Espacio para abrir, Esc para cerrar), el carrusel de la ruta (flechas, Enter, Esc), pestañas (flechas) y enlaces.
-- Decoración (videos de fondo y sus cuadros quietos) con `aria-hidden="true"`. Las fotos del carrusel no tienen texto alternativo propio: el carrusel se anuncia con su etiqueta y la estación de adelante.
+- Todo funciona con teclado: menú, entradas (Enter/Espacio para abrir, Esc para cerrar), el carrusel de la ruta (flechas para girar, Enter para voltear y enderezar), pestañas (flechas) y enlaces.
+- Decoración (videos de fondo y sus cuadros quietos, los rodillos de la cuenta regresiva) con `aria-hidden="true"`. Las fotos del carrusel no tienen texto alternativo propio: el carrusel se anuncia con su etiqueta y la estación de adelante, y las 4 estaciones siguen en el HTML para los lectores de pantalla.
 - `prefers-reduced-motion` respetado, como dice la regla 5.
 
 ## Rendimiento
@@ -654,7 +719,7 @@ Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace 
 
 - `<title>`: "A+PRUEBA | La Ruta del Estudiante, 17 de noviembre" (sin "·": CAMBIOS-RUTA-HERO §4)
 - Meta description: "Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial en UCSUR Sede Norte o virtual. Martes 17 de noviembre, 9:00 a.m."
-- Open Graph y Twitter: `og:title`, `og:description`, `og:image` (`assets/og/og-image.png`, 1200×630, provisional; con el dominio pasa a URL absoluta), `og:locale=es_PE` y `og:type=website`.
+- Open Graph y Twitter: `og:title`, `og:description`, `og:url` y `og:image` (`assets/og/og-aprueba.jpg`, 1200×630, 105 KB, con URL absoluta, su tipo, su tamaño y un texto alternativo), `twitter:card=summary_large_image`, `og:locale=es_PE` y `og:type=website`.
 - `<meta name="theme-color" content="#0B1040">`.
 - `favicon.svg` provisional: círculo navy con "A+" en blanco (Fredoka 700). Se reemplaza cuando haya uno oficial.
 
@@ -665,15 +730,16 @@ Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace 
 3. **Movimiento:** `motion.css`, el patrón "crecer y menear", el flotar de los botones de entrada, la ruta, las animaciones de entrada y `prefers-reduced-motion`.
 4. **QA:** Lighthouse, recorrido completo con teclado, Safari iOS, Android con throttling, comparación de textos contra PROYECTO.md y revisión de que no quede ningún enlace roto ni texto inventado.
 
-Los documentos de cambios (v2 a v6) traen sus propias fases; la regla de detenerse al final de cada una vale igual.
+Los documentos de cambios (v2 a v7) traen sus propias fases; la regla de detenerse al final de cada una vale igual.
 
 ## Definición de terminado
 
 - [x] Las 7 secciones y la nav con los textos exactos de PROYECTO.md.
 - [x] Los botones de entrada flotan, crecen y se menean con hover, y abren su diálogo sin cambiar de página.
 - [x] Se puede cambiar de Presencial a Virtual con el diálogo abierto, y cerrarlo con la ✕, Esc o tocando afuera.
-- [x] El carrusel de la ruta gira solo, se pausa con el puntero o el foco, y cada foto abre su estación en el portal, que crece desde ella.
-- [x] Con teclado: Tab al carrusel, las flechas giran y anuncian, Enter abre, Esc cierra y el foco vuelve.
+- [x] El carrusel de la ruta gira solo, se pausa con el puntero o el foco, y cada carta se voltea al tocarla, con su estación en el reverso.
+- [x] Con teclado: Tab al carrusel, las flechas giran y anuncian, Enter voltea y endereza.
+- [x] Los números de la cuenta regresiva ruedan, y con movimiento reducido cambian sin rodar.
 - [x] Sin JS, las 4 estaciones se ven completas en grilla.
 - [x] Con `prefers-reduced-motion` no hay animación infinita.
 - [x] Todo lo pendiente vive en `config.js`, y los campos vacíos se ven como "Próximamente", no como enlaces rotos.
