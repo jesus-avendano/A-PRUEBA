@@ -9,8 +9,10 @@
 // intros "assemble" y "spin"; los captions con contador, y el cambio animado de items.
 //
 // Cambios respecto al original:
-// - Es decorativo para lectores de pantalla (aria-hidden) y no recibe el foco: el control accesible
-//   son las pestañas de las estaciones, que llaman a enfocar(i). Por eso no hay teclado ni aria-live.
+// - Accesibilidad: sin la opción `label` es decorativo (aria-hidden) y no recibe el foco. Con `label`
+//   es un grupo enfocable (role="group", aria-roledescription="carrusel"): las flechas giran de a una
+//   tarjeta, Enter o Espacio llaman a onItemClick con la de adelante, y una región aria-live anuncia
+//   itemLabel(item, i) cuando se gira con el teclado. Con el foco de teclado adentro no gira solo.
 // - El bucle no corre hasta que las fotos cargaron, ni con la pestaña oculta, ni fuera de pantalla,
 //   ni con suspender(true) (la agenda abierta tapa la página y el IntersectionObserver no se entera).
 // - pausar(clave, true/false): pausas externas con nombre (puntero sobre el panel, foco en las
@@ -21,15 +23,21 @@
 // - overlay(item, i): HTML opcional que se pinta encima de cada foto (por ejemplo, el número de la
 //   estación). Se corta en tiras igual que la foto, así se curva con la tarjeta.
 // - startIndex: la tarjeta que arranca adelante.
+// - enfocar() devuelve una promesa que se cumple cuando la tarjeta llegó adelante (true), o si el
+//   usuario la interrumpe o pasan 1.2 s (false). rectDe(i) da el rectángulo en pantalla de la
+//   tarjeta i: sirve para que un diálogo crezca desde ella (FLIP). paso(±1) gira de a una tarjeta.
 // - tiles: tiras por tarjeta para curvarla (8 en el original). Menos tiras, menos trabajo en celulares
 //   de gama baja; con 4 la curva se ve un poco facetada.
 // - Mientras enfocar() viaja a una tarjeta, onChange no avisa las tarjetas por las que pasa: solo la
-//   de llegada. Así el panel no parpadea mostrando estaciones intermedias.
+//   de llegada.
 //
 // Uso:
-//   const carrusel = crearCarrusel(contenedor, { items: [{ src }], cardWidth: 266, onChange(i) {} });
-//   carrusel.enfocar(2);    carrusel.girar(false);    carrusel.pausar('panel', true);
-//   carrusel.suspender(true);    carrusel.destruir();
+//   const carrusel = crearCarrusel(contenedor, {
+//     items: [{ src }], cardWidth: 266, label: 'Las 4 estaciones', itemLabel: (item, i) => '…',
+//     onItemClick: async (item, i) => { await carrusel.enfocar(i); abrirDesde(carrusel.rectDe(i)); },
+//   });
+//   carrusel.girar(false);    carrusel.pausar('panel', true);    carrusel.suspender(true);
+//   carrusel.destruir();
 
 const PRESET = { tilt: -5, perspective: 2500, curve: 1, spread: 1 }; // "cylinder" del original
 
@@ -83,6 +91,9 @@ const DEFAULTS = {
   innerShade: 0.6,
   cornerRadius: 12,
   overlay: null,
+  label: '',
+  hint: '',
+  itemLabel: null,
   startIndex: 0,
   tiles: 8,
   onChange: null,
@@ -147,9 +158,26 @@ export function crearCarrusel(root, opciones = {}) {
   root.style.setProperty('--cc-fade', o.fadeColor);
   root.style.setProperty('--cc-radius', `${Math.max(0, o.cornerRadius)}px`);
   root.style.setProperty('--cc-inner', (1 - clamp(o.innerShade, 0, 1)).toFixed(3));
-  root.setAttribute('aria-hidden', 'true');
-
   const view = crear('div', 'circular-carousel__view', root);
+  view.setAttribute('aria-hidden', 'true');
+  let vivo = null;
+  if (o.label) {
+    root.setAttribute('role', 'group');
+    root.setAttribute('aria-roledescription', 'carrusel');
+    root.setAttribute('aria-label', o.label);
+    root.tabIndex = 0;
+    if (o.hint) {
+      const pista = crear('span', 'circular-carousel__live', root);
+      pista.id = `cc-pista-${Math.random().toString(36).slice(2, 8)}`;
+      pista.textContent = o.hint;
+      root.setAttribute('aria-describedby', pista.id);
+    }
+    vivo = crear('div', 'circular-carousel__live', root);
+    vivo.setAttribute('aria-live', 'polite');
+    vivo.setAttribute('aria-atomic', 'true');
+  } else {
+    root.setAttribute('aria-hidden', 'true');
+  }
   const stage = crear('div', 'circular-carousel__stage', view);
   const camera = crear('div', 'circular-carousel__camera', stage);
   const ring = crear('div', 'circular-carousel__ring', camera);
@@ -201,6 +229,9 @@ export function crearCarrusel(root, opciones = {}) {
   const state = {
     angle: -clamp(Math.round(o.startIndex) || 0, 0, count - 1) * step,
     seek: null,
+    waits: [],
+    focus: false,
+    announce: false,
     velocity: 0,
     target: null,
     dir: directionSign,
@@ -239,6 +270,13 @@ export function crearCarrusel(root, opciones = {}) {
   });
 
   const nearest = angle => Math.round(angle / step) * step;
+
+  // Cumple las promesas de enfocar(): true si la tarjeta llegó, false si se interrumpió
+  const settle = ok => {
+    const waits = state.waits;
+    state.waits = [];
+    waits.forEach(fn => fn(ok));
+  };
 
   const measure = () => {
     const rect = root.getBoundingClientRect();
@@ -299,7 +337,8 @@ export function crearCarrusel(root, opciones = {}) {
       }
     }
 
-    const paused = (o.pauseOnHover && state.hover) || state.drag || now < state.holdUntil || pausas.size > 0;
+    const paused =
+      (o.pauseOnHover && state.hover) || state.focus || state.drag || now < state.holdUntil || pausas.size > 0;
     const cruise = s.autoplay === 'drift' && !paused && !state.intro ? o.speed * state.dir : 0;
     let busy = Boolean(state.intro) || state.drag;
 
@@ -319,6 +358,7 @@ export function crearCarrusel(root, opciones = {}) {
         state.angle = state.target;
         state.velocity = 0;
         state.target = null;
+        settle(true);
       }
       busy = true;
     } else {
@@ -377,6 +417,10 @@ export function crearCarrusel(root, opciones = {}) {
       }
     } else if (changed) {
       o.onChange?.(index);
+    }
+    if (changed && state.announce && vivo) {
+      state.announce = false;
+      vivo.textContent = o.itemLabel ? o.itemLabel(items[index], index) : items[index].alt || '';
     }
   };
 
@@ -448,6 +492,7 @@ export function crearCarrusel(root, opciones = {}) {
       state.drag = true;
       state.target = null;
       state.velocity = 0;
+      settle(false);
       root.dataset.dragging = '';
       try {
         root.setPointerCapture(event.pointerId);
@@ -502,14 +547,83 @@ export function crearCarrusel(root, opciones = {}) {
     state.seek = index === active ? null : index;
     let target = -index * step;
     target += 360 * Math.round((state.angle - target) / 360);
-    if (reduced) {
-      state.angle = target; // movimiento reducido: el cambio es instantáneo
+    state.holdUntil = performance.now() + mantener;
+    if (reduced || !ready) {
+      // movimiento reducido (o antes de que aparezca): el cambio es instantáneo
+      state.angle = target;
       state.velocity = 0;
       state.target = null;
-    } else {
-      state.target = target;
+      settle(false);
+      render(ajustes(), performance.now());
+      wake();
+      return Promise.resolve(true);
     }
-    state.holdUntil = performance.now() + mantener;
+    state.target = target;
+    wake();
+    return new Promise(resolve => {
+      const tope = setTimeout(() => {
+        state.waits = state.waits.filter(fn => fn !== listo);
+        resolve(false);
+      }, 1200);
+      const listo = ok => {
+        clearTimeout(tope);
+        resolve(ok);
+      };
+      state.waits.push(listo);
+    });
+  };
+
+  // Gira de a una tarjeta (teclado), como stepBy del original
+  const paso = delta => {
+    const base = state.target ?? nearest(state.angle);
+    state.seek = null;
+    state.target = base - delta * step;
+    state.holdUntil = performance.now() + HOLD;
+    if (reduced) {
+      state.angle = state.target;
+      state.target = null;
+      state.velocity = 0;
+      render(ajustes(), performance.now());
+    }
+    wake();
+  };
+
+  // Rectángulo en pantalla de la tarjeta i (sus tiras de adelante): el origen de un FLIP
+  const rectDe = index => {
+    const tiras = [...cards[index].children].slice(0, tiles.length);
+    let left = Infinity;
+    let top = Infinity;
+    let right = -Infinity;
+    let bottom = -Infinity;
+    for (const tira of tiras) {
+      const r = tira.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
+      left = Math.min(left, r.left);
+      top = Math.min(top, r.top);
+      right = Math.max(right, r.right);
+      bottom = Math.max(bottom, r.bottom);
+    }
+    return left === Infinity ? root.getBoundingClientRect() : new DOMRect(left, top, right - left, bottom - top);
+  };
+
+  const onKeyDown = event => {
+    if (!o.label) return;
+    if (event.key === 'ArrowRight') paso(1);
+    else if (event.key === 'ArrowLeft') paso(-1);
+    else if (event.key === 'Enter' || event.key === ' ') o.onItemClick?.(items[active], active);
+    else return;
+    if (event.key.startsWith('Arrow')) state.announce = true;
+    event.preventDefault();
+  };
+
+  const onFocusIn = () => {
+    state.focus = root.matches(':focus-visible');
+    if (state.focus && vivo) vivo.textContent = o.itemLabel ? o.itemLabel(items[active], active) : '';
+    wake();
+  };
+
+  const onFocusOut = () => {
+    state.focus = false;
     wake();
   };
 
@@ -533,6 +647,7 @@ export function crearCarrusel(root, opciones = {}) {
     const perPixel = 180 / (Math.PI * radius * state.fit);
     state.target = null;
     state.seek = null;
+    settle(false);
     state.angle -= delta * perPixel;
     state.velocity = -delta * perPixel * 30;
     state.holdUntil = performance.now() + 1600;
@@ -558,6 +673,9 @@ export function crearCarrusel(root, opciones = {}) {
   root.addEventListener('pointerleave', onPointerLeave);
   root.addEventListener('click', onClick);
   root.addEventListener('wheel', onWheel, { passive: false });
+  root.addEventListener('keydown', onKeyDown);
+  root.addEventListener('focusin', onFocusIn);
+  root.addEventListener('focusout', onFocusOut);
   document.addEventListener('visibilitychange', onVisibility);
   consulta?.addEventListener?.('change', onMotion);
 
@@ -599,6 +717,8 @@ export function crearCarrusel(root, opciones = {}) {
 
   return {
     enfocar,
+    paso,
+    rectDe,
     /** Enciende o apaga el giro automático. Al encenderlo vuelve a la dirección configurada. */
     girar(encendido) {
       giroActivo = Boolean(encendido) && o.autoplay === 'drift';
@@ -634,11 +754,19 @@ export function crearCarrusel(root, opciones = {}) {
       root.removeEventListener('pointerleave', onPointerLeave);
       root.removeEventListener('click', onClick);
       root.removeEventListener('wheel', onWheel);
+      root.removeEventListener('keydown', onKeyDown);
+      root.removeEventListener('focusin', onFocusIn);
+      root.removeEventListener('focusout', onFocusOut);
       document.removeEventListener('visibilitychange', onVisibility);
       consulta?.removeEventListener?.('change', onMotion);
       view.remove();
+      root.querySelectorAll('.circular-carousel__live').forEach(el => el.remove());
+      ['role', 'aria-roledescription', 'aria-label', 'aria-describedby', 'aria-hidden', 'tabindex'].forEach(a =>
+        root.removeAttribute(a)
+      );
       root.classList.remove('circular-carousel');
       delete root.dataset.ready;
+      settle(false);
     },
   };
 }
