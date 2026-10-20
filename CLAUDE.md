@@ -53,8 +53,9 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 (`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba-2.jpg` (la imagen para compartir;
 `og-aprueba.jpg` es la anterior).
 
-**Publicado en Vercel** el 20 de octubre, con el commit `58010f5` (el brillo de los botones; el 19 se había
-publicado `697eed3`, con el formulario y las dos fechas): https://aprueba-jade.vercel.app. La página publicada
+**Publicado en Vercel** el 20 de octubre, con el commit `9e40130` (el botón del pie dice "¡Todo se encuentra
+aquí!"; antes, ese mismo día, `58010f5` con el brillo de los botones, y el 19, `697eed3` con el formulario y las
+dos fechas): https://aprueba-jade.vercel.app. La página publicada
 coincide byte a byte con la local, los archivos que no van (el original 4K, `.env.local`, `docs/`, los `.md`) dan
 404, y las pruebas del brillo pasan también contra la página publicada. Cómo publicar y verificar: "Comandos".
 
