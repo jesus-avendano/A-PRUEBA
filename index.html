@@ -314,17 +314,40 @@
 
 <section class="seccion contador" aria-labelledby="contador-titulo">
   <div class="contenedor encabezado">
-    <p class="overline overline--blanco">Presencial: sábado 14 · Virtual:&nbsp;martes 17 de noviembre</p>
     <h2 id="contador-titulo">El evento que transformará tus dudas en certeza</h2>
 
-    <div class="contador__cajas" aria-hidden="true">
-      <div class="contador__caja"><span class="contador__num" data-unidad="dias">--</span><span class="contador__unidad">Días</span></div>
-      <span class="contador__sep">:</span>
-      <div class="contador__caja"><span class="contador__num" data-unidad="horas">--</span><span class="contador__unidad">Horas</span></div>
-      <span class="contador__sep">:</span>
-      <div class="contador__caja"><span class="contador__num" data-unidad="minutos">--</span><span class="contador__unidad">Min</span></div>
-      <span class="contador__sep">:</span>
-      <div class="contador__caja"><span class="contador__num" data-unidad="segundos">--</span><span class="contador__unidad">Seg</span></div>
+    <!-- Una cuenta regresiva por fecha (js/countdown.js toma la de CONFIG.evento[data-sesion]) -->
+    <div class="contador__fechas">
+      <div class="contador__fecha" data-sesion="presencial">
+        <p class="contador__cuando">
+          <span class="contador__modalidad"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/></svg>Presencial</span>
+          <span class="contador__dia">Sábado 14 de noviembre, 9:00 a.m.</span>
+        </p>
+        <div class="contador__cajas" aria-hidden="true">
+          <div class="contador__caja"><span class="contador__num" data-unidad="dias">--</span><span class="contador__unidad">Días</span></div>
+          <span class="contador__sep">:</span>
+          <div class="contador__caja"><span class="contador__num" data-unidad="horas">--</span><span class="contador__unidad">Horas</span></div>
+          <span class="contador__sep">:</span>
+          <div class="contador__caja"><span class="contador__num" data-unidad="minutos">--</span><span class="contador__unidad">Min</span></div>
+          <span class="contador__sep">:</span>
+          <div class="contador__caja"><span class="contador__num" data-unidad="segundos">--</span><span class="contador__unidad">Seg</span></div>
+        </div>
+      </div>
+      <div class="contador__fecha" data-sesion="virtual">
+        <p class="contador__cuando">
+          <span class="contador__modalidad"><svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>Virtual</span>
+          <span class="contador__dia">Martes 17 de noviembre, 9:00 a.m.</span>
+        </p>
+        <div class="contador__cajas" aria-hidden="true">
+          <div class="contador__caja"><span class="contador__num" data-unidad="dias">--</span><span class="contador__unidad">Días</span></div>
+          <span class="contador__sep">:</span>
+          <div class="contador__caja"><span class="contador__num" data-unidad="horas">--</span><span class="contador__unidad">Horas</span></div>
+          <span class="contador__sep">:</span>
+          <div class="contador__caja"><span class="contador__num" data-unidad="minutos">--</span><span class="contador__unidad">Min</span></div>
+          <span class="contador__sep">:</span>
+          <div class="contador__caja"><span class="contador__num" data-unidad="segundos">--</span><span class="contador__unidad">Seg</span></div>
+        </div>
+      </div>
     </div>
     <p class="sr-only" id="contador-aria" aria-live="polite"></p>
 

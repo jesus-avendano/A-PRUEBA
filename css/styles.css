@@ -669,12 +669,50 @@ button {
 }
 .contador h2 { max-width: 760px; margin-inline: auto; }
 
+/* Dos cuentas regresivas, una por fecha, una debajo de la otra: lado a lado, la de
+   la derecha caería sobre el celeste claro del degradado, donde el blanco no se lee.
+   Su etiqueta va sobre navy por lo mismo: se lee en cualquier punto del degradado. */
+.contador__fechas {
+  display: grid;
+  gap: var(--e-40);
+  margin-top: var(--e-32);
+}
+.contador__cuando {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 10px 22px 12px;
+  background: var(--navy-900);
+  border-radius: var(--r-chip);
+  box-shadow: var(--sombra-contador);
+}
+.contador__modalidad {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--t-overline);
+  line-height: var(--lh-overline);
+  font-weight: 800;
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--celeste-400);
+}
+.contador__modalidad .icono { width: 16px; height: 16px; }
+.contador__dia {
+  font-size: var(--t-strong);
+  line-height: var(--lh-strong);
+  font-weight: 700;
+  color: var(--blanco);
+}
+
 .contador__cajas {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: var(--e-32);
+  margin-top: var(--e-16);
 }
 
 /* overflow: lo que asoma del rodillo por arriba no sale de la caja blanca */
@@ -712,7 +750,7 @@ button {
 .contador__sep { display: none; }
 
 .contador__mensaje {
-  margin-top: var(--e-32);
+  margin-top: var(--e-16);
   font-family: var(--fuente-titulo);
   font-size: var(--t-h2);
   line-height: var(--lh-h2);

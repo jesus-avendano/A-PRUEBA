@@ -153,14 +153,16 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 
 ### 3. Cuenta regresiva
 
-> Desde el 19 de octubre va **después de la ruta** (orden: Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie). Cuenta hasta la próxima fecha: primero el sábado 14 (presencial) y, cuando termina, el martes 17 (virtual).
-- Overline: **Presencial: sábado 14 · Virtual: martes 17 de noviembre**
+> Desde el 19 de octubre va **después de la ruta** (orden: Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie). Desde el 20 de octubre hay **dos cuentas regresivas, una por fecha**, una debajo de la otra, y ya no se separan textos con " · ".
+- Sin overline (antes "Presencial: sábado 14 · Virtual: martes 17 de noviembre"). Cada cuenta lleva su etiqueta:
+  - **Presencial** / Sábado 14 de noviembre, 9:00 a.m.
+  - **Virtual** / Martes 17 de noviembre, 9:00 a.m.
 - Título: **El evento que transformará tus dudas en certeza**
 - Unidades: Días, Horas, Min, Seg
 - Texto: No busques una charla aburrida sobre carreras. Ven a **vibrar, experimentar y medir tu nivel de seguridad real** sobre lo que quieres hacer con tu vida.
 - Botón: **Quiero mi pasaporte**
-- Durante cualquiera de las dos fechas: ¡Está pasando ahora!
-- Después de la última (el martes 17): ¡Gracias por vivir A+PRUEBA!
+- Cada cuenta, durante su fecha: ¡Está pasando ahora!
+- Cada cuenta, después de su fecha: ¡Gracias por vivir A+PRUEBA!
 
 ### 4. La ruta
 - Overline: **El recorrido**
@@ -257,6 +259,6 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp (19 de octubre):** el botón del pie lleva al grupo. Antes estaba fuera de alcance.
 - **Aliados sin panel (19 de octubre):** cada logo lleva directo a su red.
-- **Dos fechas (19 de octubre):** presencial el sábado 14 y virtual el martes 17 de noviembre. La cuenta regresiva va a la próxima.
+- **Dos fechas (19 de octubre):** presencial el sábado 14 y virtual el martes 17 de noviembre. Desde el 20 de octubre, una cuenta regresiva para cada una.
 - **Formulario de Google para inscribirse (19 de octubre):** lo abren los dos boletos mientras no haya Luma.
 - **Botones con brillo especular (20 de octubre):** con SpecularButton de React Bits. Una luz recorre el borde de cada botón y se acerca al puntero; los botones conservan sus colores, textos y sombras. Con movimiento reducido la luz no se mueve.
