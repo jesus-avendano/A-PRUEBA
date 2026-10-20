@@ -6,5 +6,6 @@ docs/
 assets/video/videoplayback.mp4
 assets/video/auditorio-original.webm
 assets/video/117606-712421887.mp4
+assets/video/sala-original.gif
 .env*
 .vercel

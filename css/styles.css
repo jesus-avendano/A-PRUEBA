@@ -379,9 +379,12 @@ button {
   transform: scale(1.04);
   pointer-events: none;
 }
-/* iOS en ahorro de energía no lo reproduce solo y dibujaría su botón de play */
+/* iOS en ahorro de energía no lo reproduce solo y dibujaría su botón de play
+   (también en el video de la sala virtual, en Ubicación) */
 .video-fondo::-webkit-media-controls,
-.video-fondo::-webkit-media-controls-start-playback-button {
+.video-fondo::-webkit-media-controls-start-playback-button,
+.pantalla-falsa__sala > video::-webkit-media-controls,
+.pantalla-falsa__sala > video::-webkit-media-controls-start-playback-button {
   display: none !important;
   -webkit-appearance: none;
 }
@@ -1091,16 +1094,31 @@ button {
   height: 100%;
   background: var(--nube-50);
 }
+/* Adentro, la conferencia (un GIF, convertido a video) sobre blanco, como fue
+   dibujada; abajo, el nombre de la sala en una barra, como en una videollamada */
 .pantalla-falsa__marco {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
   width: min(86%, 440px);
   aspect-ratio: 16 / 10;
-  background: var(--navy-900);
+  background: var(--blanco);
   border: 6px solid var(--navy-800);
   border-radius: 18px;
   overflow: hidden;
+}
+.pantalla-falsa__sala { position: relative; flex: 1; min-height: 0; }
+/* el cuadro quieto va debajo del video: se ve hasta que el video arranca, y con
+   movimiento reducido queda solo él (es un <img> lazy y no un poster, que se
+   pediría con la página aunque la pestaña Virtual nunca se abra) */
+.pantalla-falsa__sala > img,
+.pantalla-falsa__sala > video {
+  position: absolute;
+  inset: 3% 0;
+  width: 100%;
+  height: 94%;
+  object-fit: contain;
+  pointer-events: none;
 }
 .pantalla-falsa__vivo {
   position: absolute;
@@ -1114,17 +1132,13 @@ button {
   font-weight: 800;
   letter-spacing: .08em;
 }
-.pantalla-falsa__burbujas { display: flex; gap: 10px; }
-.pantalla-falsa__burbuja { width: 40px; height: 40px; border-radius: 50%; }
-.pantalla-falsa__burbuja--1 { background: var(--celeste-400); }
-.pantalla-falsa__burbuja--2 { background: var(--verde-400); }
-.pantalla-falsa__burbuja--3 { background: var(--naranja-500); }
-.pantalla-falsa__burbuja--4 { background: var(--blanco); }
 .pantalla-falsa__etiqueta {
-  position: absolute;
-  bottom: 12px;
-  color: var(--tinta-sobre-oscuro);
+  padding: 5px 12px 6px;
+  background: var(--navy-900);
+  color: var(--blanco);
+  text-align: center;
   font-size: var(--t-small);
+  line-height: var(--lh-small);
   font-weight: 700;
 }
 

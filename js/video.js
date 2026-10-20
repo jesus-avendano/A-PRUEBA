@@ -1,5 +1,6 @@
 /* Videos de fondo, sin audio y en bucle: el campus en el hero, el auditorio
-   en Entradas y las partículas en la ruta. Cada <video data-fondo> trae sus
+   en Entradas, las partículas en la ruta y la conferencia en la sala virtual
+   de Ubicación (dentro de su pestaña: se carga recién cuando se abre). Cada <video data-fondo> trae sus
    fuentes en atributos: en celular (<768px) data-movil-webm o data-movil, y
    si no data-webm o data-escritorio. El WebM (VP9, más liviano) se usa si
    existe y el navegador lo lee; si no, el MP4 (H.264), que lee cualquiera.

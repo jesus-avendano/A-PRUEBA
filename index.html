@@ -482,13 +482,13 @@
       <div class="ubicacion__mapa">
         <div class="pantalla-falsa" aria-hidden="true">
           <div class="pantalla-falsa__marco">
-            <span class="pantalla-falsa__vivo">EN VIVO</span>
-            <div class="pantalla-falsa__burbujas">
-              <span class="pantalla-falsa__burbuja pantalla-falsa__burbuja--1"></span>
-              <span class="pantalla-falsa__burbuja pantalla-falsa__burbuja--2"></span>
-              <span class="pantalla-falsa__burbuja pantalla-falsa__burbuja--3"></span>
-              <span class="pantalla-falsa__burbuja pantalla-falsa__burbuja--4"></span>
+            <!-- La animación de la conferencia (un GIF, en MP4: ver assets/video/sala-original.gif).
+                 La maneja js/video.js: se carga al abrir esta pestaña y, con movimiento reducido, queda el cuadro quieto. -->
+            <div class="pantalla-falsa__sala">
+              <img src="assets/video/sala-poster.jpg" alt="" width="450" height="450" loading="lazy" decoding="async">
+              <video data-fondo data-escritorio="assets/video/sala.mp4" muted loop playsinline preload="none"></video>
             </div>
+            <span class="pantalla-falsa__vivo">EN VIVO</span>
             <span class="pantalla-falsa__etiqueta">Sala A+PRUEBA</span>
           </div>
         </div>

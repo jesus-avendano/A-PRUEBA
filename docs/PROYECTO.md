@@ -201,6 +201,10 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
   - Martes 17 de noviembre — 9:00 a.m. – 1:00 p.m.
   - Tu enlace privado llega a tu correo — Solo para inscritos en la modalidad virtual.
   - Qué necesitas — Celular o computadora con internet.
+  - En vez del mapa, una pantalla con la etiqueta **EN VIVO** y la barra **Sala A+PRUEBA**. Adentro, desde el 20 de
+    octubre, la animación de una conferencia (un GIF de 150×150, 1.1 MB; en la página va como
+    video MP4 de 106 KB: `assets/video/sala.mp4`, con su cuadro quieto `sala-poster.jpg`). Si hay una versión más
+    grande del GIF, se vería más nítida.
 
 ### 6. Aliados
 - Overline: **Aliados**
