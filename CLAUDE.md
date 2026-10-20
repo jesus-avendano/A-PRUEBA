@@ -34,6 +34,9 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
   nada!"; cada **aliado es un enlace directo a su Instagram**, sin panel; los dos boletos inscriben con un
   **formulario de Google** mientras no haya Luma; y hay **dos fechas: presencial el sábado 14 y virtual el martes
   17 de noviembre**, con la cuenta regresiva hasta la próxima. El detalle está en las decisiones de abajo.
+- **Cambios del 20 de octubre:** los botones llevan el **brillo especular** de SpecularButton
+  (React Bits), una luz que recorre el borde y se acerca al puntero, **manteniendo sus colores**. Está portado a JS
+  puro en `js/brillo.js` (no se instaló con `npx shadcn add`, que trae la versión de React). Detalle en las decisiones.
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
 - **Registro:** hoy, un **formulario de Google** (`CONFIG.inscripcion`, el mismo para las dos modalidades). Luma
   sigue soportado: si se cargan sus datos en `CONFIG.luma`, Luma gana sobre el formulario. No hay base de datos ni
@@ -42,31 +45,41 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 
 ## Estado actual
 
-**Terminado**, con los cambios v2 a v7 y los cambios del 18 y el 19 de octubre. Falta solo lo que
+**Terminado**, con los cambios v2 a v7 y los cambios del 18, el 19 y el 20 de octubre. Falta solo lo que
 depende de datos, de decisiones pendientes o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
 (`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `video.js`, `entradas.js`,
-`countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`), `assets/img/`
+`countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`, `brillo.js`), `assets/img/`
 (`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba-2.jpg` (la imagen para compartir;
 `og-aprueba.jpg` es la anterior).
 
-**Publicado en Vercel** el 19 de octubre, con el commit `697eed3` (formulario y dos fechas):
-https://aprueba-jade.vercel.app. La página publicada coincide byte a byte con la local, y los archivos que no van
-(el original 4K, `.env.local`, `docs/`) dan 404. Cómo publicar y verificar: "Comandos".
+**Publicado en Vercel** el 20 de octubre, con el commit `58010f5` (el brillo de los botones; el 19 se había
+publicado `697eed3`, con el formulario y las dos fechas): https://aprueba-jade.vercel.app. La página publicada
+coincide byte a byte con la local, los archivos que no van (el original 4K, `.env.local`, `docs/`, los `.md`) dan
+404, y las pruebas del brillo pasan también contra la página publicada. Cómo publicar y verificar: "Comandos".
 
-**QA (19 de octubre):**
+**QA (19 y 20 de octubre):**
 
-- **Formulario y dos fechas (lo último):** en Chrome y WebKit, los botones de los dos boletos son `<a>` al
+- **El brillo de los botones (20 oct, lo último):** en Chrome y WebKit, en 360, 390, 768, 1024 y 1440, con mouse,
+  táctil y movimiento reducido (`brillo.mjs`): sin interactuar no hay ningún canvas; después, luz solo en los
+  botones cerca de la pantalla (los del menú y del diálogo, al abrirse); el canvas cubre el botón desde su borde
+  exterior con 24px de aire y detrás del texto (el clic en el centro llega al botón); la luz se acerca al puntero
+  y vuelve exacta a su esquina (comparando capturas píxel a píxel); con movimiento reducido no se mueve (0 píxeles
+  distintos); 5 o 6 contextos WebGL en toda la página; sin errores ni scroll horizontal. Con la CPU 4× más lenta
+  y el puntero moviéndose alrededor, 60 fps (17 ms, también en el percentil 95) sin tareas largas. Las pruebas
+  generales y las de las fechas siguen pasando.
+- **Formulario y dos fechas (19 oct):** en Chrome y WebKit, los botones de los dos boletos son `<a>` al
   formulario en pestaña nueva, y no queda "Inscripciones muy pronto". La cuenta regresiva, con la fecha simulada
   (`page.clock.setFixedTime`), en seis momentos: hoy (cuenta al 14), un minuto antes del 14, durante el 14
   ("¡Está pasando ahora!"), entre fechas (cuenta al 17), durante el 17 y después ("¡Gracias…!"). Las pruebas
   generales (360 a 1440, movimiento reducido y táctil) y las de los rodillos pasan sin errores, también contra la
-  página publicada. Lighthouse y el peso son los de la v7 (abajo): estos cambios no suman nada a la primera carga.
-
-- **Lighthouse:** móvil 99 en rendimiento y 100 en accesibilidad, buenas prácticas y SEO (FCP 1.2 s,
-  LCP 2.1 s, TBT 0 ms, CLS 0.001; el LCP es el texto del hero); escritorio 100 en las cuatro. Se mide con el
-  servidor comprimiendo, como cualquier hosting: sin compresión, rendimiento en móvil baja bastante.
-- **Peso:** **1,274 KiB en móvil** (presupuesto de 1.5 MB), y 2,163 KiB en escritorio. Lo más pesado en móvil:
+  página publicada.
+- **Lighthouse (20 oct, con el brillo; tres corridas en móvil, iguales):** móvil 99 en rendimiento y 100 en
+  accesibilidad, buenas prácticas y SEO (FCP 1.3 s, LCP 2.1 s, TBT 0 ms, CLS 0.001; el LCP es el texto del hero);
+  escritorio 100 en las cuatro. Se mide con el servidor comprimiendo, como cualquier hosting: sin compresión,
+  rendimiento en móvil baja bastante.
+- **Peso:** **1,280 KiB en móvil** (presupuesto de 1.5 MB; `brillo.js` suma 6.6 KiB), y 1,883 KiB en escritorio
+  (con la v7 se había medido 2,163: varía con cuánto del video alcanza a bajar). Lo más pesado en móvil:
   el video del campus (578 KB), la foto de la sede (286 KB) y el auditorio (146 KB). Lighthouse emula una
   conexión lenta, y ahí Chrome empieza a cargar lo `lazy` desde 2500px y no desde 1250px como en 4G: por eso
   entran la foto de la sede y el cuadro quieto de la ruta (13 KB). El carrusel, sus fotos y el video de la ruta
@@ -101,8 +114,10 @@ https://aprueba-jade.vercel.app. La página publicada coincide byte a byte con l
   (`overflow: hidden` en `<html>`; iOS dice respetarlo desde la versión 16, pero falta verlo); arrastrar y
   voltear las cartas con el dedo sin que se trabe el scroll vertical; el 3D del carrusel y el desenfoque detrás
   de los diálogos en Safari (Playwright no los dibuja en sus capturas de WebKit, ver "Comandos"); el desenfoque
-  del rodillo de la cuenta regresiva en Safari (usa un filtro SVG); y que el loop de 2 s del fondo de la ruta no
-  dé tirones en Safari. WebKit en la Mac no puede simular el arrastre del dedo.
+  del rodillo de la cuenta regresiva en Safari (usa un filtro SVG); que el loop de 2 s del fondo de la ruta no
+  dé tirones en Safari; y el brillo de los botones (WebGL2: en el WebKit de la Mac se dibuja y se mueve bien, falta
+  un iPhone; en táctil se ve el filo, el destello quieto de la esquina y el fogonazo al tocar). WebKit en la Mac no
+  puede simular el arrastre del dedo.
 - **La vista previa del link:** compartir `https://aprueba-jade.vercel.app/?v=3` en WhatsApp, para ver la imagen
   con las dos fechas (`og-aprueba-2.jpg`; los mensajes ya enviados conservan la imagen vieja, no hay forma de cambiarlo) y revisarla en el depurador de Facebook
   (`https://developers.facebook.com/tools/debug/`), que además refresca su caché. Las dos piden una cuenta.
@@ -224,6 +239,40 @@ Decisiones que conviene no deshacer sin querer:
   "Virtual:".
 - **El grupo de WhatsApp gana sobre el número (19 oct):** `CONFIG.whatsapp.grupo` (sin el `?mode=` de rastreo del
   link original); sin grupo, `wa.me` con `numero` y `mensaje`; sin ninguno, "Próximamente".
+- **El brillo de los botones** (`js/brillo.js`, SpecularButton de React Bits portado, 20 oct):
+  - **Del original se trae solo la luz:** un `<canvas>` WebGL2 con una línea que recorre el borde y se acerca al
+    puntero (a menos de 250px; lejos, queda quieta y tenue en la esquina de arriba a la izquierda). Ni su vidrio,
+    ni su sombra, ni sus tamaños, ni su `:active`: cada `.boton` conserva su relleno, su texto (19px ExtraBold),
+    su sombra 3D y su foco. Como con el carrusel, **se conservan los nombres de las opciones y la clase del canvas
+    (`.specular-button__light`)** para compararlo con el original; lo que cambia está comentado al inicio del
+    archivo. Shader y matemática, sin tocar.
+  - **El canvas va detrás del texto:** `.boton` lleva `position: relative` e `isolation: isolate`, y el canvas
+    `z-index: -1`: se pinta sobre el fondo del botón y debajo del texto. Lo ubica el JS desde el borde exterior
+    (`left/top` = -(24px + el borde)), porque el fantasma y el de contorno tienen 2px de borde y el original ninguno.
+    Sale 24px por fuera del botón: no da scroll horizontal porque el `body` lleva `overflow-x: hidden`.
+  - **Los colores, en el CSS de cada variante:** `--brillo-linea` (blanca en naranja, azul y verde; celeste en el
+    fantasma, donde la blanca se perdería en su borde, y en el de contorno), `--brillo-base` (el filo en reposo: el
+    tono 100 de su color, o el de su borde) y `--brillo-glow`. **En el naranja el resplandor va en 0.25:** con 1,
+    al acercar el puntero aclara hasta un 8% el fondo debajo del texto, y el blanco sobre naranja baja de 3.1:1 a
+    2.84:1. `iniciarBrillos()` (`js/main.js`) los lee y pasa el radio del `border-radius` (la pastilla de 999px:
+    el shader lo limita a medio alto).
+  - **WebGL recién después de la primera interacción** (mover el puntero, tocar, scroll, rueda o teclado), cuando
+    el botón está a 200px de la pantalla y en un momento libre (`requestIdleCallback`; Safari no lo tiene y usa
+    `setTimeout`). En Lighthouse, con el navegador recién abierto, crear el primer contexto dio una tarea de 377 ms
+    (rendimiento 93, TBT 280 ms); en un navegador ya abierto cuesta 4 a 9 ms. Así la carga no paga nada, y un botón
+    oculto (el de la nav en celular, el del menú cerrado, el de la otra modalidad del diálogo) no ocupa contexto:
+    el navegador permite unos 16 y la página llega a 5 o 6.
+  - Un solo listener de `pointermove` para todos los botones; el bucle corre solo mientras la luz se mueve, y no
+    redibuja si nada cambió. Se pausa fuera de pantalla.
+  - **Movimiento reducido:** la luz no sigue al puntero (queda quieta en su esquina; el original solo apagaba
+    `autoAnimate`). El fogonazo al tocar sigue, como respuesta al toque.
+  - **Sin WebGL2, o si el navegador quita el contexto, el canvas se va** y el botón queda como antes. Los
+    deshabilitados (`[disabled]`, `[aria-disabled="true"]`) no llevan luz.
+  - **`iniciarBrillos()` va al final del arranque:** `aplicarConfig` y las entradas reemplazan botones (`enlazar`,
+    el de inscripción). **Si algún código cambia el texto de un botón con `textContent`, borra el canvas**: hay que
+    cambiar solo el nodo de texto, o volver a crear su brillo.
+  - **No va en los boletos** (su forma con muescas no es la caja redondeada del shader), **ni en los aliados ni en
+    las redes** (no son `.boton`).
 - **Videos de fondo** (`js/video.js`, `<video class="video-fondo" data-fondo>`): el campus en el hero, el
   auditorio en Entradas y las partículas en la ruta. Cada uno trae sus fuentes en atributos: en celular (menos
   de 768px) `data-movil-webm` si existe y el navegador lee VP9, y si no `data-movil`; en escritorio, `data-webm`
@@ -367,6 +416,12 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
   antes de `goto`. Cambia `Date` y deja correr los timers y la animación (`clock.install` los congelaría).
 - **La pestaña del formulario de Google termina en `accounts.google.com`** mientras el formulario pida iniciar
   sesión (ver los pendientes): no es un error de la página.
+- **El brillo de los botones no se enciende sin interacción:** antes de buscar los canvas, mover el mouse o tocar.
+- **El canvas WebGL del brillo, leído desde afuera (`drawImage`, `toDataURL`), sale vacío** (no usa
+  `preserveDrawingBuffer`). Para ver la luz, comparar capturas del botón con los videos escondidos
+  (`video { visibility: hidden }`, si no el fondo cambia en cada captura) y **píxel a píxel**: dos PNG con los
+  mismos píxeles pueden no ser iguales byte a byte.
+- **Con `hasTouch` en WebKit, `click()` no abre los boletos ni el menú:** usar `tap()`.
 
 - `cwebp` **no está instalado**. Si se quieren versiones .webp de los logos: `brew install webp`, y si no se instala, se dejan los PNG (pesan 120 KB en total, muy por debajo del presupuesto de 1.5 MB).
 - `ffmpeg` tampoco está instalado (ni Homebrew). Para los videos se usó `ffmpeg-static` de npm en una carpeta temporal.
@@ -404,6 +459,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   ├── entradas.js     boletos Presencial/Virtual que abren su diálogo; su botón de inscripción (formulario o Luma)
 │   ├── countdown.js    cuenta regresiva
 │   ├── rodillo.js      números que ruedan (Counter de React Bits, portado)
+│   ├── brillo.js       luz en el borde de los botones (SpecularButton de React Bits, portado)
 │   ├── ruta.js         la ruta: arma el carrusel de cartas y su reverso
 │   ├── carrusel.js     carrusel 3D con volteo (CircularCarousel + FlipCard de React Bits); se importa al acercarse
 │   ├── tabs.js         pestañas Presencial/Virtual de Ubicación
@@ -526,7 +582,7 @@ Interpola entre escritorio y móvil con `clamp()`.
   - `--sombra-tarjeta: 0 16px 40px rgba(11,16,64,.10)`
   - `--sombra-pasaporte: 0 24px 48px rgba(0,0,0,.35)`
   - Caja del contador: `0 6px 0 rgba(11,16,64,.28)`
-- **Botón 3D:** `box-shadow: 0 5px 0 <tono oscuro>`, con `--naranja-700` en el naranja, `--azul-600` en el azul y `#3E8E1C` en el verde. En `:active` usa `translateY(3px)` y sombra `0 2px 0`.
+- **Botón 3D:** `box-shadow: 0 5px 0 <tono oscuro>`, con `--naranja-700` en el naranja, `--azul-600` en el azul y `#3E8E1C` en el verde. En `:active` usa `translateY(3px)` y sombra `0 2px 0`. Encima, el brillo especular de `js/brillo.js` (ver las decisiones), con los colores de `--brillo-*` de cada variante.
 
 ### Movimiento (css/motion.css)
 
@@ -543,8 +599,9 @@ Interpola entre escritorio y móvil con `clamp()`.
 | `latido` | scale 1 → 1.22 → 1, 500ms con `--ease-spring` |
 | `aparecer` | opacity 0 → 1 y translateY 16px → 0, 500ms con `--ease-out` |
 
-El giro y el volteo del carrusel y los números que ruedan no están en `motion.css`: los hace el JS, con
-resortes en `requestAnimationFrame` (`js/carrusel.js` y `js/rodillo.js`), y solo mientras algo se mueve.
+El giro y el volteo del carrusel, los números que ruedan y la luz de los botones no están en `motion.css`: los
+hace el JS en `requestAnimationFrame` (`js/carrusel.js`, `js/rodillo.js` y `js/brillo.js`), y solo mientras algo
+se mueve.
 
 **Patrón "crecer y menear"** (el lenguaje de movimiento de toda la página):
 - Al entrar el puntero: `scale(1.08)` con `--ease-spring`, y `menear` una sola vez.
@@ -814,4 +871,5 @@ Los documentos de cambios (v2 a v7) traen sus propias fases; la regla de detener
 - [x] Sin JS, las 4 estaciones se ven completas en grilla.
 - [x] Con `prefers-reduced-motion` no hay animación infinita.
 - [x] Todo lo pendiente vive en `config.js`, y los campos vacíos se ven como "Próximamente", no como enlaces rotos.
+- [x] Los botones tienen el brillo especular sin cambiar sus colores, y con movimiento reducido la luz no se mueve.
 - [x] Lighthouse móvil cumple el presupuesto.
