@@ -6,7 +6,7 @@ import { openDialog, closeDialog } from './dialog.js';
 
 const ID_DIALOGO = 'dialogo-boleto';
 
-const ETIQUETA_LUMA = {
+const ETIQUETA_INSCRIPCION = {
   presencial: 'Quiero mi pasaporte presencial',
   virtual: 'Quiero mi pasaporte virtual',
 };
@@ -19,7 +19,7 @@ export function iniciarEntradas() {
   const caja = dialogo.querySelector('.dialogo__caja');
   const contenidos = [...dialogo.querySelectorAll('.panel-entrada__contenido')];
 
-  prepararLuma(contenidos);
+  prepararInscripcion(contenidos);
   aplicarCupos();
 
   function mostrar(modalidad, { animar = false } = {}) {
@@ -102,18 +102,33 @@ export function saludar(boletos = [...document.querySelectorAll('.boleto')]) {
   });
 }
 
-/** Cada CTA de registro es el botón embebible de Luma. Sin URL queda deshabilitado. */
-function prepararLuma(contenidos) {
+/** El CTA de registro de cada modalidad: el botón embebible de Luma si está
+    configurado; si no, el formulario de inscripción (CONFIG.inscripcion) en otra
+    pestaña. Sin ninguno de los dos queda deshabilitado ("Inscripciones muy pronto"). */
+function prepararInscripcion(contenidos) {
   contenidos.forEach((contenido) => {
     const modalidad = contenido.dataset.modalidad;
     const boton = contenido.querySelector('[data-luma]');
+    if (!boton) return;
     const datos = CONFIG.luma[modalidad];
-    if (!boton || !datos || !datos.url) return; // se queda en "Inscripciones muy pronto"
+
+    if (!datos || !datos.url) {
+      if (!CONFIG.inscripcion) return; // se queda en "Inscripciones muy pronto"
+      const enlace = document.createElement('a');
+      enlace.className = boton.className;
+      enlace.href = CONFIG.inscripcion;
+      enlace.textContent = ETIQUETA_INSCRIPCION[modalidad];
+      enlace.dataset.inscripcion = modalidad;
+      enlace.target = '_blank';
+      enlace.rel = 'noopener';
+      boton.replaceWith(enlace);
+      return;
+    }
 
     const enlace = document.createElement('a');
     enlace.className = boton.className;
     enlace.href = datos.url;
-    enlace.textContent = ETIQUETA_LUMA[modalidad];
+    enlace.textContent = ETIQUETA_INSCRIPCION[modalidad];
     enlace.dataset.luma = modalidad;
     // atributos del botón embebible de Luma
     enlace.dataset.lumaAction = 'checkout';

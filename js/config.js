@@ -6,10 +6,17 @@
    =========================================================== */
 
 export const CONFIG = {
+  // Dos fechas (19 oct): presencial el sábado 14 y virtual el
+  // martes 17 de noviembre. La cuenta regresiva va hasta la próxima. Hora de Lima.
+  // PENDIENTE: el horario de cada fecha; se mantiene el de antes (9:00 a 13:00).
   evento: {
-    inicio: '2026-11-17T09:00:00-05:00', // hora de Lima
-    fin:    '2026-11-17T13:00:00-05:00',
+    presencial: { inicio: '2026-11-14T09:00:00-05:00', fin: '2026-11-14T13:00:00-05:00' },
+    virtual:    { inicio: '2026-11-17T09:00:00-05:00', fin: '2026-11-17T13:00:00-05:00' },
   },
+
+  // Formulario de inscripción (Google Forms, desde el 19 oct): lo abren
+  // los botones de los dos boletos mientras Luma no esté configurado.
+  inscripcion: 'https://docs.google.com/forms/d/e/1FAIpQLSc7edGDRnYyBGKbZSBVK2gHvofAPw-ElJmHqAgJODE-nSVzow/viewform',
 
   // Sirve para un evento de Luma con 2 tipos de entrada (mismo eventId)
   // o para 2 eventos separados.

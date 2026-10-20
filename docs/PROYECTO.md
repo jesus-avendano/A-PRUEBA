@@ -8,8 +8,8 @@ Fuente de verdad del contenido de la landing. Si algo cambia, se cambia aquí pr
 |---|---|
 | Nombre | A+PRUEBA — La Ruta del Estudiante |
 | Lema del logo | "Descubre tu potencial antes de elegir tu camino" |
-| Fecha | Martes 17 de noviembre de 2026 |
-| Horario | 9:00 a.m. – 1:00 p.m. (hora de Lima, UTC-5) |
+| Fechas | **Presencial: sábado 14 de noviembre de 2026. Virtual: martes 17 de noviembre de 2026** (19 oct; antes las dos eran el martes 17) |
+| Horario | 9:00 a.m. – 1:00 p.m. (hora de Lima, UTC-5), en las dos fechas. **Por confirmar:** si el sábado 14 mantiene ese horario |
 | Lugar presencial | UCSUR Sede Norte, Auditorio Norte y Explanada |
 | Dirección | Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos. Referencia: Óvalo Infantas. (Fuente: página oficial del Campus Norte; da un cruce de avenidas, sin número.) |
 | Modalidades | Presencial: **200 cupos**, Virtual: **800 cupos** |
@@ -24,6 +24,8 @@ Que un escolar entienda el evento en 30 segundos y se inscriba en una de las dos
 - La landing **informa e inscribe**. El diagnóstico vocacional y el Pasaporte Vocacional ocurren durante el evento, no en la web.
 
 ## 3. Registro (Luma)
+
+> **Desde el 19 de octubre, mientras Luma no esté configurado, los botones "Quiero mi pasaporte presencial" y "Quiero mi pasaporte virtual" abren el formulario de Google (`https://docs.google.com/forms/d/e/1FAIpQLSc7edGDRnYyBGKbZSBVK2gHvofAPw-ElJmHqAgJODE-nSVzow/viewform`, en `CONFIG.inscripcion`) en otra pestaña.** Es el mismo formulario para las dos modalidades. Si se cargan los datos de Luma en `CONFIG.luma`, el botón de esa modalidad vuelve a ser el de Luma. Lo de abajo describe el plan con Luma.
 
 - **Plataforma:** Luma. Guarda los registros, genera el QR y envía la confirmación por correo. No se usa base de datos propia.
 - **Acceso a los registros:** el responsable del proyecto y las personas que agregue como organizadores (co-hosts) del evento en Luma.
@@ -48,7 +50,8 @@ Que un escolar entienda el evento en 30 segundos y se inscriba en una de las dos
 | Sáb 17 oct (noche) | Entrega del diseño para aprobación |
 | Dom 18 – Lun 19 oct | Desarrollo con Claude Code, conexión con Luma, pruebas en celular |
 | **Mar 20 oct** | **Landing publicada** |
-| Mar 17 nov | Evento |
+| Sáb 14 nov | Evento presencial |
+| Mar 17 nov | Evento virtual |
 
 ## 5. Identidad visual
 
@@ -94,7 +97,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 ### 2. Entradas
 - Overline: **Inscripción gratuita**
 - Título: **¡Asegura tu Pasaporte Vocacional!** / **Es gratis**
-- Bajada: Elige cómo vivir A+PRUEBA el 17 de noviembre. Los cupos presenciales son limitados.
+- Bajada: Elige cómo vivir A+PRUEBA: presencial el sábado 14 o virtual el martes 17 de noviembre. Los cupos presenciales son limitados.
 - Sin leyenda sobre el video de fondo: "Así es el Auditorio Norte" se quitó (18 oct). No volver a ponerla.
 - Botones flotantes:
 
@@ -120,7 +123,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - Así funciona:
   1. Regístrate gratis con tus datos.
   2. Recibe tu Pasaporte (QR) en tu correo.
-  3. Preséntalo el martes 17 de noviembre en UCSUR Sede Norte.
+  3. Preséntalo el sábado 14 de noviembre en UCSUR Sede Norte.
 - Botón: **Quiero mi pasaporte presencial**
 - Nota: Cupos limitados por orden de inscripción
 - Cambio: ¿Prefieres conectarte desde casa? **Ver experiencia virtual**
@@ -144,18 +147,20 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - Cambio: ¿Prefieres vivirlo en el campus? **Ver experiencia presencial**
 
 - Nota de la sección: Al elegir tu entrada se abre el formulario de registro. Tu confirmación y tu QR llegan a tu correo.
-- Botón sin enlace de Luma: **Inscripciones muy pronto**
+- Los dos botones abren el formulario de Google mientras no haya Luma (19 oct).
+- Botón sin Luma ni formulario: **Inscripciones muy pronto**
+- **Por revisar con el formulario de Google** (no se cambiaron): "Recibe tu Pasaporte (QR) en tu correo", la nota de la sección ("…Tu confirmación y tu QR llegan a tu correo.") y "Lleva tu QR de inscripción" en Ubicación suponen que el registro manda un QR, como Luma. Si el formulario no lo manda, hay que cambiarlos.
 
 ### 3. Cuenta regresiva
 
-> Desde el 19 de octubre va **después de la ruta** (orden: Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie). Los textos no cambian.
-- Overline: **Martes 17 de noviembre, 9:00 a.m.**
+> Desde el 19 de octubre va **después de la ruta** (orden: Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie). Cuenta hasta la próxima fecha: primero el sábado 14 (presencial) y, cuando termina, el martes 17 (virtual).
+- Overline: **Presencial: sábado 14 · Virtual: martes 17 de noviembre**
 - Título: **El evento que transformará tus dudas en certeza**
 - Unidades: Días, Horas, Min, Seg
 - Texto: No busques una charla aburrida sobre carreras. Ven a **vibrar, experimentar y medir tu nivel de seguridad real** sobre lo que quieres hacer con tu vida.
 - Botón: **Quiero mi pasaporte**
-- Durante el evento: ¡Está pasando ahora!
-- Después del evento: ¡Gracias por vivir A+PRUEBA!
+- Durante cualquiera de las dos fechas: ¡Está pasando ahora!
+- Después de la última (el martes 17): ¡Gracias por vivir A+PRUEBA!
 
 ### 4. La ruta
 - Overline: **El recorrido**
@@ -182,7 +187,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
     - UCSUR Sede Norte
     - Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos
     - Referencia: Óvalo Infantas
-  - Martes 17 de noviembre — 9:00 a.m. – 1:00 p.m.
+  - Sábado 14 de noviembre — 9:00 a.m. – 1:00 p.m.
   - Lleva tu QR de inscripción — Lo recibes en tu correo al registrarte.
   - Botón: **Abrir en Google Maps**
   - Mapa de Google embebido (el `embedUrl` de `js/config.js` es provisional)
@@ -211,14 +216,17 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - Enlaces legales: "Política de privacidad" y "Términos y condiciones", separados solo por espacio, sin ningún carácter entre ellos
 
 ### SEO
-- Título de pestaña: A+PRUEBA | La Ruta del Estudiante, 17 de noviembre
-- Descripción: Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial en UCSUR Sede Norte o virtual. Martes 17 de noviembre, 9:00 a.m.
+- Título de pestaña: A+PRUEBA | La Ruta del Estudiante, 14 y 17 de noviembre
+- Descripción: Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial el sábado 14 de noviembre en UCSUR Sede Norte o virtual el martes 17, a las 9:00 a.m.
 
 ## 8. Pendientes por confirmar
 
 - [x] Dirección de UCSUR Sede Norte (cruce de avenidas, sin número) y enlace de Google Maps
 - [ ] Embed oficial del mapa: Google Maps → Compartir → Insertar un mapa, copiar solo el `src` del iframe (el actual es provisional)
-- [ ] Luma: URL del evento, ID del evento, IDs de los 2 tipos de entrada y snippet del botón embebible
+- [x] Inscripción: formulario de Google en los dos boletos (19 oct), mientras no haya Luma
+- [ ] Luma (si se sigue usando): URL del evento, ID del evento, IDs de los 2 tipos de entrada y snippet del botón embebible
+- [ ] Horario del sábado 14 (presencial): hoy dice 9:00 a.m. – 1:00 p.m., igual que el martes 17
+- [ ] ¿El formulario de Google manda un QR o una confirmación? Si no, cambiar los textos del QR (ver la sección 7, Entradas)
 - [ ] Luma: cómo reciben el enlace de la transmisión solo los virtuales (define si son 1 o 2 eventos)
 - [ ] Plataforma de la transmisión virtual y si soporta 800 participantes
 - [ ] Presencial: ¿orden de inscripción o selección? (hoy dice "por orden de inscripción")
@@ -227,7 +235,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - [ ] Texto de consentimiento de datos y autorización del apoderado (lo valida UCSUR)
 - [ ] URLs de política de privacidad y términos
 - [ ] Lista de carreras para el desplegable del registro
-- [x] Imagen para compartir (`assets/og/og-aprueba.jpg`, 1200×630, 105 KB), como el hero de ahora: el campus bajo el velo navy, la pastilla, el logo, "Martes 17 de noviembre, 9:00 a.m." y "Gratis · Presencial en UCSUR Sede Norte o virtual". Se genera con `docs/og/og.html` (19 oct). Reemplazarla si llega una oficial, con otro nombre para saltar la caché de WhatsApp
+- [x] Imagen para compartir (`assets/og/og-aprueba-2.jpg`, 1200×630, 109 KB), como el hero de ahora: el campus bajo el velo navy, la pastilla, el logo, "Sábado 14 y martes 17 de noviembre" y "Gratis · Presencial el 14 en UCSUR Sede Norte · Virtual el 17". Se genera con `docs/og/og.html` (19 oct; la primera, `og-aprueba.jpg`, decía solo el martes 17 y queda en la carpeta para las vistas previas ya guardadas). Reemplazarla si llega una oficial, con otro nombre para saltar la caché de WhatsApp
 - [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
 - [x] Aliados: cada logo lleva a su Instagram (19 oct). Sin panel, ya no hacen falta su descripción ni "qué ofrece"
 - [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting? Con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url` (WhatsApp y Facebook las piden)
@@ -249,3 +257,5 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp (19 de octubre):** el botón del pie lleva al grupo. Antes estaba fuera de alcance.
 - **Aliados sin panel (19 de octubre):** cada logo lleva directo a su red.
+- **Dos fechas (19 de octubre):** presencial el sábado 14 y virtual el martes 17 de noviembre. La cuenta regresiva va a la próxima.
+- **Formulario de Google para inscribirse (19 de octubre):** lo abren los dos boletos mientras no haya Luma.
