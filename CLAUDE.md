@@ -138,8 +138,7 @@ coincide byte a byte con la local, los archivos que no van (el original 4K, `.en
 - **Textos por aprobar:** la pista "Toca una carta para voltearla" y el "Toca para volver" del reverso (los dos,
   propuestos en la v7). Con las dos fechas (19 oct) se redactaron y están sin aprobar: la bajada de
   Entradas, el overline de la cuenta regresiva ("Presencial: sábado 14 · Virtual: martes 17 de noviembre"), la
-  descripción y los textos alternativos para compartir, y los datos de la imagen para compartir. Y el botón del pie
-  sigue diciendo "Escríbenos por WhatsApp" aunque ahora lleva al grupo: quizá "Unirme al grupo".
+  descripción y los textos alternativos para compartir, y los datos de la imagen para compartir.
 - **Opcional, la foto de la sede:** `sede-norte.webp` pesa 286 KB y en la polaroid se ve a 210px. Una miniatura
   para la polaroid (y la grande solo en el diálogo) bajaría el peso en móvil unos 250 KB.
 - **`assets/video/117606-712421887.mp4`** es el original 4K del fondo de la ruta (18 MB). No está en git ni lo usa
@@ -794,7 +793,7 @@ vuelve al boleto.
 - **Contacto:**
   - Overline "Dudas e informes".
   - Título "¡Únete a nuestro grupo de WhatsApp y no te pierdas de nada!" (19 oct; antes "¿Tienes preguntas? Escríbenos").
-  - Botón verde con texto navy "Escríbenos por WhatsApp", que abre el grupo (`CONFIG.whatsapp.grupo`) en una pestaña nueva. Sin grupo, abriría `https://wa.me/{numero}?text={mensaje codificado}`; sin ninguno de los dos, "Próximamente".
+  - Botón verde con texto navy "¡Todo se encuentra aquí!" (20 oct; antes "Escríbenos por WhatsApp"), con el ícono de WhatsApp, que abre el grupo (`CONFIG.whatsapp.grupo`) en una pestaña nueva. Sin grupo, abriría `https://wa.me/{numero}?text={mensaje codificado}`; sin ninguno de los dos, "Próximamente".
 - **Redes:**
   - Overline "Síguenos" y "Novedades antes del evento".
   - 3 círculos de 52px (fondo blanco al 8%, borde blanco al 16%) para Instagram, TikTok y Facebook, cada uno con `aria-label`.

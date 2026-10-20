@@ -208,7 +208,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - Lema: Descubre tu potencial antes de elegir tu camino.
 - Overline: **Dudas e informes**
 - Título: **¡Únete a nuestro grupo de WhatsApp y no te pierdas de nada!** (19 oct; antes "¿Tienes preguntas? Escríbenos")
-- Botón: **Escríbenos por WhatsApp** (lleva al grupo)
+- Botón: **¡Todo se encuentra aquí!** (lleva al grupo; 20 oct; antes "Escríbenos por WhatsApp")
 - Mensaje prellenado (solo si algún día el botón va a un número y no al grupo): Hola, tengo una consulta sobre A+PRUEBA
 - Overline: **Síguenos**
 - Texto: Novedades antes del evento
