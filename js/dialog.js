@@ -1,4 +1,4 @@
-/* Sistema de diálogos compartido: entradas, aliados y foto de la sede.
+/* Sistema de diálogos compartido: entradas y foto de la sede.
 
    Usa <dialog> nativo con showModal(): el navegador ya pone el foco
    atrapado, el cierre con Esc, el fondo inerte y aria-modal. Este módulo
@@ -7,7 +7,6 @@
 
    Variantes:
    - ticket   centrado; se abre desde el boleto de origen (FLIP)
-   - aliado   panel lateral en escritorio, hoja inferior en móvil
    Cualquier otra entra centrada con fundido y subida. */
 
 const EASE_OUT = 'cubic-bezier(.22, 1, .36, 1)';
@@ -17,7 +16,6 @@ let actual = null; // el diálogo abierto: { dialogo, caja, origen, variante, al
 let bloqueos = 0;
 
 const reducido = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const esMovil = () => window.innerWidth < 768;
 const terminada = (animacion) => animacion.finished.catch(() => {});
 
 /* ---------------------------------------------------------------
@@ -49,7 +47,7 @@ export function liberarScroll() {
  * @param {object} o
  * @param {string} o.id        id del <dialog>
  * @param {Element} [o.origin] quien lo abrió; recibe el foco al cerrar
- * @param {'ticket'|'aliado'|'foto'} [o.variant]
+ * @param {'ticket'|'foto'} [o.variant]
  * @param {Element} [o.focus]  a dónde va el foco al abrir (por defecto, [data-foco-inicial] visible o la ✕)
  * @param {Function} [o.onClose]
  */
@@ -160,14 +158,6 @@ function animarEntrada(a, rectOrigen) {
 
   if (rectOrigen) return entrarDesdeOrigen(a, rectOrigen);
 
-  if (variante === 'aliado') {
-    const desde = esMovil() ? 'translateY(100%)' : 'translateX(100%)';
-    return terminada(caja.animate(
-      [{ transform: desde }, { transform: 'none' }],
-      { duration: 450, easing: EASE_OUT },
-    ));
-  }
-
   return terminada(caja.animate(
     [{ opacity: 0, transform: 'translateY(16px) scale(.98)' }, { opacity: 1, transform: 'none' }],
     { duration: 400, easing: EASE_OUT },
@@ -211,14 +201,6 @@ function animarSalida(a) {
     return terminada(caja.animate(
       [{ transform: 'none' }, { transform: destino }],
       { duration: 320, easing: EASE_OUT, fill: 'forwards' },
-    ));
-  }
-
-  if (variante === 'aliado') {
-    const hacia = esMovil() ? 'translateY(100%)' : 'translateX(100%)';
-    return terminada(caja.animate(
-      [{ transform: 'none' }, { transform: hacia }],
-      { duration: 300, easing: EASE_OUT, fill: 'forwards' },
     ));
   }
 

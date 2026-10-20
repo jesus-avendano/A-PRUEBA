@@ -45,10 +45,12 @@ function aplicarConfig() {
     else deshabilitarEnlace(el);
   });
 
-  // WhatsApp
+  // WhatsApp: el grupo; si no hay grupo, el chat con el número
   document.querySelectorAll('[data-whatsapp]').forEach((el) => {
-    const { numero, mensaje } = CONFIG.whatsapp;
-    if (numero) {
+    const { grupo, numero, mensaje } = CONFIG.whatsapp;
+    if (grupo) {
+      activarEnlace(el, grupo);
+    } else if (numero) {
       activarEnlace(el, `https://wa.me/${numero}?text=${encodeURIComponent(mensaje || '')}`);
     } else {
       deshabilitarEnlace(el);

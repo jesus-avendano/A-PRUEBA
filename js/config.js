@@ -24,6 +24,8 @@ export const CONFIG = {
   cupos: { presencial: 200, virtual: 800 },
 
   whatsapp: {
+    // El botón del pie lleva al grupo; si no hubiera grupo, abriría el chat con este número.
+    grupo: 'https://chat.whatsapp.com/C2blyHlVFO673nyyDHYKXR', // 19 oct, sin el ?mode= de rastreo
     numero: '', // formato 51XXXXXXXXX, sin + ni espacios
     mensaje: 'Hola, tengo una consulta sobre A+PRUEBA',
   },
@@ -43,47 +45,15 @@ export const CONFIG = {
 
   legal: { privacidadUrl: '', terminosUrl: '' },
 
-  // Panel de cada aliado (docs/CAMBIOS-INTERACCION.md §2).
-  // Instagram: los del 18 oct, sin los parámetros de rastreo.
-  // PENDIENTE: descripcion y queOfrece son texto de relleno, igual en los seis.
-  // Reemplazar con el texto real de cada aliado; nunca inventar datos.
-  // Una red vacía se muestra deshabilitada con el texto "Próximamente".
+  // Aliados: cada logo lleva directo a su red (19 oct: sin el
+  // panel de información de la v2). Los Instagram son del 18 oct,
+  // sin los parámetros de rastreo. Sin red, el logo se muestra deshabilitado.
   aliados: {
-    'face-to-face': {
-      nombre: 'Face to Face',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: 'https://www.instagram.com/somosfacetoface', tiktok: '', facebook: '', web: '' },
-    },
-    'lead-ucsur': {
-      nombre: 'LEAD UCSUR',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: 'https://www.instagram.com/lead_cientifica', tiktok: '', facebook: '', web: '' },
-    },
-    'bell': {
-      nombre: 'BELL',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: 'https://www.instagram.com/comunidad.bell', tiktok: '', facebook: '', web: '' },
-    },
-    'red-astrum': {
-      nombre: 'Red Astrum',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: 'https://www.instagram.com/red_astrum', tiktok: '', facebook: '', web: '' },
-    },
-    'club-tecnologia-electronica': {
-      nombre: 'Club de Tecnología y Electrónica',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: 'https://www.instagram.com/clubtecnologia_ucsur', tiktok: '', facebook: '', web: '' },
-    },
-    'legado-stemos': {
-      nombre: 'Legado STEMos',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-      queOfrece: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'],
-      redes: { instagram: 'https://www.instagram.com/legado_stemos', tiktok: '', facebook: '', web: '' },
-    },
+    'face-to-face':                { nombre: 'Face to Face',                     red: 'https://www.instagram.com/somosfacetoface' },
+    'lead-ucsur':                  { nombre: 'LEAD UCSUR',                       red: 'https://www.instagram.com/lead_cientifica' },
+    'bell':                        { nombre: 'BELL',                             red: 'https://www.instagram.com/comunidad.bell' },
+    'red-astrum':                  { nombre: 'Red Astrum',                       red: 'https://www.instagram.com/red_astrum' },
+    'club-tecnologia-electronica': { nombre: 'Club de Tecnología y Electrónica', red: 'https://www.instagram.com/clubtecnologia_ucsur' },
+    'legado-stemos':               { nombre: 'Legado STEMos',                    red: 'https://www.instagram.com/legado_stemos' },
   },
 };

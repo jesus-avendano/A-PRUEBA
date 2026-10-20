@@ -38,7 +38,7 @@ Que un escolar entienda el evento en 30 segundos y se inscriba en una de las dos
   6. ¿Tienes alguna carrera en mente actualmente? (desplegable; **lista pendiente**)
   7. Casilla de consentimiento para el tratamiento de datos personales (Ley 29733) y autorización del padre, madre o apoderado. **El texto lo valida UCSUR.**
 - **Correo de confirmación con QR:** lo envía Luma.
-- **Grupo de WhatsApp:** fuera de alcance por ahora. Más adelante se puede agregar su enlace al correo de confirmación de Luma, si Luma permite personalizarlo.
+- **Grupo de WhatsApp:** desde el 19 de octubre, el botón del pie lleva al grupo (`https://chat.whatsapp.com/C2blyHlVFO673nyyDHYKXR`, en `CONFIG.whatsapp.grupo`). Si Luma permite personalizar el correo de confirmación, se puede sumar ahí también.
 
 ## 4. Cronograma
 
@@ -59,16 +59,17 @@ Que un escolar entienda el evento en 30 segundos y se inscriba en una de las dos
 
 ## 6. Aliados
 
-| Aliado | Archivo |
-|---|---|
-| Face to Face | `assets/logos/face-to-face.png` |
-| LEAD UCSUR | `assets/logos/lead-ucsur.png` |
-| BELL | `assets/logos/bell.png` |
-| Red Astrum | `assets/logos/red-astrum.png` |
-| Club de Tecnología y Electrónica | `assets/logos/club-tecnologia-electronica.png` |
-| Legado STEMos | `assets/logos/legado-stemos.png` |
+| Aliado | Archivo | Red (al tocar el logo) |
+|---|---|---|
+| Face to Face | `assets/logos/face-to-face.png` | https://www.instagram.com/somosfacetoface |
+| LEAD UCSUR | `assets/logos/lead-ucsur.png` | https://www.instagram.com/lead_cientifica |
+| BELL | `assets/logos/bell.png` | https://www.instagram.com/comunidad.bell |
+| Red Astrum | `assets/logos/red-astrum.png` | https://www.instagram.com/red_astrum |
+| Club de Tecnología y Electrónica | `assets/logos/club-tecnologia-electronica.png` | https://www.instagram.com/clubtecnologia_ucsur |
+| Legado STEMos | `assets/logos/legado-stemos.png` | https://www.instagram.com/legado_stemos |
 
-Todos van en círculo, cada uno manteniendo su diseño original.
+Todos van en círculo, cada uno manteniendo su diseño original. **Desde el 19 de octubre, cada logo lleva directo a
+su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descripción y "qué ofrece".
 
 ## 7. Contenido (textos finales)
 
@@ -201,9 +202,9 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 ### 7. Footer
 - Lema: Descubre tu potencial antes de elegir tu camino.
 - Overline: **Dudas e informes**
-- Título: **¿Tienes preguntas? Escríbenos**
-- Botón: **Escríbenos por WhatsApp**
-- Mensaje prellenado: Hola, tengo una consulta sobre A+PRUEBA
+- Título: **¡Únete a nuestro grupo de WhatsApp y no te pierdas de nada!** (19 oct; antes "¿Tienes preguntas? Escríbenos")
+- Botón: **Escríbenos por WhatsApp** (lleva al grupo)
+- Mensaje prellenado (solo si algún día el botón va a un número y no al grupo): Hola, tengo una consulta sobre A+PRUEBA
 - Overline: **Síguenos**
 - Texto: Novedades antes del evento
 - Legal: © 2026 A+PRUEBA, La Ruta del Estudiante
@@ -221,14 +222,14 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - [ ] Luma: cómo reciben el enlace de la transmisión solo los virtuales (define si son 1 o 2 eventos)
 - [ ] Plataforma de la transmisión virtual y si soporta 800 participantes
 - [ ] Presencial: ¿orden de inscripción o selección? (hoy dice "por orden de inscripción")
-- [ ] Número de WhatsApp de soporte
+- [x] WhatsApp: el botón del pie lleva al grupo (19 oct). Un número de soporte ya no hace falta
 - [ ] URLs de Instagram, TikTok y Facebook
 - [ ] Texto de consentimiento de datos y autorización del apoderado (lo valida UCSUR)
 - [ ] URLs de política de privacidad y términos
 - [ ] Lista de carreras para el desplegable del registro
 - [x] Imagen para compartir (`assets/og/og-aprueba.jpg`, 1200×630, 105 KB), como el hero de ahora: el campus bajo el velo navy, la pastilla, el logo, "Martes 17 de noviembre, 9:00 a.m." y "Gratis · Presencial en UCSUR Sede Norte o virtual". Se genera con `docs/og/og.html` (19 oct). Reemplazarla si llega una oficial, con otro nombre para saltar la caché de WhatsApp
 - [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
-- [ ] Texto real de cada aliado (descripción y qué ofrece): hoy es texto de relleno en `CONFIG.aliados`. Los Instagram de los seis ya están (18 oct); faltan TikTok, Facebook y web, si los tienen
+- [x] Aliados: cada logo lleva a su Instagram (19 oct). Sin panel, ya no hacen falta su descripción ni "qué ofrece"
 - [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting? Con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url` (WhatsApp y Facebook las piden)
 
 ## 9. Decisiones tomadas
@@ -246,4 +247,5 @@ Todos van en círculo, cada uno manteniendo su diseño original.
 - **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
 - **Sin "Quiero vivir la ruta" y la cuenta regresiva después de la ruta (19 de octubre):** cambios de la v7 (`CAMBIOS-CARTAS-CONTADOR.md`). La cuenta regresiva se funde arriba con el navy de la ruta y abajo corta con Ubicación en línea recta.
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
-- **Grupo de WhatsApp:** fuera de alcance por ahora.
+- **Grupo de WhatsApp (19 de octubre):** el botón del pie lleva al grupo. Antes estaba fuera de alcance.
+- **Aliados sin panel (19 de octubre):** cada logo lleva directo a su red.

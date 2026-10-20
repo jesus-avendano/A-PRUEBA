@@ -75,8 +75,7 @@
    y el estado atenuado del boleto no se pisen entre sí.              */
 .boleto__interior,
 .aliado,
-.red,
-.red-aliado__circulo {
+.red {
   transform: scale(var(--escala, 1));
   transition: transform var(--dur-rapida) var(--ease-out);
 }
@@ -90,14 +89,12 @@
   .boleto:hover .boleto__interior { --escala: 1.08; }
   .red:hover { --escala: 1.1; }
 
-  /* aliados y redes del panel: crecen con spring mientras menean (§2) */
-  .aliado:hover,
-  .red-aliado:hover .red-aliado__circulo {
+  /* aliados: crecen con spring mientras menean */
+  .aliado:hover {
+    --escala: 1.08;
     animation: crecer-menear 600ms var(--ease-out),
                vaiven 1.6s ease-in-out 600ms infinite alternate;
   }
-  .aliado:hover { --escala: 1.08; }
-  .red-aliado:hover .red-aliado__circulo { --escala: 1.1; }
 
   /* el boleto crece junto con su sombra 3D (en el envoltorio: la mask la recortaría) */
   .boleto:hover .boleto__forma {
@@ -123,15 +120,13 @@
   .boleto__interior,
   .aliado,
   .red,
-  .red-aliado__circulo,
   .circular-carousel__stage {
     transition: none;
   }
   /* hover: sin meneo, sin vaivén y sin crecer */
   .boleto:hover .boleto__interior,
   .aliado:hover,
-  .red:hover,
-  .red-aliado:hover .red-aliado__circulo {
+  .red:hover {
     --escala: 1;
     animation: none;
   }
@@ -200,13 +195,6 @@
   .nav__cta,
   .nav__cta:hover,
   .nav__cta.late { --escala: 1; animation: none; }
-}
-
-/* Panel del aliado: las flechas ← → cambian de aliado sin cerrar (js/aliados.js) */
-.ficha-aliado__contenido--anima { animation: panel-entra 250ms var(--ease-out) both; }
-
-@media (prefers-reduced-motion: reduce) {
-  .ficha-aliado__contenido--anima { animation: funde 150ms linear both; }
 }
 
 /* ===========================================================

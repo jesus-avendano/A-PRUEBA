@@ -80,9 +80,8 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
   `ajustarDorsos` lo cuenta como "no entra" y lo avisa en la consola. Falta decidir: acortar el
   texto o aceptar esos 2px (y que la revisión los permita).
 - **Datos de `docs/PROYECTO.md` (sección 8):** Luma (URL, IDs y el snippet del script donde dice
-  `<!-- LUMA SCRIPT -->`), WhatsApp, redes, legales, el embed oficial del mapa (el actual es
-  provisional), el texto real de cada aliado (hoy es lorem ipsum en `CONFIG.aliados`; sus Instagram ya están,
-  faltan TikTok, Facebook y web si los tienen) y el favicon oficial.
+  `<!-- LUMA SCRIPT -->`), las redes de A+PRUEBA, legales, el embed oficial del mapa (el actual es
+  provisional) y el favicon oficial. El grupo de WhatsApp y las redes de los aliados ya están.
 - **El dominio:** `og:url`, `og:image` y `twitter:image` ya son URL absolutas, con el dominio de Vercel. Si
   llega un dominio propio, se cambian (está anotado en el `<head>`).
 - **El video del campus en 1080p.** El de hoy es un 360p de YouTube estirado: ya no se pixela, pero nunca se va
@@ -337,7 +336,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 ├── js/
 │   ├── config.js       datos editables (ver abajo)
 │   ├── main.js         arranque: aplica CONFIG al DOM, inicializa módulos y conecta los CTA
-│   ├── dialog.js       sistema de diálogos: boleto, aliado y foto; bloqueo de scroll
+│   ├── dialog.js       sistema de diálogos: boleto y foto; bloqueo de scroll
 │   ├── enlaces.js      enlaces que dependen de CONFIG: <a> con URL, <span> deshabilitado sin ella
 │   ├── nav.js          nav fija + menú móvil
 │   ├── hero.js         entrada del título palabra por palabra
@@ -348,7 +347,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   ├── ruta.js         la ruta: arma el carrusel de cartas y su reverso
 │   ├── carrusel.js     carrusel 3D con volteo (CircularCarousel + FlipCard de React Bits); se importa al acercarse
 │   ├── tabs.js         pestañas Presencial/Virtual de Ubicación
-│   └── aliados.js      panel de cada aliado
+│   └── aliados.js      cada logo de aliado, enlace a su red
 ├── assets/
 │   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
 │   ├── img/            sede-norte.webp y .jpg (la foto de Ubicación); ruta/ con las 4 fotos de las estaciones
@@ -390,8 +389,8 @@ export const CONFIG = {
 
 Si un campo está vacío, el elemento que depende de él se muestra deshabilitado con el texto "Próximamente". Nunca debe quedar un enlace roto.
 
-El `config.js` real tiene además `mapa.referencia` y `aliados` (nombre, descripción, qué ofrece y redes de cada
-aliado). Ver los comentarios del archivo.
+El `config.js` real tiene además `whatsapp.grupo` (el enlace del grupo, al que lleva el botón del pie),
+`mapa.referencia` y `aliados` (nombre y red de cada aliado). Ver los comentarios del archivo.
 
 ## Tokens (css/tokens.css)
 
@@ -649,8 +648,10 @@ vuelve al boleto.
 
 ### 6. Aliados (`#aliados`)
 
-> **Actualizado:** desde la v2 cada logo es un botón que abre el panel del aliado, con los datos de
-> `CONFIG.aliados`.
+> **Actualizado el 19 de octubre**: cada logo lleva directo a la red de su aliado
+> (`CONFIG.aliados`, hoy su Instagram), en una pestaña nueva. Ya no hay panel con descripción ni "qué ofrece"
+> (el de la v2). Sin red, el logo sale como `<span>` deshabilitado ("Próximamente"), como los demás enlaces
+> que dependen de CONFIG. El nombre accesible es "Face to Face en Instagram": empieza con el del logo.
 
 - **Fondo y encabezado:** fondo `--nube-50`. Overline "Aliados" en verde y h2 "Con el apoyo de".
 - **Logos:** 6 círculos `<img>` (132px en escritorio, 98px en móvil, en filas de 3). Fondo blanco, borde 1.5px `--linea` y `--sombra-tarjeta`. En escritorio van en una fila con gap 40; en móvil, en grilla de 3 columnas con gap 18.
@@ -669,8 +670,8 @@ vuelve al boleto.
 - **Marca:** logo de 196px y "Descubre tu potencial antes de elegir tu camino."
 - **Contacto:**
   - Overline "Dudas e informes".
-  - h3 "¿Tienes preguntas? Escríbenos".
-  - Botón verde con texto navy "Escríbenos por WhatsApp", que abre `https://wa.me/{numero}?text={mensaje codificado}` en una pestaña nueva.
+  - Título "¡Únete a nuestro grupo de WhatsApp y no te pierdas de nada!" (19 oct; antes "¿Tienes preguntas? Escríbenos").
+  - Botón verde con texto navy "Escríbenos por WhatsApp", que abre el grupo (`CONFIG.whatsapp.grupo`) en una pestaña nueva. Sin grupo, abriría `https://wa.me/{numero}?text={mensaje codificado}`; sin ninguno de los dos, "Próximamente".
 - **Redes:**
   - Overline "Síguenos" y "Novedades antes del evento".
   - 3 círculos de 52px (fondo blanco al 8%, borde blanco al 16%) para Instagram, TikTok y Facebook, cada uno con `aria-label`.
