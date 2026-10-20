@@ -37,6 +37,10 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 - **Cambios del 20 de octubre:** los botones llevan el **brillo especular** de SpecularButton
   (React Bits), una luz que recorre el borde y se acerca al puntero, **manteniendo sus colores**. Está portado a JS
   puro en `js/brillo.js` (no se instaló con `npx shadcn add`, que trae la versión de React). Detalle en las decisiones.
+  Ese mismo día, además: el botón del pie dice "¡Todo se encuentra aquí!"; la cuenta regresiva se **divide en dos,
+  una por fecha** (presencial y virtual), sin textos separados con " · "; la sala virtual de Ubicación muestra la
+  **animación de una conferencia** (un GIF, convertido a video); y "futuro profesional" lleva las **letras técnicas
+  de TechText** (React Bits, portado en `js/rotulo.js`).
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
 - **Registro:** hoy, un **formulario de Google** (`CONFIG.inscripcion`, el mismo para las dos modalidades). Luma
   sigue soportado: si se cargan sus datos en `CONFIG.luma`, Luma gana sobre el formulario. No hay base de datos ni
@@ -49,19 +53,34 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 depende de datos, de decisiones pendientes o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
 (`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `video.js`, `entradas.js`,
-`countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`, `brillo.js`), `assets/img/`
+`countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`, `brillo.js`, `rotulo.js`), `assets/img/`
 (`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba-2.jpg` (la imagen para compartir;
 `og-aprueba.jpg` es la anterior).
 
-**Publicado en Vercel** el 20 de octubre, con el commit `9e40130` (el botón del pie dice "¡Todo se encuentra
-aquí!"; antes, ese mismo día, `58010f5` con el brillo de los botones, y el 19, `697eed3` con el formulario y las
-dos fechas): https://aprueba-jade.vercel.app. La página publicada
-coincide byte a byte con la local, los archivos que no van (el original 4K, `.env.local`, `docs/`, los `.md`) dan
-404, y las pruebas del brillo pasan también contra la página publicada. Cómo publicar y verificar: "Comandos".
+**Publicado en Vercel** el 20 de octubre, con el commit `0c06520` (las dos cuentas regresivas, la sala con la
+conferencia y TechText; antes, ese mismo día, `9e40130` con el botón del pie y `58010f5` con el brillo, y el 19,
+`697eed3` con el formulario y las dos fechas): https://aprueba-jade.vercel.app. La página publicada coincide byte a
+byte con la local, el video de la sala responde por rangos (206), los archivos que no van (el original 4K, el GIF
+original de la sala, `.env.local`, `docs/`, los `.md`) dan 404, y las pruebas de las dos cuentas regresivas, la sala
+y el rótulo pasan también contra la página publicada. Cómo publicar y verificar: "Comandos".
 
 **QA (19 y 20 de octubre):**
 
-- **El brillo de los botones (20 oct, lo último):** en Chrome y WebKit, en 360, 390, 768, 1024 y 1440, con mouse,
+- **Lo último (20 oct), en Chrome y WebKit, de 360 a 1440, con mouse, táctil y movimiento reducido:**
+  - **Las dos cuentas regresivas** (`fechas2.mjs`, con la fecha simulada): en seis momentos (hoy, un minuto antes
+    del 14, durante el 14, entre fechas, durante el 17 y después) cada una muestra lo suyo: cajas con los días que
+    faltan, "¡Está pasando ahora!" o "¡Gracias por vivir A+PRUEBA!". Los 8 rodillos van a 60 fps con la CPU 4×.
+  - **La sala virtual** (`sala.mjs`): recorriendo la página sin abrir la pestaña Virtual no se pide nada de la sala;
+    al abrirla, el video carga y corre; al volver a Presencial se pausa; con movimiento reducido queda el cuadro.
+  - **El rótulo de "futuro profesional"** (`rotulo.mjs`): se monta y esconde el texto del HTML recién al dibujar;
+    barre solo; con el puntero encima la lente se queda en su letra y el cursor es la mano; la letra se arrastra;
+    al hacer clic saltan; con movimiento reducido no barre; el nombre del h1 sigue completo ("A+PRUEBA Descubre,
+    experimenta y define tu futuro profesional"); no tapa los botones del inicio. Cae donde estaba el texto (1px
+    de diferencia, medido comparando la caja de los píxeles celestes). Con la CPU 4×, 60 fps. Al cambiar el ancho
+    de la ventana, la letra se ajusta.
+  - Las pruebas generales, las de los rodillos y las del brillo siguen pasando, sin errores ni scroll horizontal.
+
+- **El brillo de los botones (20 oct):** en Chrome y WebKit, en 360, 390, 768, 1024 y 1440, con mouse,
   táctil y movimiento reducido (`brillo.mjs`): sin interactuar no hay ningún canvas; después, luz solo en los
   botones cerca de la pantalla (los del menú y del diálogo, al abrirse); el canvas cubre el botón desde su borde
   exterior con 24px de aire y detrás del texto (el clic en el centro llega al botón); la luz se acerca al puntero
@@ -75,11 +94,12 @@ coincide byte a byte con la local, los archivos que no van (el original 4K, `.en
   ("¡Está pasando ahora!"), entre fechas (cuenta al 17), durante el 17 y después ("¡Gracias…!"). Las pruebas
   generales (360 a 1440, movimiento reducido y táctil) y las de los rodillos pasan sin errores, también contra la
   página publicada.
-- **Lighthouse (20 oct, con el brillo; tres corridas en móvil, iguales):** móvil 99 en rendimiento y 100 en
-  accesibilidad, buenas prácticas y SEO (FCP 1.3 s, LCP 2.1 s, TBT 0 ms, CLS 0.001; el LCP es el texto del hero);
+- **Lighthouse (20 oct, con todo lo de ese día; tres corridas en móvil, iguales):** móvil 99 en rendimiento y 100 en
+  accesibilidad, buenas prácticas y SEO (FCP 1.3 s, LCP 2.1 s, TBT 0 ms, CLS 0; el LCP es el subtítulo del hero);
   escritorio 100 en las cuatro. Se mide con el servidor comprimiendo, como cualquier hosting: sin compresión,
   rendimiento en móvil baja bastante.
-- **Peso:** **1,280 KiB en móvil** (presupuesto de 1.5 MB; `brillo.js` suma 6.6 KiB), y 1,883 KiB en escritorio
+- **Peso:** **1,292 KiB en móvil** (presupuesto de 1.5 MB; `brillo.js` suma 6.6 KiB y `rotulo.js`, que se pide
+  después de la carga, unos 12; la sala no entra: se pide al abrir su pestaña), y 1,883 KiB en escritorio
   (con la v7 se había medido 2,163: varía con cuánto del video alcanza a bajar). Lo más pesado en móvil:
   el video del campus (578 KB), la foto de la sede (286 KB) y el auditorio (146 KB). Lighthouse emula una
   conexión lenta, y ahí Chrome empieza a cargar lo `lazy` desde 2500px y no desde 1250px como en 4G: por eso
@@ -107,7 +127,14 @@ coincide byte a byte con la local, los archivos que no van (el original 4K, `.en
   correos: Verificado". Después, abrir el link en una ventana de incógnito para confirmarlo. No hace falta
   publicar de nuevo.
 - **El horario del sábado 14:** las dos fechas quedaron de 9:00 a.m. a 1:00 p.m. (`CONFIG.evento`), sin confirmar
-  para el sábado.
+  para el sábado. Desde que hay dos cuentas regresivas, su etiqueta lo muestra ("Sábado 14 de noviembre, 9:00 a.m.").
+- **El contraste del degradado de la cuenta regresiva** (viene del diseño, no de estos cambios): el degradado termina
+  en celeste claro (`#3EC6F2`), y el blanco encima queda en ~2.5:1 hacia la derecha (en celular, el final del h2;
+  como texto grande pide 3:1). Lighthouse no lo ve porque no mide sobre degradados. Por eso las etiquetas nuevas van
+  sobre navy y las cuentas van una debajo de la otra. Si se quiere arreglar: terminar el degradado en un celeste más
+  oscuro o ponerle un velo.
+- **El GIF de la sala es de 150×150:** en escritorio se ve un poco suave. Si llega uno más grande, se regenera el
+  video con el mismo comando (ver "Archivos de video").
 - **Los textos del QR** ("Recibe tu Pasaporte (QR) en tu correo", la nota de Entradas "…Tu confirmación y tu QR
   llegan a tu correo." y "Lleva tu QR de inscripción" en Ubicación) suponen que el registro manda un QR, como
   Luma. Si el formulario de Google no lo manda, hay que cambiarlos (no se tocaron).
@@ -171,9 +198,33 @@ Decisiones que conviene no deshacer sin querer:
   su `menear` "ya terminado" en la misma posición de la lista y no lo repite (el boleto crece pero no menea).
 - **Hero (18 oct):** pantalla completa (`min-height: 100svh`) con el video del campus de fondo, un velo azul
   marino (más oscuro arriba, por la nav) y el texto centrado.
-  Ya no hay pasaporte, ni ola, ni brillo de colores: "futuro profesional" queda en celeste fijo y
-  `js/hero.js` solo divide el título en palabras para su entrada. Tampoco hay cielo de estrellas,
+  Ya no hay pasaporte, ni ola, ni brillo de colores: "futuro profesional" queda en celeste y
+  `js/hero.js` divide el título en palabras para su entrada. Tampoco hay cielo de estrellas,
   destellos, planeta ni órbita. El cielo de estrellas (`starfield.js`) ya no existe en ninguna sección.
+- **"futuro profesional" con TechText** (`js/rotulo.js`, TechText de React Bits portado, 20 oct):
+  - **El port** conserva los nombres de las opciones y las clases del original (`.tech-text`, `.tech-text-canvas`),
+    y su dibujo, física y tiempos. Cambia: recibe el contenedor (no es un componente), `actualizar()` hace de "props
+    nuevas", el contenedor no lleva `role="img"` (lo marca `aria-hidden` quien lo usa, porque el texto sigue en el
+    HTML), **vuelve a medir con el evento `loadingdone`** (la hoja de Google Fonts no bloquea; si Archivo Black
+    llegaba después, el original se quedaba con la de respaldo) y avisa después del primer dibujo.
+  - **Va en su propia línea** (`.hero__tech`): `hero.js` la deja como una sola pieza al dividir el título, y el
+    título queda "Descubre, experimenta / y define tu / futuro profesional" (`.hero__frase` con `text-wrap: balance`).
+    Con el espaciado de TechText (-0.05em) la frase mide 8.8em: **entra en una línea desde 360px** al tamaño del
+    título (`font-size: min(1em, (100vw - 40px) / 8.9)`, por si la pantalla es más angosta). El tamaño se le pasa
+    desde el CSS y un `ResizeObserver` lo actualiza al cambiar el ancho.
+  - **Las opciones son las del configurador, salvo `fontWeight: 400`** (no 600): Archivo Black solo tiene 400, y
+    con 600 el canvas inventaría una negrita distinta al resto del título. Color y acento, el celeste del resaltado.
+  - **Se monta después de la carga, con las fuentes listas y en un momento libre** (`requestIdleCallback`; Safari no
+    lo tiene y usa `setTimeout`), con `import()`. Hasta entonces se ve el texto del HTML (`.hero__tech-texto`), que
+    pasa a `opacity: 0` recién cuando el canvas ya lo dibujó (con `opacity` y no `visibility`: sigue para los
+    lectores de pantalla, y axe no mide contraste de lo que tiene opacidad 0).
+  - **El lienzo sobresale de la línea** (`inset: calc(.05em - 36px) -24px calc(-36px - .05em)`), para el marco, la
+    etiqueta con las medidas y las partículas. El `.05em` corrige que el canvas centra la tinta y el HTML la línea:
+    sin él, el canvas quedaba 2 a 3px más arriba y se notaba el salto. La línea lleva `margin-top: .35em` para que
+    la etiqueta no pise "y define tu". Los botones del inicio no quedan tapados (probado con `elementFromPoint`).
+  - Con movimiento reducido, como en el original, la lente no barre sola y las letras no saltan; el puntero y el
+    arrastre siguen. Mientras el hero se ve, el barrido anima sin parar (se pausa fuera de pantalla).
+  - Con el rótulo, el LCP pasó a ser el subtítulo del hero; el tiempo no cambió (2.1 s).
 - **La ruta: un carrusel 3D de cartas que se voltean** (v5, v6 y v7; detalle en "Secciones"):
   - `js/carrusel.js` es CircularCarousel de React Bits portado a JS puro, solo con el preset `cylinder`, con el
     volteo de FlipCard sumado en la v7. **Conserva los nombres de las opciones y de las clases
@@ -231,12 +282,17 @@ Decisiones que conviene no deshacer sin querer:
   pasaporte presencial" o "virtual". Si `CONFIG.luma[modalidad].url` existe, gana Luma (`a[data-luma]`, que sí
   cierra el diálogo al tocarlo, por el top layer). El formulario no lo cierra: se abre en otra pestaña y, al
   volver, el estudiante sigue donde estaba. Sin Luma ni formulario queda "Inscripciones muy pronto".
-- **Dos fechas (19 oct):** `CONFIG.evento` tiene `presencial` y `virtual`, cada una con `inicio` y `fin`.
-  `js/countdown.js` las ordena y cuenta hasta la próxima: durante cualquiera muestra "¡Está pasando ahora!", entre
-  el 14 y el 17 vuelve a contar (hasta el 17) y después de la última, "¡Gracias por vivir A+PRUEBA!". El texto
-  `aria-live` nombra la modalidad ("…para A+PRUEBA presencial.") y cambia una vez por minuto o al cambiar de fecha.
-  El overline de la cuenta regresiva lleva `Virtual:&nbsp;martes`: así en celular corta en el "·" y no después de
-  "Virtual:".
+- **Dos fechas (19 oct) y dos cuentas regresivas (20 oct):** `CONFIG.evento` tiene `presencial` y `virtual`,
+  cada una con `inicio` y `fin`. En el HTML hay una `.contador__fecha[data-sesion]` por fecha, con su etiqueta y sus
+  4 cajas; `js/countdown.js` arma un reloj por cada una (`crearReloj`), con sus rodillos y sus mensajes: "¡Está
+  pasando ahora!" durante su fecha y "¡Gracias por vivir A+PRUEBA!" después (el presencial puede estar en "Gracias"
+  mientras el virtual sigue contando). Un solo texto `aria-live` con las dos ("Faltan 25 días… para A+PRUEBA
+  presencial. Faltan 28 días… para A+PRUEBA virtual."), que cambia una vez por minuto o cuando cambia un estado.
+  - **Una debajo de la otra, no lado a lado:** el degradado termina en celeste claro a la derecha, donde el blanco
+    no se lee. Por lo mismo, **la etiqueta de cada una va sobre navy** (`.contador__cuando`, un chip con la modalidad
+    en overline celeste y su ícono, y la fecha en blanco), que se lee en cualquier punto del degradado.
+  - **Sin " · "**: se quitó el overline "Presencial: sábado 14 · Virtual: martes 17 de
+    noviembre", que era el único " · " visible de la página. Cada fecha va en su etiqueta.
 - **El grupo de WhatsApp gana sobre el número (19 oct):** `CONFIG.whatsapp.grupo` (sin el `?mode=` de rastreo del
   link original); sin grupo, `wa.me` con `numero` y `mensaje`; sin ninguno, "Próximamente".
 - **El brillo de los botones** (`js/brillo.js`, SpecularButton de React Bits portado, 20 oct):
@@ -274,7 +330,8 @@ Decisiones que conviene no deshacer sin querer:
   - **No va en los boletos** (su forma con muescas no es la caja redondeada del shader), **ni en los aliados ni en
     las redes** (no son `.boton`).
 - **Videos de fondo** (`js/video.js`, `<video class="video-fondo" data-fondo>`): el campus en el hero, el
-  auditorio en Entradas y las partículas en la ruta. Cada uno trae sus fuentes en atributos: en celular (menos
+  auditorio en Entradas, las partículas en la ruta y la conferencia de la sala virtual (este, sin la clase
+  `.video-fondo`, que le pondría desenfoque y escala; ver "Archivos de video"). Cada uno trae sus fuentes en atributos: en celular (menos
   de 768px) `data-movil-webm` si existe y el navegador lee VP9, y si no `data-movil`; en escritorio, `data-webm`
   o `data-escritorio`. El del hero se pide cuando la página terminó de cargar (`data-carga="al-cargar"`), para
   no competir con la primera pantalla; los otros, cuando su sección está a 300px. Se pausan fuera de pantalla y
@@ -309,6 +366,20 @@ Decisiones que conviene no deshacer sin querer:
     que se pediría con la página aunque la ruta quede lejos. Al fondo de la ruta no se le aplica el desenfoque ni
     la escala de `.video-fondo`: borrarían las partículas.
   - Safari exige que el servidor responda por rangos de bytes para reproducir video; cualquier hosting lo hace.
+  - **La sala virtual de Ubicación** (20 oct): la animación viene de un GIF (`sala-original.gif`, 150×150, 178 cuadros,
+    5.9 s, **1.1 MB**, con fondo transparente). Va como **`sala.mp4`, 450×450 y 106 KB**, sobre blanco (lo agrandado
+    con lanczos, para que en pantallas retina no lo estire el navegador), a 30 fps, con su cuadro quieto
+    `sala-poster.jpg` (20 KB). El VP9 pesaba más (114 KB): solo MP4, como el fondo de la ruta. El GIF original queda
+    en git y fuera de Vercel (`.vercelignore`). Así se regenera (con `ffmpeg-static`):
+    `ffmpeg -i sala-original.gif -filter_complex "[0:v]scale=450:450:flags=lanczos,format=rgba[g];color=c=white:s=450x450:r=30[bg];[bg][g]overlay=shortest=1:format=auto,fps=30,format=yuv420p,setsar=1" -c:v libx264 -profile:v high -preset veryslow -crf 24 -g 60 -movflags +faststart -an sala.mp4`
+    (y con `-frames:v 1 -q:v 3 sala-poster.jpg` el cuadro quieto). En zsh, `${T}` con llaves si el tamaño va en una
+    variable: `$T:flags` lo toma como un modificador.
+  - **Cómo va en la página:** `<video data-fondo data-escritorio>` dentro de `.pantalla-falsa__sala`, con el cuadro
+    quieto en un `<img loading="lazy">` debajo (no en `poster`, que se pediría con la página). `video.js` lo carga
+    cuando su caja está a 300px de la pantalla, y dentro de la pestaña oculta eso pasa recién cuando se abre
+    Virtual; al volver a Presencial se pausa. La pantalla es blanca por dentro (el GIF está dibujado para blanco;
+    sobre el navy de antes el atril y las sillas se perdían), con "EN VIVO" arriba y "Sala A+PRUEBA" en una barra
+    navy abajo, como una videollamada. El botón de play de iOS en ahorro de energía también se esconde ahí.
 - **Las secciones se unen sin saltos (18 oct y v6).** Entre secciones de luminosidad parecida, un degradado:
   el token `--fundido` (48px en celular, hasta 88px) es su alto, y cada borde lleva en el fondo de la sección un
   degradado del color de su vecina: la cuenta regresiva arriba (navy, viene de la ruta) y Aliados arriba
@@ -422,6 +493,12 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
   (`video { visibility: hidden }`, si no el fondo cambia en cada captura) y **píxel a píxel**: dos PNG con los
   mismos píxeles pueden no ser iguales byte a byte.
 - **Con `hasTouch` en WebKit, `click()` no abre los boletos ni el menú:** usar `tap()`.
+- **El rótulo de "futuro profesional" se monta después de la carga** (fuentes listas y un momento libre): esperar
+  unos 4 s antes de buscar su canvas. Para apuntar a una letra, usar la caja de `.hero__tech-texto` (el texto): la
+  línea `.hero__tech` es más ancha que la frase y en escritorio el 10% de su ancho cae fuera de las letras.
+- **Las cuentas regresivas son dos:** `[data-sesion="presencial"]` y `[data-sesion="virtual"]`; un `querySelector`
+  suelto toma solo la primera.
+- **La sala virtual no pide nada hasta que se abre su pestaña:** para probar el video, abrir Virtual primero.
 
 - `cwebp` **no está instalado**. Si se quieren versiones .webp de los logos: `brew install webp`, y si no se instala, se dejan los PNG (pesan 120 KB en total, muy por debajo del presupuesto de 1.5 MB).
 - `ffmpeg` tampoco está instalado (ni Homebrew). Para los videos se usó `ffmpeg-static` de npm en una carpeta temporal.
@@ -454,12 +531,13 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   ├── dialog.js       sistema de diálogos: boleto y foto; bloqueo de scroll
 │   ├── enlaces.js      enlaces que dependen de CONFIG: <a> con URL, <span> deshabilitado sin ella
 │   ├── nav.js          nav fija + menú móvil
-│   ├── hero.js         entrada del título palabra por palabra
-│   ├── video.js        videos de fondo: campus (hero), auditorio (Entradas) y partículas (ruta)
+│   ├── hero.js         entrada del título palabra por palabra; monta el rótulo de "futuro profesional"
+│   ├── video.js        videos de fondo: campus (hero), auditorio (Entradas), partículas (ruta) y la sala virtual
 │   ├── entradas.js     boletos Presencial/Virtual que abren su diálogo; su botón de inscripción (formulario o Luma)
-│   ├── countdown.js    cuenta regresiva
+│   ├── countdown.js    las dos cuentas regresivas (presencial y virtual)
 │   ├── rodillo.js      números que ruedan (Counter de React Bits, portado)
 │   ├── brillo.js       luz en el borde de los botones (SpecularButton de React Bits, portado)
+│   ├── rotulo.js       letras técnicas de "futuro profesional" (TechText de React Bits, portado); se importa después de la carga
 │   ├── ruta.js         la ruta: arma el carrusel de cartas y su reverso
 │   ├── carrusel.js     carrusel 3D con volteo (CircularCarousel + FlipCard de React Bits); se importa al acercarse
 │   ├── tabs.js         pestañas Presencial/Virtual de Ubicación
@@ -467,7 +545,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 ├── assets/
 │   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
 │   ├── img/            sede-norte.webp y .jpg (la foto de Ubicación); ruta/ con las 4 fotos de las estaciones
-│   ├── video/          campus (hero), auditorio (Entradas) y fondo-ruta (ruta): originales y versiones livianas
+│   ├── video/          campus (hero), auditorio (Entradas), fondo-ruta (ruta) y sala (Ubicación): originales y versiones livianas
 │   └── og/             og-aprueba-2.jpg (la imagen para compartir) y og-aprueba.jpg (la anterior)
 └── docs/
     ├── PROYECTO.md                 textos, datos y pendientes (fuente de verdad)
@@ -599,9 +677,9 @@ Interpola entre escritorio y móvil con `clamp()`.
 | `latido` | scale 1 → 1.22 → 1, 500ms con `--ease-spring` |
 | `aparecer` | opacity 0 → 1 y translateY 16px → 0, 500ms con `--ease-out` |
 
-El giro y el volteo del carrusel, los números que ruedan y la luz de los botones no están en `motion.css`: los
-hace el JS en `requestAnimationFrame` (`js/carrusel.js`, `js/rodillo.js` y `js/brillo.js`), y solo mientras algo
-se mueve.
+El giro y el volteo del carrusel, los números que ruedan, la luz de los botones y las letras técnicas de "futuro
+profesional" no están en `motion.css`: los hace el JS en `requestAnimationFrame` (`js/carrusel.js`, `js/rodillo.js`,
+`js/brillo.js` y `js/rotulo.js`), y solo mientras algo se mueve (el rótulo barre sin parar mientras el hero se ve).
 
 **Patrón "crecer y menear"** (el lenguaje de movimiento de toda la página):
 - Al entrar el puntero: `scale(1.08)` con `--ease-spring`, y `menear` una sola vez.
@@ -639,6 +717,8 @@ En escritorio eran dos columnas: texto (unos 690px) y la ilustración del pasapo
 1. Pastilla `--verde-400` con brújula y el overline "La ruta del estudiante" en navy.
 2. Logo A+PRUEBA (`aprueba.png`, 470px de ancho en escritorio y 260px en móvil). Es el `<h1>` visual: el texto del h1 se envuelve aparte; el logo lleva `alt="A+PRUEBA"`.
 3. `<h1>`: "Descubre, experimenta y define tu **futuro profesional**", con la parte resaltada en `--celeste-400`.
+   Desde el 20 de octubre, "futuro profesional" va en su propia línea con las letras técnicas de TechText
+   (`js/rotulo.js`; ver las decisiones).
 4. Subtítulo en lead y `--tinta-sobre-oscuro`. Hay versión de escritorio y versión corta de móvil, ambas en PROYECTO.md.
 5. Botones: naranja "¡Regístrate gratis y asegura tu lugar!" (en móvil "¡Regístrate gratis!"), y fantasma con borde blanco de 2px "Ver la ruta del evento" con flecha hacia abajo → `#ruta`. En móvil van a ancho completo y apilados.
 6. Chips de info (fondo blanco al 7%, borde blanco al 16%, ícono `--celeste-400`, flex-wrap): calendario "17 de noviembre", reloj "9:00 a.m. – 1:00 p.m.", pin "UCSUR · Sede Norte", personas "200 presencial · 800 virtual".
@@ -727,9 +807,11 @@ vuelve al boleto.
 ### 4. Cuenta regresiva
 
 - **Fondo y texto:** el degradado azul → celeste, todo centrado.
-  - Overline "Presencial: sábado 14 · Virtual: martes 17 de noviembre" en blanco al 90%.
+  - Sin overline (desde el 20 oct; ya no hay " · ").
   - h2 "El evento que transformará tus dudas en certeza".
-- **Cajas:**
+- **Dos cuentas regresivas, una debajo de la otra** (20 oct), cada una con su etiqueta sobre un chip navy:
+  ticket y "PRESENCIAL" / "Sábado 14 de noviembre, 9:00 a.m."; monitor y "VIRTUAL" / "Martes 17 de noviembre, 9:00 a.m.".
+- **Cajas** (en cada cuenta):
   - 4 cajas blancas (128px de ancho en escritorio, 76px en móvil), separadas por ":" en blanco al 60% (los ":" se ocultan en móvil).
   - Número en Fredoka y unidad en overline `--tinta-600`: Días, Horas, Min, Seg.
 - **Párrafo:** "No busques una charla aburrida sobre carreras. Ven a **vibrar, experimentar y medir tu nivel de seguridad real** sobre lo que quieres hacer con tu vida.", con la parte resaltada en Nunito 800.
@@ -739,10 +821,10 @@ vuelve al boleto.
   escalonada; después, cada segundo, rueda lo que cambia (~0.65 s el de los segundos), hacia abajo y con
   desenfoque de movimiento. Ver la decisión en "Estado actual".
 - **Lógica** (`countdown.js`):
-  - Cuenta hasta la próxima fecha de `CONFIG.evento` (presencial el 14, virtual el 17) y actualiza cada segundo,
-    con dos dígitos (un rodillo por caja).
-  - Durante cualquiera de las dos muestra "¡Está pasando ahora!"; después de la última, "¡Gracias por vivir A+PRUEBA!".
-  - Las cajas llevan `aria-hidden` y aparte hay un texto oculto con `aria-live="polite"` que se actualiza solo una vez por minuto.
+  - Cada cuenta va contra su fecha de `CONFIG.evento` (presencial el 14, virtual el 17) y se actualiza cada segundo,
+    con dos dígitos (un rodillo por caja: 8 en total).
+  - Cada una muestra "¡Está pasando ahora!" durante su fecha y "¡Gracias por vivir A+PRUEBA!" después.
+  - Las cajas llevan `aria-hidden` y aparte hay un solo texto oculto con `aria-live="polite"`, con las dos cuentas, que se actualiza una vez por minuto.
 
 ### 5. Ubicación (`#ubicacion`)
 
@@ -767,7 +849,9 @@ vuelve al boleto.
     - "Martes 17 de noviembre" / "9:00 a.m. – 1:00 p.m."
     - "Tu enlace privado llega a tu correo" / "Solo para inscritos en la modalidad virtual."
     - "Qué necesitas" / "Celular o computadora con internet."
-  - En lugar del mapa: una ilustración CSS de una pantalla (marco navy, badge rojo "EN VIVO", 4 burbujas de participantes de colores y la etiqueta "Sala A+PRUEBA").
+  - En lugar del mapa: una pantalla (marco navy, blanca por dentro) con la animación de una conferencia
+    (`assets/video/sala.mp4`, desde el 20 oct; antes eran 4 burbujas de colores), el badge rojo "EN VIVO"
+    arriba y "Sala A+PRUEBA" en una barra navy abajo. Se carga recién al abrir la pestaña.
 
 ### 6. Aliados (`#aliados`)
 
@@ -829,7 +913,7 @@ El registro se abre como overlay de Luma en la misma página, así que no se sal
 - Foco visible en todo lo interactivo (anillo de 3px `--celeste-400`) y áreas táctiles de 44×44px como mínimo.
 - Contraste: aplica los ajustes de la tabla de color (verde-600, tinta-600 para texto pequeño y botones naranjas a 19px).
 - Todo funciona con teclado: menú, entradas (Enter/Espacio para abrir, Esc para cerrar), el carrusel de la ruta (flechas para girar, Enter para voltear y enderezar), pestañas (flechas) y enlaces.
-- Decoración (videos de fondo y sus cuadros quietos, los rodillos de la cuenta regresiva) con `aria-hidden="true"`. Las fotos del carrusel no tienen texto alternativo propio: el carrusel se anuncia con su etiqueta y la estación de adelante, y las 4 estaciones siguen en el HTML para los lectores de pantalla.
+- Decoración (videos de fondo y sus cuadros quietos, la sala virtual, los rodillos de la cuenta regresiva y el canvas del rótulo de "futuro profesional", cuyo texto sigue en el HTML) con `aria-hidden="true"`. Las fotos del carrusel no tienen texto alternativo propio: el carrusel se anuncia con su etiqueta y la estación de adelante, y las 4 estaciones siguen en el HTML para los lectores de pantalla.
 - `prefers-reduced-motion` respetado, como dice la regla 5.
 
 ## Rendimiento
@@ -872,4 +956,7 @@ Los documentos de cambios (v2 a v7) traen sus propias fases; la regla de detener
 - [x] Con `prefers-reduced-motion` no hay animación infinita.
 - [x] Todo lo pendiente vive en `config.js`, y los campos vacíos se ven como "Próximamente", no como enlaces rotos.
 - [x] Los botones tienen el brillo especular sin cambiar sus colores, y con movimiento reducido la luz no se mueve.
+- [x] Una cuenta regresiva por fecha (presencial y virtual), sin textos separados con " · ".
+- [x] La sala virtual de Ubicación muestra la animación de la conferencia, y con movimiento reducido queda quieta.
+- [x] "futuro profesional" tiene las letras técnicas de TechText, y el h1 se sigue leyendo completo.
 - [x] Lighthouse móvil cumple el presupuesto.
