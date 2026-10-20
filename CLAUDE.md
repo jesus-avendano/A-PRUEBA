@@ -61,9 +61,9 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 (`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba-3.jpg` (la imagen para compartir;
 `og-aprueba.jpg` y `og-aprueba-2.jpg` son las anteriores).
 
-**Publicado en Vercel** el 20 de octubre, con el commit `8fadff9` (sin TechText y la fecha virtual "próximamente";
-antes, ese mismo día, `4ea614c` con las dos cuentas regresivas, la sala y TechText, `c5070aa` con el botón del pie y
-`416635b` con el brillo, y el 19, `09b6268` con el formulario y las dos fechas): https://aprueba-jade.vercel.app.
+**Publicado en Vercel** el 20 de octubre, con el commit `9a224f4` (sin TechText y la fecha virtual "próximamente";
+antes, ese mismo día, `7de36bd` con las dos cuentas regresivas, la sala y TechText, `daec929` con el botón del pie y
+`4c49410` con el brillo, y el 19, `f7cd469` con el formulario y las dos fechas): https://aprueba-jade.vercel.app.
 La página publicada coincide con la local (después solo cambiaron comentarios del código y la documentación,
 al preparar el repositorio de GitHub), no dice "17 de noviembre" en ningún lado, `js/rotulo.js` ya no
 está (404), los archivos que no van (el original 4K, el GIF original de la sala, `.env.local`, `docs/`, los `.md`)
@@ -214,9 +214,9 @@ Decisiones que conviene no deshacer sin querer:
   `js/hero.js` divide el título en palabras para su entrada. Tampoco hay cielo de estrellas,
   destellos, planeta ni órbita. El cielo de estrellas (`starfield.js`) ya no existe en ninguna sección.
 - **Sin TechText en "futuro profesional" (20 oct):** se puso (letras técnicas de React Bits, portado en
-  `js/rotulo.js`, commit `4ea614c`) y, ese mismo día, **se quitó** (commit `8fadff9`, que
+  `js/rotulo.js`, commit `7de36bd`) y, ese mismo día, **se quitó** (commit `9a224f4`, que
   deshace aquel). El título volvió a ser el de antes y el archivo se borró. **No volver a ponerlo** salvo que se pida
-  explícitamente. Si alguna vez vuelve, en `4ea614c` está todo, con lo que se aprendió: con el espaciado de TechText
+  explícitamente. Si alguna vez vuelve, en `7de36bd` está todo, con lo que se aprendió: con el espaciado de TechText
   la frase entraba en una línea desde 360px; Archivo Black solo tiene peso 400; y el canvas necesitaba bajar
   `.05em` para caer donde estaba el texto.
 - **La ruta: un carrusel 3D de cartas que se voltean** (v5, v6 y v7; detalle en "Secciones"):
@@ -386,7 +386,7 @@ Decisiones que conviene no deshacer sin querer:
   **Entre una sección oscura y una clara, una línea recta** (desde el 18 oct): en Cuenta regresiva →
   Ubicación y Aliados → Pie. Un degradado entre navy y blanco pasa por un gris de neblina, y la v6 lo había cambiado por un
   arco (un degradado elíptico en un `::before` encima de la sección), que también se descartó. Si alguna
-  vez vuelve el arco: está en el commit `b74adc2`, y **no con un pseudo-elemento más ancho que la pantalla y
+  vez vuelve el arco: está en el commit `beb0ee7`, y **no con un pseudo-elemento más ancho que la pantalla y
   `border-radius`**, que da scroll horizontal. **Si cambia el orden o el color de una sección, hay que revisar
   las uniones de sus vecinas.**
 - **Sin agenda (18 oct) ni "Quiero vivir la ruta" (19 oct):** se quitó la agenda a pantalla completa (v4) con
