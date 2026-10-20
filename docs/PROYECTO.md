@@ -8,7 +8,7 @@ Fuente de verdad del contenido de la landing. Si algo cambia, se cambia aquí pr
 |---|---|
 | Nombre | A+PRUEBA — La Ruta del Estudiante |
 | Lema del logo | "Descubre tu potencial antes de elegir tu camino" |
-| Fechas | **Presencial: sábado 14 de noviembre de 2026. Virtual: martes 17 de noviembre de 2026** (19 oct; antes las dos eran el martes 17) |
+| Fechas | **Presencial: sábado 14 de noviembre de 2026. Virtual: próximamente** (20 oct; el 19 se había puesto el martes 17 de noviembre, y antes las dos eran el martes 17) |
 | Horario | 9:00 a.m. – 1:00 p.m. (hora de Lima, UTC-5), en las dos fechas. **Por confirmar:** si el sábado 14 mantiene ese horario |
 | Lugar presencial | UCSUR Sede Norte, Auditorio Norte y Explanada |
 | Dirección | Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos. Referencia: Óvalo Infantas. (Fuente: página oficial del Campus Norte; da un cruce de avenidas, sin número.) |
@@ -51,7 +51,7 @@ Que un escolar entienda el evento en 30 segundos y se inscriba en una de las dos
 | Dom 18 – Lun 19 oct | Desarrollo con Claude Code, conexión con Luma, pruebas en celular |
 | **Mar 20 oct** | **Landing publicada** |
 | Sáb 14 nov | Evento presencial |
-| Mar 17 nov | Evento virtual |
+| Por confirmar | Evento virtual ("próximamente") |
 
 ## 5. Identidad visual
 
@@ -84,7 +84,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - CTA: **Regístrate gratis**
 
 ### 1. Hero
-- Título (h1): **Descubre, experimenta y define tu futuro profesional** (resaltado: "futuro profesional", en celeste, sin animación de colores). Desde el 20 de octubre, "futuro profesional" va en su propia línea con las letras técnicas de TechText (React Bits): una lente recorre la frase y la letra que toca se vuelve un contorno punteado con su marco y sus medidas; las letras se pueden arrastrar y saltan al tocarlas.
+- Título (h1): **Descubre, experimenta y define tu futuro profesional** (resaltado: "futuro profesional", en celeste fijo, sin animación de colores)
 - Subtítulo, escritorio:
   > ¿Sientes la presión de no saber qué estudiar o dudas si tu elección es la correcta? Tranquilo, es normal. Elegir tu carrera no debería ser una decisión a ciegas: vive una experiencia donde pondrás a prueba tus habilidades, resolverás retos reales y conectarás con profesionales antes de tomar la gran decisión.
 - Subtítulo, móvil (versión corta):
@@ -97,7 +97,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 ### 2. Entradas
 - Overline: **Inscripción gratuita**
 - Título: **¡Asegura tu Pasaporte Vocacional!** / **Es gratis**
-- Bajada: Elige cómo vivir A+PRUEBA: presencial el sábado 14 o virtual el martes 17 de noviembre. Los cupos presenciales son limitados.
+- Bajada: Elige cómo vivir A+PRUEBA: presencial el sábado 14 de noviembre o virtual (fecha próximamente). Los cupos presenciales son limitados.
 - Sin leyenda sobre el video de fondo: "Así es el Auditorio Norte" se quitó (18 oct). No volver a ponerla.
 - Botones flotantes:
 
@@ -141,7 +141,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - Así funciona:
   1. Regístrate gratis con tus datos.
   2. Recibe tu enlace privado en tu correo.
-  3. Conéctate el martes 17 de noviembre a las 9:00 a.m.
+  3. Conéctate el día del evento (fecha próximamente).
 - Botón: **Quiero mi pasaporte virtual**
 - Nota: Recibirás el enlace privado de acceso en tu correo
 - Cambio: ¿Prefieres vivirlo en el campus? **Ver experiencia presencial**
@@ -156,7 +156,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 > Desde el 19 de octubre va **después de la ruta** (orden: Hero → Entradas → Ruta → Cuenta regresiva → Ubicación → Aliados → Pie). Desde el 20 de octubre hay **dos cuentas regresivas, una por fecha**, una debajo de la otra, y ya no se separan textos con " · ".
 - Sin overline (antes "Presencial: sábado 14 · Virtual: martes 17 de noviembre"). Cada cuenta lleva su etiqueta:
   - **Presencial** / Sábado 14 de noviembre, 9:00 a.m.
-  - **Virtual** / Martes 17 de noviembre, 9:00 a.m.
+  - **Virtual** / Próximamente (sin cajas hasta que haya fecha)
 - Título: **El evento que transformará tus dudas en certeza**
 - Unidades: Días, Horas, Min, Seg
 - Texto: No busques una charla aburrida sobre carreras. Ven a **vibrar, experimentar y medir tu nivel de seguridad real** sobre lo que quieres hacer con tu vida.
@@ -198,7 +198,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
     y `assets/img/sede-norte.jpg` (respaldo). Al tocarla se abre en grande.
 - Virtual:
   - Transmisión exclusiva con acceso interactivo — Plataforma: [por confirmar]
-  - Martes 17 de noviembre — 9:00 a.m. – 1:00 p.m.
+  - Fecha: próximamente — Horario por confirmar
   - Tu enlace privado llega a tu correo — Solo para inscritos en la modalidad virtual.
   - Qué necesitas — Celular o computadora con internet.
   - En vez del mapa, una pantalla con la etiqueta **EN VIVO** y la barra **Sala A+PRUEBA**. Adentro, desde el 20 de
@@ -222,8 +222,8 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - Enlaces legales: "Política de privacidad" y "Términos y condiciones", separados solo por espacio, sin ningún carácter entre ellos
 
 ### SEO
-- Título de pestaña: A+PRUEBA | La Ruta del Estudiante, 14 y 17 de noviembre
-- Descripción: Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial el sábado 14 de noviembre en UCSUR Sede Norte o virtual el martes 17, a las 9:00 a.m.
+- Título de pestaña: A+PRUEBA | La Ruta del Estudiante, 14 de noviembre
+- Descripción: Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial el sábado 14 de noviembre en UCSUR Sede Norte, a las 9:00 a.m. La fecha virtual, próximamente.
 
 ## 8. Pendientes por confirmar
 
@@ -231,7 +231,8 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - [ ] Embed oficial del mapa: Google Maps → Compartir → Insertar un mapa, copiar solo el `src` del iframe (el actual es provisional)
 - [x] Inscripción: formulario de Google en los dos boletos (19 oct), mientras no haya Luma
 - [ ] Luma (si se sigue usando): URL del evento, ID del evento, IDs de los 2 tipos de entrada y snippet del botón embebible
-- [ ] Horario del sábado 14 (presencial): hoy dice 9:00 a.m. – 1:00 p.m., igual que el martes 17
+- [ ] Horario del sábado 14 (presencial): hoy dice 9:00 a.m. – 1:00 p.m.
+- [ ] Fecha y horario del evento virtual (hoy, "próximamente"). Cuando lleguen: `CONFIG.evento.virtual` y los textos que dicen "próximamente" (bajada de Entradas, paso 3 del virtual, cuenta regresiva, Ubicación virtual, título, descripción e imagen para compartir)
 - [ ] ¿El formulario de Google manda un QR o una confirmación? Si no, cambiar los textos del QR (ver la sección 7, Entradas)
 - [ ] Luma: cómo reciben el enlace de la transmisión solo los virtuales (define si son 1 o 2 eventos)
 - [ ] Plataforma de la transmisión virtual y si soporta 800 participantes
@@ -241,7 +242,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - [ ] Texto de consentimiento de datos y autorización del apoderado (lo valida UCSUR)
 - [ ] URLs de política de privacidad y términos
 - [ ] Lista de carreras para el desplegable del registro
-- [x] Imagen para compartir (`assets/og/og-aprueba-2.jpg`, 1200×630, 109 KB), como el hero de ahora: el campus bajo el velo navy, la pastilla, el logo, "Sábado 14 y martes 17 de noviembre" y "Gratis · Presencial el 14 en UCSUR Sede Norte · Virtual el 17". Se genera con `docs/og/og.html` (19 oct; la primera, `og-aprueba.jpg`, decía solo el martes 17 y queda en la carpeta para las vistas previas ya guardadas). Reemplazarla si llega una oficial, con otro nombre para saltar la caché de WhatsApp
+- [x] Imagen para compartir (`assets/og/og-aprueba-3.jpg`, 1200×630, 109 KB), como el hero de ahora: el campus bajo el velo navy, la pastilla, el logo, "Sábado 14 de noviembre, 9:00 a.m." y "Gratis, presencial en UCSUR Sede Norte. Virtual: próximamente". Se genera con `docs/og/og.html` (20 oct; las anteriores, `og-aprueba.jpg` con el martes 17 y `og-aprueba-2.jpg` con el 14 y el 17, quedan en la carpeta para las vistas previas ya guardadas). Reemplazarla si llega una oficial, con otro nombre para saltar la caché de WhatsApp
 - [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
 - [x] Aliados: cada logo lleva a su Instagram (19 oct). Sin panel, ya no hacen falta su descripción ni "qué ofrece"
 - [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting? Con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url` (WhatsApp y Facebook las piden)
@@ -256,7 +257,6 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - **Ruta (v6):** un carrusel 3D con una foto por estación que gira solo; cada foto abre su estación en un portal que crece desde ella. De fondo, un video de partículas de colores. Ya no hay estrellas, trazo, cometa ni nodos.
 - **Video del auditorio de fondo en Entradas:** con un velo azul marino. Se carga al acercarse a la sección y se pausa fuera de pantalla; con movimiento reducido o ahorro de datos queda solo la imagen fija.
 - **Hero con el video del campus de fondo (18 de octubre):** a pantalla completa y con el texto centrado; sin el pasaporte, las estrellas ni el planeta.
-- **"futuro profesional" con TechText (20 de octubre):** Con movimiento reducido la lente no barre sola ni las letras saltan.
 - **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
 - **Uniones rectas entre lo oscuro y lo claro (18 de octubre):** de la ruta a Ubicación y de Aliados al pie, el cambio de sección es una línea recta (ni degradado ni arco). Las demás uniones siguen con su fundido.
 - **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
@@ -264,6 +264,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp (19 de octubre):** el botón del pie lleva al grupo. Antes estaba fuera de alcance.
 - **Aliados sin panel (19 de octubre):** cada logo lleva directo a su red.
-- **Dos fechas (19 de octubre):** presencial el sábado 14 y virtual el martes 17 de noviembre. Desde el 20 de octubre, una cuenta regresiva para cada una.
+- **Dos fechas (19 de octubre):** presencial el sábado 14 y virtual el martes 17 de noviembre. Desde el 20 de octubre, una cuenta regresiva para cada una, y **la virtual pasó a "próximamente"**: su cuenta muestra solo esa etiqueta.
+- **Sin TechText en "futuro profesional" (20 de octubre):** se puso y, ese mismo día, se quitó. El título volvió a ser el de antes (celeste, dentro de la frase). No volver a ponerlo.
 - **Formulario de Google para inscribirse (19 de octubre):** lo abren los dos boletos mientras no haya Luma.
 - **Botones con brillo especular (20 de octubre):** con SpecularButton de React Bits. Una luz recorre el borde de cada botón y se acerca al puntero; los botones conservan sus colores, textos y sombras. Con movimiento reducido la luz no se mueve.

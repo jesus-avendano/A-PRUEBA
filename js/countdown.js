@@ -1,6 +1,7 @@
-/* Cuentas regresivas: una por fecha del evento (CONFIG.evento: presencial el 14 y
-   virtual el 17 de noviembre), cada una en su .contador__fecha[data-sesion]. Cada
-   una muestra "¡Está pasando ahora!" durante su fecha y "¡Gracias por vivir
+/* Cuentas regresivas: una por fecha del evento (CONFIG.evento: presencial el 14 de
+   noviembre; la virtual, sin fecha todavía), cada una en su
+   .contador__fecha[data-sesion]. Una fecha sin inicio deja sus cajas ocultas (su
+   etiqueta dice "Próximamente"). Cada una muestra "¡Está pasando ahora!" durante su fecha y "¡Gracias por vivir
    A+PRUEBA!" después. Los números ruedan como un odómetro (js/rodillo.js, Counter
    de React Bits): un rodillo por caja, creado con el valor del primer tic. Las
    cajas y los rodillos son aria-hidden; el número accesible es el texto aria-live,
@@ -54,7 +55,11 @@ function crearReloj(grupo) {
   const inicio = Date.parse(fecha?.inicio);
   const fin = Date.parse(fecha?.fin);
   const cajas = grupo.querySelector('.contador__cajas');
-  if (!cajas || Number.isNaN(inicio)) return null;
+  if (!cajas) return null;
+  if (Number.isNaN(inicio)) {
+    cajas.hidden = true; // sin fecha: queda solo la etiqueta ("Próximamente")
+    return null;
+  }
 
   const numeros = {};
   cajas.querySelectorAll('[data-unidad]').forEach((el) => {

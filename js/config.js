@@ -6,12 +6,14 @@
    =========================================================== */
 
 export const CONFIG = {
-  // Dos fechas (19 oct): presencial el sábado 14 y virtual el
-  // martes 17 de noviembre. La cuenta regresiva va hasta la próxima. Hora de Lima.
-  // PENDIENTE: el horario de cada fecha; se mantiene el de antes (9:00 a 13:00).
+  // Una cuenta regresiva por fecha (hora de Lima). Presencial: sábado 14 de noviembre.
+  // Virtual: PRÓXIMAMENTE (20 oct; antes era el martes 17). Mientras
+  // su inicio esté vacío, su cuenta muestra solo "Próximamente". Cuando llegue la fecha,
+  // va aquí y en los textos del HTML que dicen "próximamente".
+  // PENDIENTE: el horario del sábado; se mantiene el de antes (9:00 a 13:00).
   evento: {
     presencial: { inicio: '2026-11-14T09:00:00-05:00', fin: '2026-11-14T13:00:00-05:00' },
-    virtual:    { inicio: '2026-11-17T09:00:00-05:00', fin: '2026-11-17T13:00:00-05:00' },
+    virtual:    { inicio: '', fin: '' },
   },
 
   // Formulario de inscripción (Google Forms, desde el 19 oct): lo abren

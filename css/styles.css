@@ -453,35 +453,10 @@ button {
   letter-spacing: -0.01em;
 }
 .hero__logo { width: 260px; height: auto; }
-.hero__frase { display: block; text-wrap: balance; }
+.hero__frase { display: block; }
 /* js/hero.js divide el título en palabras enteras (nunca se parten entre líneas) */
 .hero__palabra { display: inline-block; }
 .hero__palabra--resalte { color: var(--celeste-400); }
-
-/* "futuro profesional" va en su propia línea, con las letras técnicas de
-   js/rotulo.js (TechText). Con el espaciado de TechText (-0.05em) la frase mide
-   8.8em: entra en una línea desde 360px; en pantallas más angostas la letra baja.
-   El lienzo sobresale de la línea para el marco, las etiquetas y las partículas;
-   el texto del HTML se esconde (opacity, sigue para lectores de pantalla) recién
-   cuando el canvas lo dibujó. El margen de arriba deja lugar a la etiqueta con
-   las medidas de la letra, que si no pisaba la línea de arriba. */
-.hero__tech {
-  position: relative;
-  display: block;
-  margin-top: .35em;
-  white-space: nowrap;
-  letter-spacing: -0.05em;
-  font-size: min(1em, calc((100vw - 40px) / 8.9));
-}
-.hero__tech--lienzo .hero__tech-texto { opacity: 0; }
-/* .05em más abajo: el canvas centra la tinta y el HTML la línea, y así la frase
-   cae donde estaba el texto (medido en Chrome y WebKit: 2 a 3px) */
-.hero__tech-lienzo.tech-text {
-  position: absolute;
-  inset: calc(.05em - 36px) -24px calc(-36px - .05em);
-  width: auto;
-  height: auto;
-}
 .hero__sub { max-width: 720px; color: var(--tinta-sobre-oscuro); }
 
 .hero__botones {
@@ -1579,23 +1554,4 @@ button {
   width: 0;
   height: 0;
   overflow: hidden;
-}
-
-
-/* ===========================================================
-   Letras técnicas (js/rotulo.js, TechText de React Bits)
-   El CSS del original, tal cual
-   =========================================================== */
-.tech-text {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  touch-action: pan-y;
-  user-select: none;
-}
-
-.tech-text-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
