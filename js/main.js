@@ -11,6 +11,7 @@ import { iniciarRuta } from './ruta.js';
 import { iniciarAliados } from './aliados.js';
 import { openDialog } from './dialog.js';
 import { enlazar } from './enlaces.js';
+import { crearBrillo } from './brillo.js';
 
 const PROXIMAMENTE = 'Próximamente';
 
@@ -25,6 +26,7 @@ iniciarRuta(document.getElementById('ruta'));
 iniciarAliados();
 conectarFoto();
 conectarCTAs();
+iniciarBrillos(); // al final: aplicarConfig y las entradas pueden reemplazar botones
 
 /* ---------------------------------------------------------
    CONFIG → DOM
@@ -153,6 +155,26 @@ function conectarCTAs() {
       });
     });
   }
+}
+
+/* ---------------------------------------------------------
+   Brillo en el borde de los botones (js/brillo.js). Los colores
+   de la luz salen del CSS de cada variante; los deshabilitados
+   no llevan.
+   --------------------------------------------------------- */
+function iniciarBrillos() {
+  document.querySelectorAll('.boton').forEach((boton) => {
+    if (boton.matches('[disabled], [aria-disabled="true"]')) return;
+    const estilo = getComputedStyle(boton);
+    const leer = (nombre) => estilo.getPropertyValue(nombre).trim();
+    const glow = parseFloat(leer('--brillo-glow'));
+    crearBrillo(boton, {
+      radius: parseFloat(estilo.borderTopLeftRadius) || 0, // pastilla: el shader lo limita a medio alto
+      lineColor: leer('--brillo-linea') || '#ffffff',
+      baseColor: leer('--brillo-base') || '#ffffff',
+      glow: Number.isFinite(glow) ? glow : 1,
+    });
+  });
 }
 
 /* ---------------------------------------------------------

@@ -182,6 +182,20 @@ button {
 .boton--contorno { background: var(--blanco); color: var(--navy-900); border: 2px solid var(--navy-900); }
 .boton--contorno:active { transform: translateY(2px); }
 
+/* Brillo especular (js/brillo.js, SpecularButton de React Bits): una luz que recorre el borde y se
+   acerca al puntero. Va en un <canvas> detrás del texto (z-index -1 dentro del botón aislado), así que
+   el relleno, el texto, la sombra 3D y el foco del botón no cambian. Cada variante elige el color de la
+   luz (--brillo-linea), el del filo en reposo (--brillo-base) y cuánto resplandor suelta hacia adentro
+   (--brillo-glow, 1 en el original): en el naranja va bajo, porque el resplandor aclara el fondo debajo
+   del texto y el blanco sobre naranja (3.1:1) apenas cumple. */
+.boton { position: relative; isolation: isolate; --brillo-linea: var(--blanco); --brillo-glow: 1; }
+.boton--naranja  { --brillo-base: var(--naranja-100); --brillo-glow: .25; }
+.boton--azul     { --brillo-base: var(--celeste-100); }
+.boton--verde    { --brillo-base: var(--verde-100); }
+.boton--fantasma { --brillo-linea: var(--celeste-400); --brillo-base: var(--blanco); }
+.boton--contorno { --brillo-linea: var(--celeste-400); --brillo-base: var(--navy-900); }
+.specular-button__light { position: absolute; z-index: -1; display: block; pointer-events: none; }
+
 /* compacto en alto y relleno, pero no en letra: blanco sobre naranja (3.1:1)
    solo cumple AA como texto grande, así que se queda en 19px ExtraBold */
 .boton--compacto { min-height: 44px; padding: 10px 20px; }

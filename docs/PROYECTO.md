@@ -259,3 +259,4 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - **Aliados sin panel (19 de octubre):** cada logo lleva directo a su red.
 - **Dos fechas (19 de octubre):** presencial el sábado 14 y virtual el martes 17 de noviembre. La cuenta regresiva va a la próxima.
 - **Formulario de Google para inscribirse (19 de octubre):** lo abren los dos boletos mientras no haya Luma.
+- **Botones con brillo especular (20 de octubre):** con SpecularButton de React Bits. Una luz recorre el borde de cada botón y se acerca al puntero; los botones conservan sus colores, textos y sombras. Con movimiento reducido la luz no se mueve.
