@@ -84,7 +84,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - CTA: **Regístrate gratis**
 
 ### 1. Hero
-- Título (h1): **Descubre, experimenta y define tu futuro profesional** (resaltado: "futuro profesional", en celeste fijo, sin animación de colores)
+- Título (h1): **Descubre, experimenta y define tu futuro profesional** (resaltado: "futuro profesional", en celeste, sin animación de colores). Desde el 20 de octubre, "futuro profesional" va en su propia línea con las letras técnicas de TechText (React Bits): una lente recorre la frase y la letra que toca se vuelve un contorno punteado con su marco y sus medidas; las letras se pueden arrastrar y saltan al tocarlas.
 - Subtítulo, escritorio:
   > ¿Sientes la presión de no saber qué estudiar o dudas si tu elección es la correcta? Tranquilo, es normal. Elegir tu carrera no debería ser una decisión a ciegas: vive una experiencia donde pondrás a prueba tus habilidades, resolverás retos reales y conectarás con profesionales antes de tomar la gran decisión.
 - Subtítulo, móvil (versión corta):
@@ -256,6 +256,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - **Ruta (v6):** un carrusel 3D con una foto por estación que gira solo; cada foto abre su estación en un portal que crece desde ella. De fondo, un video de partículas de colores. Ya no hay estrellas, trazo, cometa ni nodos.
 - **Video del auditorio de fondo en Entradas:** con un velo azul marino. Se carga al acercarse a la sección y se pausa fuera de pantalla; con movimiento reducido o ahorro de datos queda solo la imagen fija.
 - **Hero con el video del campus de fondo (18 de octubre):** a pantalla completa y con el texto centrado; sin el pasaporte, las estrellas ni el planeta.
+- **"futuro profesional" con TechText (20 de octubre):** Con movimiento reducido la lente no barre sola ni las letras saltan.
 - **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
 - **Uniones rectas entre lo oscuro y lo claro (18 de octubre):** de la ruta a Ubicación y de Aliados al pie, el cambio de sección es una línea recta (ni degradado ni arco). Las demás uniones siguen con su fundido.
 - **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
