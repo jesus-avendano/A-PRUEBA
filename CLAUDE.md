@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Contexto
 
-Landing del evento **A+PRUEBA — La Ruta del Estudiante** (UCSUR, martes 17 de noviembre de 2026).
+Landing del evento **A+PRUEBA — La Ruta del Estudiante** (UCSUR, 2026): **presencial el sábado 14 de noviembre y
+virtual el martes 17** (hasta el 19 de octubre las dos eran el martes 17).
 Público: escolares de secundaria que llegan desde el celular (Instagram, TikTok, WhatsApp).
 Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Presencial (200 cupos)** o **Virtual (800 cupos)**.
 
@@ -28,8 +29,15 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
   oscura y una clara (de la cuenta regresiva a Ubicación y de Aliados al pie), que cortan en línea recta** (ni
   degradado ni arco). Y **no hay agenda**. La v6 y la v7 se escribieron suponiendo que la agenda seguía y que
   había un arco antes de Ubicación: eso no aplica. El detalle está en las decisiones de abajo.
+- **Cambios del 19 de octubre** (después de la v7; mandan sobre todo lo anterior): el botón
+  del pie lleva al **grupo de WhatsApp**, con el título "¡Únete a nuestro grupo de WhatsApp y no te pierdas de
+  nada!"; cada **aliado es un enlace directo a su Instagram**, sin panel; los dos boletos inscriben con un
+  **formulario de Google** mientras no haya Luma; y hay **dos fechas: presencial el sábado 14 y virtual el martes
+  17 de noviembre**, con la cuenta regresiva hasta la próxima. El detalle está en las decisiones de abajo.
 - **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
-- **Registro:** Luma. No hay base de datos ni formulario propio.
+- **Registro:** hoy, un **formulario de Google** (`CONFIG.inscripcion`, el mismo para las dos modalidades). Luma
+  sigue soportado: si se cargan sus datos en `CONFIG.luma`, Luma gana sobre el formulario. No hay base de datos ni
+  formulario propio.
 - **Publicación:** martes 20 de octubre de 2026.
 
 ## Estado actual
@@ -39,9 +47,21 @@ depende de datos, de decisiones pendientes o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
 (`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `video.js`, `entradas.js`,
 `countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`), `assets/img/`
-(`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba.jpg` (la imagen para compartir).
+(`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba-2.jpg` (la imagen para compartir;
+`og-aprueba.jpg` es la anterior).
 
-**QA (último, 19 de octubre, con la v7):**
+**Publicado en Vercel** el 19 de octubre, con el commit `697eed3` (formulario y dos fechas):
+https://aprueba-jade.vercel.app. La página publicada coincide byte a byte con la local, y los archivos que no van
+(el original 4K, `.env.local`, `docs/`) dan 404. Cómo publicar y verificar: "Comandos".
+
+**QA (19 de octubre):**
+
+- **Formulario y dos fechas (lo último):** en Chrome y WebKit, los botones de los dos boletos son `<a>` al
+  formulario en pestaña nueva, y no queda "Inscripciones muy pronto". La cuenta regresiva, con la fecha simulada
+  (`page.clock.setFixedTime`), en seis momentos: hoy (cuenta al 14), un minuto antes del 14, durante el 14
+  ("¡Está pasando ahora!"), entre fechas (cuenta al 17), durante el 17 y después ("¡Gracias…!"). Las pruebas
+  generales (360 a 1440, movimiento reducido y táctil) y las de los rodillos pasan sin errores, también contra la
+  página publicada. Lighthouse y el peso son los de la v7 (abajo): estos cambios no suman nada a la primera carga.
 
 - **Lighthouse:** móvil 99 en rendimiento y 100 en accesibilidad, buenas prácticas y SEO (FCP 1.2 s,
   LCP 2.1 s, TBT 0 ms, CLS 0.001; el LCP es el texto del hero); escritorio 100 en las cuatro. Se mide con el
@@ -66,21 +86,32 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 
 **Lo que queda pendiente de verdad:**
 
+- **El formulario de Google pide iniciar sesión.** Google responde 401 y la pestaña nueva termina en la pantalla
+  de acceso de Google (`accounts.google.com`): un escolar sin cuenta, o sin cuenta de UCSUR si está restringido a
+  la organización, no puede inscribirse. Se arregla en el formulario, no en la página: Configuración →
+  Respuestas, probablemente "Restringir a usuarios de [organización]", "Limitar a 1 respuesta" o "Recopilar
+  correos: Verificado". Después, abrir el link en una ventana de incógnito para confirmarlo. No hace falta
+  publicar de nuevo.
+- **El horario del sábado 14:** las dos fechas quedaron de 9:00 a.m. a 1:00 p.m. (`CONFIG.evento`), sin confirmar
+  para el sábado.
+- **Los textos del QR** ("Recibe tu Pasaporte (QR) en tu correo", la nota de Entradas "…Tu confirmación y tu QR
+  llegan a tu correo." y "Lleva tu QR de inscripción" en Ubicación) suponen que el registro manda un QR, como
+  Luma. Si el formulario de Google no lo manda, hay que cambiarlos (no se tocaron).
 - **Un iPhone y un Android reales.** El bloqueo de scroll con el dedo cuando hay un diálogo o el menú abierto
   (`overflow: hidden` en `<html>`; iOS dice respetarlo desde la versión 16, pero falta verlo); arrastrar y
   voltear las cartas con el dedo sin que se trabe el scroll vertical; el 3D del carrusel y el desenfoque detrás
   de los diálogos en Safari (Playwright no los dibuja en sus capturas de WebKit, ver "Comandos"); el desenfoque
   del rodillo de la cuenta regresiva en Safari (usa un filtro SVG); y que el loop de 2 s del fondo de la ruta no
   dé tirones en Safari. WebKit en la Mac no puede simular el arrastre del dedo.
-- **La vista previa del link:** compartir `https://aprueba-jade.vercel.app/?v=2` en WhatsApp (los mensajes ya
-  enviados conservan la imagen vieja, no hay forma de cambiarlo) y revisarla en el depurador de Facebook
+- **La vista previa del link:** compartir `https://aprueba-jade.vercel.app/?v=3` en WhatsApp, para ver la imagen
+  con las dos fechas (`og-aprueba-2.jpg`; los mensajes ya enviados conservan la imagen vieja, no hay forma de cambiarlo) y revisarla en el depurador de Facebook
   (`https://developers.facebook.com/tools/debug/`), que además refresca su caché. Las dos piden una cuenta.
 - **El texto de Experimenta en el reverso de su carta, en celular:** aun con la letra al mínimo (la descripción
   en 12px), "Toca para volver" se mete 2px en el margen de abajo (de 14px). No se corta nada, pero
   `ajustarDorsos` lo cuenta como "no entra" y lo avisa en la consola. Falta decidir: acortar el
   texto o aceptar esos 2px (y que la revisión los permita).
-- **Datos de `docs/PROYECTO.md` (sección 8):** Luma (URL, IDs y el snippet del script donde dice
-  `<!-- LUMA SCRIPT -->`), las redes de A+PRUEBA, legales, el embed oficial del mapa (el actual es
+- **Datos de `docs/PROYECTO.md` (sección 8):** Luma, solo si se va a usar en vez del formulario (URL, IDs y el
+  snippet del script donde dice `<!-- LUMA SCRIPT -->`), las redes de A+PRUEBA, legales, el embed oficial del mapa (el actual es
   provisional) y el favicon oficial. El grupo de WhatsApp y las redes de los aliados ya están.
 - **El dominio:** `og:url`, `og:image` y `twitter:image` ya son URL absolutas, con el dominio de Vercel. Si
   llega un dominio propio, se cambian (está anotado en el `<head>`).
@@ -90,11 +121,14 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 - **Las fotos de la ruta** (`assets/img/ruta/`) son provisionales, vienen de internet: falta confirmar que se
   pueden usar. Si llegan fotos propias, se reemplazan con el mismo nombre, en vertical 3:4 y 600×800.
 - **Textos por aprobar:** la pista "Toca una carta para voltearla" y el "Toca para volver" del reverso (los dos,
-  propuestos en la v7).
+  propuestos en la v7). Con las dos fechas (19 oct) se redactaron y están sin aprobar: la bajada de
+  Entradas, el overline de la cuenta regresiva ("Presencial: sábado 14 · Virtual: martes 17 de noviembre"), la
+  descripción y los textos alternativos para compartir, y los datos de la imagen para compartir. Y el botón del pie
+  sigue diciendo "Escríbenos por WhatsApp" aunque ahora lleva al grupo: quizá "Unirme al grupo".
 - **Opcional, la foto de la sede:** `sede-norte.webp` pesa 286 KB y en la polaroid se ve a 210px. Una miniatura
   para la polaroid (y la grande solo en el diálogo) bajaría el peso en móvil unos 250 KB.
-- **Antes de publicar, sacar `assets/video/117606-712421887.mp4` de la carpeta:** es el original 4K del fondo de
-  la ruta (18 MB). No está en git ni lo usa la página, pero se subiría al hosting si se publica la carpeta.
+- **`assets/video/117606-712421887.mp4`** es el original 4K del fondo de la ruta (18 MB). No está en git ni lo usa
+  la página. En Vercel no se sube (`.vercelignore`); en otro hosting, hay que sacarlo de la carpeta antes de subirla.
 
 Decisiones que conviene no deshacer sin querer:
 
@@ -170,10 +204,26 @@ Decisiones que conviene no deshacer sin querer:
   asoma 0.3em arriba y abajo: por eso `.contador__num` lleva **`margin-bottom: .3em`** (la unidad queda fuera
   del fundido) y la caja, `overflow: hidden`. Es `aria-hidden`: el número accesible sigue siendo el texto
   `aria-live`, una vez por minuto. Con movimiento reducido no hay intro y los números cambian sin rodar.
-- **La imagen para compartir** (`assets/og/og-aprueba.jpg`, v7): se genera con `docs/og/og.html` (ver
-  "Comandos"), en **JPG de menos de 300 KB** (más pesada, WhatsApp suele no mostrarla; hoy pesa 105 KB). WhatsApp
-  y Facebook guardan las vistas previas: si se cambia, **va con un nombre nuevo**, así la piden de nuevo.
-  `og:image`, `twitter:image` y `og:url` van con URL absolutas.
+- **La imagen para compartir** (`assets/og/og-aprueba-2.jpg` desde el 19 oct, con las dos fechas): se genera con
+  `docs/og/og.html` (ver "Comandos"), en **JPG de menos de 300 KB** (más pesada, WhatsApp suele no mostrarla; hoy
+  pesa 109 KB). WhatsApp y Facebook guardan las vistas previas: si se cambia, **va con un nombre nuevo** (la
+  próxima, `og-aprueba-3.jpg`), así la piden de nuevo. La anterior (`og-aprueba.jpg`, de la v7, solo con el martes
+  17) queda en la carpeta para las vistas previas ya guardadas. `og:image`, `twitter:image` y `og:url` van con URL
+  absolutas.
+- **La inscripción, con el formulario de Google (19 oct)** (`prepararInscripcion` en `js/entradas.js`): el botón
+  deshabilitado `[data-luma]` de cada modalidad del diálogo ("Inscripciones muy pronto") se reemplaza por un
+  `<a data-inscripcion>` a `CONFIG.inscripcion`, con `target="_blank"`, `rel="noopener"` y el texto "Quiero mi
+  pasaporte presencial" o "virtual". Si `CONFIG.luma[modalidad].url` existe, gana Luma (`a[data-luma]`, que sí
+  cierra el diálogo al tocarlo, por el top layer). El formulario no lo cierra: se abre en otra pestaña y, al
+  volver, el estudiante sigue donde estaba. Sin Luma ni formulario queda "Inscripciones muy pronto".
+- **Dos fechas (19 oct):** `CONFIG.evento` tiene `presencial` y `virtual`, cada una con `inicio` y `fin`.
+  `js/countdown.js` las ordena y cuenta hasta la próxima: durante cualquiera muestra "¡Está pasando ahora!", entre
+  el 14 y el 17 vuelve a contar (hasta el 17) y después de la última, "¡Gracias por vivir A+PRUEBA!". El texto
+  `aria-live` nombra la modalidad ("…para A+PRUEBA presencial.") y cambia una vez por minuto o al cambiar de fecha.
+  El overline de la cuenta regresiva lleva `Virtual:&nbsp;martes`: así en celular corta en el "·" y no después de
+  "Virtual:".
+- **El grupo de WhatsApp gana sobre el número (19 oct):** `CONFIG.whatsapp.grupo` (sin el `?mode=` de rastreo del
+  link original); sin grupo, `wa.me` con `numero` y `mensaje`; sin ninguno, "Próximamente".
 - **Videos de fondo** (`js/video.js`, `<video class="video-fondo" data-fondo>`): el campus en el hero, el
   auditorio en Entradas y las partículas en la ruta. Cada uno trae sus fuentes en atributos: en celular (menos
   de 768px) `data-movil-webm` si existe y el navegador lee VP9, y si no `data-movil`; en escritorio, `data-webm`
@@ -259,7 +309,10 @@ npx playwright@1.63.0 open --device="iPhone 13" http://localhost:3000   # la pá
 ```
 
 **Publicado en Vercel:** proyecto `aprueba` (cuenta `jesusavendanocastro36-5297`), en
-**https://aprueba-jade.vercel.app**. Para publicar de nuevo: `npx vercel deploy --prod` desde la carpeta. Es un
+**https://aprueba-jade.vercel.app**. Para publicar de nuevo: `npx vercel deploy --prod` desde la carpeta (sin
+preguntas: `npx -y vercel@latest deploy --prod --yes`). Después, `npx vercel inspect <url del deploy>` dice si
+quedó "Ready" y con el alias de producción. Si desde esta red la conexión directa a Vercel no responde (pasó: se
+cuelga en sus IP), `npx vercel curl https://aprueba-jade.vercel.app` desde la carpeta trae la página igual. Es un
 sitio estático sin build. `.vercelignore` deja afuera los originales de video, `docs/` y los `.md`. `vercel link`
 creó `.vercel/` y un `.env.local` con un token de Vercel: están en `.gitignore` y en `.vercelignore`, y nunca se
 suben. Vercel cumple los tres requisitos de abajo (comprobado: brotli, 206 y tipos correctos). Ojo: el primer
@@ -268,11 +321,14 @@ pedido de un archivo recién publicado puede tardar unos segundos, mientras se l
 **La imagen para compartir** se genera desde la plantilla, con `npx serve .` corriendo (las fuentes vienen de
 Google Fonts: hace falta internet). Playwright no trae su Chromium aquí: se usa el Chrome instalado.
 
+Va siempre con un **nombre nuevo** (hoy está la 2: la próxima es `og-aprueba-3`), y después se cambian
+`og:image` y `twitter:image` (y sus textos alternativos) en el `<head>`:
+
 ```bash
 npx playwright@1.63.0 screenshot --channel chrome --viewport-size="1200,630" --wait-for-selector="html.listo" \
-  http://localhost:3000/docs/og/og.html assets/og/og-aprueba.png
-sips -s format jpeg -s formatOptions 82 assets/og/og-aprueba.png --out assets/og/og-aprueba.jpg
-rm assets/og/og-aprueba.png
+  http://localhost:3000/docs/og/og.html assets/og/og-aprueba-3.png
+sips -s format jpeg -s formatOptions 82 assets/og/og-aprueba-3.png --out assets/og/og-aprueba-3.jpg
+rm assets/og/og-aprueba-3.png
 ```
 
 **No uses `python3 -m http.server` para probar esto.** Con todos los módulos pidiéndose a la vez deja caer
@@ -307,6 +363,10 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
   prueba, toma el numeral más cercano a su lugar, no el que está exactamente en `translateY(0)`.
 - **La polaroid se llama "Así luce la Sede Norte: ver la foto en grande":** el nombre accesible empieza con su
   texto visible (WCAG 2.5.3, "Label in Name").
+- **Para probar la cuenta regresiva en otra fecha:** `page.clock.setFixedTime(new Date('2026-11-14T10:00:00-05:00'))`
+  antes de `goto`. Cambia `Date` y deja correr los timers y la animación (`clock.install` los congelaría).
+- **La pestaña del formulario de Google termina en `accounts.google.com`** mientras el formulario pida iniciar
+  sesión (ver los pendientes): no es un error de la página.
 
 - `cwebp` **no está instalado**. Si se quieren versiones .webp de los logos: `brew install webp`, y si no se instala, se dejan los PNG (pesan 120 KB en total, muy por debajo del presupuesto de 1.5 MB).
 - `ffmpeg` tampoco está instalado (ni Homebrew). Para los videos se usó `ffmpeg-static` de npm en una carpeta temporal.
@@ -341,7 +401,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   ├── nav.js          nav fija + menú móvil
 │   ├── hero.js         entrada del título palabra por palabra
 │   ├── video.js        videos de fondo: campus (hero), auditorio (Entradas) y partículas (ruta)
-│   ├── entradas.js     boletos Presencial/Virtual que abren su diálogo; botones de Luma
+│   ├── entradas.js     boletos Presencial/Virtual que abren su diálogo; su botón de inscripción (formulario o Luma)
 │   ├── countdown.js    cuenta regresiva
 │   ├── rodillo.js      números que ruedan (Counter de React Bits, portado)
 │   ├── ruta.js         la ruta: arma el carrusel de cartas y su reverso
@@ -352,7 +412,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
 │   ├── img/            sede-norte.webp y .jpg (la foto de Ubicación); ruta/ con las 4 fotos de las estaciones
 │   ├── video/          campus (hero), auditorio (Entradas) y fondo-ruta (ruta): originales y versiones livianas
-│   └── og/             og-aprueba.jpg (la imagen para compartir)
+│   └── og/             og-aprueba-2.jpg (la imagen para compartir) y og-aprueba.jpg (la anterior)
 └── docs/
     ├── PROYECTO.md                 textos, datos y pendientes (fuente de verdad)
     ├── CAMBIOS-INTERACCION.md      v2: entradas, aliados, ruta y nav
@@ -369,10 +429,13 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 
 ```js
 export const CONFIG = {
+  // dos fechas (19 oct); la cuenta regresiva va hasta la próxima. Hora de Lima.
   evento: {
-    inicio: '2026-11-17T09:00:00-05:00', // hora de Lima
-    fin:    '2026-11-17T13:00:00-05:00',
+    presencial: { inicio: '2026-11-14T09:00:00-05:00', fin: '2026-11-14T13:00:00-05:00' },
+    virtual:    { inicio: '2026-11-17T09:00:00-05:00', fin: '2026-11-17T13:00:00-05:00' },
   },
+  // el formulario de Google que abren los dos boletos mientras no haya Luma
+  inscripcion: 'https://docs.google.com/forms/d/e/…/viewform',
   // Sirve para un evento de Luma con 2 tipos de entrada (mismo eventId) o para 2 eventos separados.
   luma: {
     presencial: { url: '', eventId: '', ticketTypeId: '' },
@@ -387,7 +450,8 @@ export const CONFIG = {
 };
 ```
 
-Si un campo está vacío, el elemento que depende de él se muestra deshabilitado con el texto "Próximamente". Nunca debe quedar un enlace roto.
+Si un campo está vacío, el elemento que depende de él se muestra deshabilitado con el texto "Próximamente" (el de
+inscripción, con "Inscripciones muy pronto"). Nunca debe quedar un enlace roto.
 
 El `config.js` real tiene además `whatsapp.grupo` (el enlace del grupo, al que lleva el botón del pie),
 `mapa.referencia` y `aliados` (nombre y red de cada aliado). Ver los comentarios del archivo.
@@ -534,7 +598,7 @@ En escritorio eran dos columnas: texto (unos 690px) y la ilustración del pasapo
 **Encabezado** (centrado, máximo 780px):
 - Overline "Inscripción gratuita" en `--verde-600`.
 - h2 "¡Asegura tu Pasaporte Vocacional!", salto de línea y "**Es gratis**" en `--verde-600`.
-- Lead: "Elige cómo vivir A+PRUEBA el 17 de noviembre. Los cupos presenciales son limitados."
+- Lead: "Elige cómo vivir A+PRUEBA: presencial el sábado 14 o virtual el martes 17 de noviembre. Los cupos presenciales son limitados."
 
 #### Estado cerrado: dos botones flotantes
 
@@ -559,8 +623,9 @@ Cada botón es un `<button>` con forma de boleto:
 #### Al hacer clic: el diálogo del boleto
 
 El boleto crece con FLIP hasta `#dialogo-boleto` con la experiencia de su modalidad (todos los textos están en
-PROYECTO.md, sección 2): badge, título, cupos, descripción, los 4 beneficios, "Así funciona" con 3 pasos, el
-botón de registro de Luma, la nota y el enlace para cambiar de modalidad. Cambiar de modalidad con el diálogo
+PROYECTO.md, sección 2): badge, título, cupos, descripción, los 4 beneficios, "Así funciona" con 3 pasos (el
+tercero, con la fecha de su modalidad), el botón de inscripción (hoy el formulario de Google, en pestaña nueva;
+Luma si se configura), la nota y el enlace para cambiar de modalidad. Cambiar de modalidad con el diálogo
 abierto hace un fundido con 24px de deslizamiento. Se cierra con la ✕, con Esc o tocando afuera, y el foco
 vuelve al boleto.
 
@@ -605,7 +670,7 @@ vuelve al boleto.
 ### 4. Cuenta regresiva
 
 - **Fondo y texto:** el degradado azul → celeste, todo centrado.
-  - Overline "Martes 17 de noviembre · 9:00 a.m." en blanco al 90%.
+  - Overline "Presencial: sábado 14 · Virtual: martes 17 de noviembre" en blanco al 90%.
   - h2 "El evento que transformará tus dudas en certeza".
 - **Cajas:**
   - 4 cajas blancas (128px de ancho en escritorio, 76px en móvil), separadas por ":" en blanco al 60% (los ":" se ocultan en móvil).
@@ -617,8 +682,9 @@ vuelve al boleto.
   escalonada; después, cada segundo, rueda lo que cambia (~0.65 s el de los segundos), hacia abajo y con
   desenfoque de movimiento. Ver la decisión en "Estado actual".
 - **Lógica** (`countdown.js`):
-  - Calcula contra `CONFIG.evento.inicio` y actualiza cada segundo, con dos dígitos (un rodillo por caja).
-  - Entre el inicio y el fin muestra "¡Está pasando ahora!"; después del fin, "¡Gracias por vivir A+PRUEBA!".
+  - Cuenta hasta la próxima fecha de `CONFIG.evento` (presencial el 14, virtual el 17) y actualiza cada segundo,
+    con dos dígitos (un rodillo por caja).
+  - Durante cualquiera de las dos muestra "¡Está pasando ahora!"; después de la última, "¡Gracias por vivir A+PRUEBA!".
   - Las cajas llevan `aria-hidden` y aparte hay un texto oculto con `aria-live="polite"` que se actualiza solo una vez por minuto.
 
 ### 5. Ubicación (`#ubicacion`)
@@ -634,7 +700,7 @@ vuelve al boleto.
 - **Panel Presencial** (escritorio: info en unos 520px a la izquierda y mapa de 616×460 con radio 28 a la derecha; móvil: mapa de 250px de alto arriba y la lista debajo):
   - Lista con ícono en caja `--nube-50` de 48px:
     - "Auditorio Norte y Explanada" / "UCSUR · Sede Norte — {CONFIG.mapa.direccion}"
-    - "Martes 17 de noviembre" / "9:00 a.m. – 1:00 p.m."
+    - "Sábado 14 de noviembre" / "9:00 a.m. – 1:00 p.m."
     - "Lleva tu QR de inscripción" / "Lo recibes en tu correo al registrarte."
   - Botón con contorno navy "Abrir en Google Maps" ↗, que usa `CONFIG.mapa.linkUrl` y abre en una pestaña nueva.
   - Mapa: `<iframe>` de Google Maps con `loading="lazy"` y `title`. Mientras `embedUrl` esté vacío, se muestra una ilustración en CSS: fondo `#E9EFFB`, calles blancas, bloques "Auditorio Norte" (azul translúcido) y "Explanada" (verde translúcido), pin naranja.
@@ -687,6 +753,9 @@ vuelve al boleto.
 
 ## Integración con Luma
 
+> **Hoy no se usa (19 oct):** los boletos abren el formulario de Google (`CONFIG.inscripcion`) en una pestaña
+> nueva. Lo de abajo vale si se cargan los datos de Luma en `CONFIG.luma`: la modalidad que los tenga usa Luma.
+
 El registro se abre como overlay de Luma en la misma página, así que no se sale de la landing.
 
 - **Botón:** cada CTA del panel de entrada es el **botón de registro embebible de Luma**. Hay que pegar el snippet exacto que da Luma en Gestionar evento → More → *Embed Registration Button*, con su `<script>`, al final del body donde dice `<!-- LUMA SCRIPT -->`. **No inventes la URL del script.**
@@ -694,7 +763,8 @@ El registro se abre como overlay de Luma en la misma página, así que no se sal
 - **Preselección:** para abrir directamente en la entrada correcta se agrega `data-luma-ticket-type="ttyp-…"` con el ID del tipo de entrada (Registration → el ticket → ⋯ → *Copy Ticket Type ID*). Genera estos atributos desde `CONFIG.luma`.
 - **Estilos:** el botón se estiliza con nuestro CSS; el overlay de Luma no se puede personalizar.
 - **Fallback:** si el script no está o el JS falla, el `<a href>` abre el evento de Luma en una pestaña nueva.
-- **Si `CONFIG.luma.*.url` está vacío:** el botón se muestra deshabilitado con el texto "Inscripciones muy pronto".
+- **Si `CONFIG.luma.*.url` está vacío:** el botón va al formulario de Google (`CONFIG.inscripcion`); sin
+  formulario, se muestra deshabilitado con el texto "Inscripciones muy pronto".
 
 ## Accesibilidad (WCAG AA)
 
@@ -718,9 +788,9 @@ El registro se abre como overlay de Luma en la misma página, así que no se sal
 
 Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace importa.
 
-- `<title>`: "A+PRUEBA | La Ruta del Estudiante, 17 de noviembre" (sin "·": CAMBIOS-RUTA-HERO §4)
-- Meta description: "Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial en UCSUR Sede Norte o virtual. Martes 17 de noviembre, 9:00 a.m."
-- Open Graph y Twitter: `og:title`, `og:description`, `og:url` y `og:image` (`assets/og/og-aprueba.jpg`, 1200×630, 105 KB, con URL absoluta, su tipo, su tamaño y un texto alternativo), `twitter:card=summary_large_image`, `og:locale=es_PE` y `og:type=website`.
+- `<title>`: "A+PRUEBA | La Ruta del Estudiante, 14 y 17 de noviembre" (sin "·": CAMBIOS-RUTA-HERO §4)
+- Meta description: "Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial el sábado 14 de noviembre en UCSUR Sede Norte o virtual el martes 17, a las 9:00 a.m."
+- Open Graph y Twitter: `og:title`, `og:description`, `og:url` y `og:image` (`assets/og/og-aprueba-2.jpg`, 1200×630, 109 KB, con URL absoluta, su tipo, su tamaño y un texto alternativo), `twitter:card=summary_large_image`, `og:locale=es_PE` y `og:type=website`.
 - `<meta name="theme-color" content="#0B1040">`.
 - `favicon.svg` provisional: círculo navy con "A+" en blanco (Fredoka 700). Se reemplaza cuando haya uno oficial.
 
