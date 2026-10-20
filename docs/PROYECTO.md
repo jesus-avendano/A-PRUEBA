@@ -55,7 +55,7 @@ Que un escolar entienda el evento en 30 segundos y se inscriba en una de las dos
 
 ## 5. Identidad visual
 
-- **Figma:** (link de Figma: no va en el repositorio)
+- **Figma:** un archivo del dueño del proyecto (el link no va en el repositorio; si hace falta, se le pide)
 - **Paleta:** azul marino de base, blanco, verde y celeste/azul. El naranja del logo se reserva para los botones principales. Presencial = naranja, virtual = azul. Los hex están en `CLAUDE.md`.
 - **Tipografías:** Fredoka (títulos y números) y Nunito (texto).
 - **Logo:** `assets/logos/aprueba.png`, sin fondo. Si existe una versión SVG oficial, reemplazarlo.

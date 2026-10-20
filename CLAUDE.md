@@ -44,7 +44,7 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
   **animación de una conferencia** (un GIF, convertido a video). Más tarde, el mismo día: **sin TechText** en
   "futuro profesional" (se había puesto y se quitó), y **la fecha virtual pasa a "próximamente"**: ningún texto dice
   "17 de noviembre".
-- **Diseño de referencia:** Figma `(link de Figma: no va en el repositorio)` (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). **No lo leas salvo que algo no esté claro aquí**: la cuenta tiene un límite bajo de lecturas por MCP (unas 20 al mes). Todo lo necesario está en este archivo.
+- **Diseño de referencia:** un archivo de Figma del dueño del proyecto (frames "Landing · Escritorio 1440", "Landing · Móvil 390" y "Componentes"). El link no va en el repositorio: si hace falta, se le pide. Todo lo necesario está en este archivo.
 - **Registro:** hoy, un **formulario de Google** (`CONFIG.inscripcion`, el mismo para las dos modalidades). Luma
   sigue soportado: si se cargan sus datos en `CONFIG.luma`, Luma gana sobre el formulario. No hay base de datos ni
   formulario propio.
