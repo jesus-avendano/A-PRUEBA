@@ -1,4 +1,4 @@
-/* La ruta (docs/CAMBIOS-CARTAS-CONTADOR.md, Fase D): un carrusel 3D de cartas
+/* La ruta (v7): un carrusel 3D de cartas
    que se voltean.
    - Cada carta muestra la foto de su estación con su número (blanco, arriba a
      la izquierda). Al tocarla viene al frente, si no lo estaba, y se voltea:

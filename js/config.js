@@ -7,7 +7,7 @@
 
 export const CONFIG = {
   // Una cuenta regresiva por fecha (hora de Lima). Presencial: sábado 14 de noviembre.
-  // Virtual: PRÓXIMAMENTE (20 oct; antes era el martes 17). Mientras
+  // Virtual: PRÓXIMAMENTE (desde el 20 oct; antes era el martes 17). Mientras
   // su inicio esté vacío, su cuenta muestra solo "Próximamente". Cuando llegue la fecha,
   // va aquí y en los textos del HTML que dicen "próximamente".
   // PENDIENTE: el horario del sábado; se mantiene el de antes (9:00 a 13:00).
@@ -54,7 +54,7 @@ export const CONFIG = {
 
   legal: { privacidadUrl: '', terminosUrl: '' },
 
-  // Aliados: cada logo lleva directo a su red (19 oct: sin el
+  // Aliados: cada logo lleva directo a su red (desde el 19 oct: sin el
   // panel de información de la v2). Los Instagram son del 18 oct,
   // sin los parámetros de rastreo. Sin red, el logo se muestra deshabilitado.
   aliados: {

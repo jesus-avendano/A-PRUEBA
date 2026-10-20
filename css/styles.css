@@ -391,7 +391,7 @@ button {
 
 /* ---------------- Hero ----------------
    Pantalla completa con el video del campus de fondo y el texto centrado
-   (18 oct: sin el pasaporte y sin la ola de colores). */
+   (desde el 18 oct: sin el pasaporte y sin la ola de colores). */
 
 .hero {
   position: relative;
@@ -405,7 +405,7 @@ button {
   overflow: hidden;
 }
 /* velo: más oscuro arriba (la nav). Abajo apenas se oscurece: el paso a
-   Entradas casi no se nota (18 oct) */
+   Entradas casi no se nota (desde el 18 oct) */
 .hero::before {
   content: "";
   position: absolute;
@@ -435,7 +435,7 @@ button {
 }
 
 
-/* Título del hero en Archivo Black (CAMBIOS-RUTA-HERO §3): solo tiene peso 400,
+/* Título del hero en Archivo Black: solo tiene peso 400,
    así que nada de 700, que el navegador fingiría con una negrita falsa.
    Arial Black como respaldo: es igual de ancha y evita que el texto salte al cargar. */
 .archivo-black-regular {
@@ -472,7 +472,7 @@ button {
 /* ---------------- Entradas ---------------- */
 
 /* Video del auditorio de fondo (.video-fondo), con un velo azul marino que
-   funde la sección con las oscuras de arriba y abajo (CAMBIOS-VIDEO-AGENDA §1). */
+   funde la sección con las oscuras de arriba y abajo. */
 .entradas::before {
   content: "";
   position: absolute;

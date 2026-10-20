@@ -4,7 +4,7 @@
    fuentes en atributos: en celular (<768px) data-movil-webm o data-movil, y
    si no data-webm o data-escritorio. El WebM (VP9, más liviano) se usa si
    existe y el navegador lo lee; si no, el MP4 (H.264), que lee cualquiera.
-   La ruta no tiene WebM: su MP4 pesa menos (ver CAMBIOS-PORTAL-FONDO).
+   La ruta no tiene WebM: su MP4 pesa menos (ver CLAUDE.md, "Archivos de video").
    - data-carga="al-cargar" (hero): el src se asigna cuando la página terminó
      de cargar, para no competir con lo que se ve primero. Sin ese atributo
      (Entradas y la ruta), cuando la sección está a 300px de la pantalla.

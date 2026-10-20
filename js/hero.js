@@ -1,4 +1,4 @@
-/* Hero: el título entra palabra por palabra (docs/CAMBIOS-RUTA-HERO.md §3).
+/* Hero: el título entra palabra por palabra.
    "futuro profesional" queda en celeste fijo: la ola y el brillo de colores
    se quitaron (18 oct).
    - Las palabras son inline-block: nunca se parten entre líneas.

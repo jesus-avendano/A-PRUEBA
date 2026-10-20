@@ -13,17 +13,18 @@ Público: escolares de secundaria que llegan desde el celular (Instagram, TikTok
 Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Presencial (200 cupos)** o **Virtual (800 cupos)**.
 
 - **Contenido y datos:** `docs/PROYECTO.md` es la fuente de verdad de textos, fechas, aliados y pendientes. No inventes textos ni datos.
-- **Documentos de cambios**, cada uno con prioridad sobre los anteriores donde se contradigan:
-  - v2 `docs/CAMBIOS-INTERACCION.md`: entradas, aliados, ruta y nav.
-  - v3 `docs/CAMBIOS-RUTA-HERO.md`: ruta, hero, textos y ubicación.
-  - v4 `docs/CAMBIOS-VIDEO-AGENDA.md`: video de fondo en Entradas y la agenda (que después se quitó, ver abajo).
-  - v5 `docs/CAMBIOS-CARRUSEL-VIDEO.md`: carrusel 3D en la ruta, video del hero sin pixelado y Entradas sin leyenda.
-  - v6 `docs/CAMBIOS-PORTAL-FONDO.md`: fondo de partículas en la ruta, el carrusel como control accesible y
-    arcos entre secciones oscuras y claras (el portal y los arcos ya no están: ver abajo).
-  - **v7 `docs/CAMBIOS-CARTAS-CONTADOR.md` (la más alta, 19 oct):** imagen nueva para compartir, sin "Quiero
-    vivir la ruta", la cuenta regresiva después de la ruta, sus números que ruedan (`js/rodillo.js`) y las
-    cartas del carrusel que se voltean (reemplazan al portal de la v6).
-- **Cambios del 18 de octubre** (mandan sobre todos los documentos, también la v6): el hero
+- **Versiones**, cada una con prioridad sobre las anteriores donde se contradicen. Sus documentos no están en el
+  repositorio: lo que sigue valiendo de ellos está resumido en este archivo.
+  - v2: entradas, aliados, ruta y nav.
+  - v3: ruta, hero, textos y ubicación.
+  - v4: video de fondo en Entradas y la agenda (que después se quitó, ver abajo).
+  - v5: carrusel 3D en la ruta, video del hero sin pixelado y Entradas sin leyenda.
+  - v6: fondo de partículas en la ruta, el carrusel como control accesible y arcos entre secciones oscuras y
+    claras (el portal y los arcos ya no están: ver abajo).
+  - **v7 (la más alta, 19 oct):** imagen nueva para compartir, sin "Quiero vivir la ruta", la cuenta regresiva
+    después de la ruta, sus números que ruedan (`js/rodillo.js`) y las cartas del carrusel que se voltean
+    (reemplazan al portal de la v6).
+- **Cambios del 18 de octubre** (mandan sobre todas las versiones, también la v6): el hero
   ya no tiene el pasaporte, ni la ola de colores en "futuro profesional", ni el cielo de estrellas con el
   planeta: pasa a pantalla completa con el video del campus de fondo y el texto centrado. Los videos de fondo
   no tienen botón de pausa. Las secciones se funden entre sí en vez de cortarse en línea recta, **salvo entre una
@@ -52,7 +53,7 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 
 ## Estado actual
 
-**Terminado**, con los cambios v2 a v7 y los cambios del 18, el 19 y el 20 de octubre. Falta solo lo que
+**Terminado**, con las versiones v2 a v7 y los cambios del 18, el 19 y el 20 de octubre. Falta solo lo que
 depende de datos, de decisiones pendientes o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
 (`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `video.js`, `entradas.js`,
@@ -60,10 +61,11 @@ Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `moti
 (`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba-3.jpg` (la imagen para compartir;
 `og-aprueba.jpg` y `og-aprueba-2.jpg` son las anteriores).
 
-**Publicado en Vercel** el 20 de octubre, con el commit `730e3bf` (sin TechText y la fecha virtual "próximamente";
-antes, ese mismo día, `0c06520` con las dos cuentas regresivas, la sala y TechText, `9e40130` con el botón del pie y
-`58010f5` con el brillo, y el 19, `697eed3` con el formulario y las dos fechas): https://aprueba-jade.vercel.app.
-La página publicada coincide byte a byte con la local, no dice "17 de noviembre" en ningún lado, `js/rotulo.js` ya no
+**Publicado en Vercel** el 20 de octubre, con el commit `8fadff9` (sin TechText y la fecha virtual "próximamente";
+antes, ese mismo día, `4ea614c` con las dos cuentas regresivas, la sala y TechText, `c5070aa` con el botón del pie y
+`416635b` con el brillo, y el 19, `09b6268` con el formulario y las dos fechas): https://aprueba-jade.vercel.app.
+La página publicada coincide con la local (después solo cambiaron comentarios del código y la documentación,
+al preparar el repositorio de GitHub), no dice "17 de noviembre" en ningún lado, `js/rotulo.js` ya no
 está (404), los archivos que no van (el original 4K, el GIF original de la sala, `.env.local`, `docs/`, los `.md`)
 dan 404, y las pruebas de las cuentas regresivas y las generales pasan también contra la página publicada. Cómo
 publicar y verificar: "Comandos".
@@ -168,7 +170,7 @@ publicar y verificar: "Comandos".
 - **El dominio:** `og:url`, `og:image` y `twitter:image` ya son URL absolutas, con el dominio de Vercel. Si
   llega un dominio propio, se cambian (está anotado en el `<head>`).
 - **El video del campus en 1080p.** El de hoy es un 360p de YouTube estirado: ya no se pixela, pero nunca se va
-  a ver HD. El video es de UCSUR; hay que pedir el original (cómo procesarlo: `CAMBIOS-CARRUSEL-VIDEO.md`, A2).
+  a ver HD. El video es de UCSUR; hay que pedir el original (cómo procesarlo: "Para regenerar los videos", en "Comandos").
   Está recortado a 20.4 s: los 55 s completos se pasan del presupuesto en celular.
 - **Las fotos de la ruta** (`assets/img/ruta/`) son provisionales, vienen de internet: falta confirmar que se
   pueden usar. Si llegan fotos propias, se reemplazan con el mismo nombre, en vertical 3:4 y 600×800.
@@ -212,9 +214,9 @@ Decisiones que conviene no deshacer sin querer:
   `js/hero.js` divide el título en palabras para su entrada. Tampoco hay cielo de estrellas,
   destellos, planeta ni órbita. El cielo de estrellas (`starfield.js`) ya no existe en ninguna sección.
 - **Sin TechText en "futuro profesional" (20 oct):** se puso (letras técnicas de React Bits, portado en
-  `js/rotulo.js`, commit `0c06520`) y, ese mismo día, **se quitó** (commit `730e3bf`, que
+  `js/rotulo.js`, commit `4ea614c`) y, ese mismo día, **se quitó** (commit `8fadff9`, que
   deshace aquel). El título volvió a ser el de antes y el archivo se borró. **No volver a ponerlo** salvo que se pida
-  explícitamente. Si alguna vez vuelve, en `0c06520` está todo, con lo que se aprendió: con el espaciado de TechText
+  explícitamente. Si alguna vez vuelve, en `4ea614c` está todo, con lo que se aprendió: con el espaciado de TechText
   la frase entraba en una línea desde 360px; Archivo Black solo tiene peso 400; y el canvas necesitaba bajar
   `.05em` para caer donde estaba el texto.
 - **La ruta: un carrusel 3D de cartas que se voltean** (v5, v6 y v7; detalle en "Secciones"):
@@ -332,13 +334,12 @@ Decisiones que conviene no deshacer sin querer:
   o `data-escritorio`. El del hero se pide cuando la página terminó de cargar (`data-carga="al-cargar"`), para
   no competir con la primera pantalla; los otros, cuando su sección está a 300px. Se pausan fuera de pantalla y
   con la pestaña oculta; con movimiento reducido o ahorro de datos no se cargan y queda el poster (en la ruta,
-  su cuadro quieto). **No tienen botón de pausa
-  (18 oct).** Ojo: un video en bucle de más de 5 s sin forma de pausarlo no cumple el criterio 2.2.2 de WCAG
+  su cuadro quieto). **No tienen botón de pausa (se quitó el
+  18 oct).** Ojo: un video en bucle de más de 5 s sin forma de pausarlo no cumple el criterio 2.2.2 de WCAG
   (nivel A); lo mitiga que con movimiento reducido no se reproducen. Lighthouse no lo mide.
 - **Archivos de video** (`assets/video/`). Los originales no los carga la página: `videoplayback.mp4` (campus,
   360p de YouTube, 55 s, con audio) y `auditorio-original.webm` (848×384, 7 s). Nunca se recodifica un archivo
-  sobre sí mismo. Los comandos para regenerar todo están en `CAMBIOS-CARRUSEL-VIDEO.md` (A2 y A3) y
-  `CAMBIOS-PORTAL-FONDO.md` (Fase A).
+  sobre sí mismo. Los comandos para regenerarlos están en "Comandos" ("Para regenerar los videos").
   - **Campus y auditorio, a la resolución del original** (v5): en el hero a pantalla completa, las versiones
     achicadas se estiraban ×3 y el VP9 con pocos bits se deshacía en bloques. Ahora: `campus.webm` 640×360 y
     1.33 MB, `campus-movil.webm` 256×360 y 592 KB (la franja central: en vertical el 16:9 se recorta y solo se ve
@@ -379,14 +380,13 @@ Decisiones que conviene no deshacer sin querer:
 - **Las secciones se unen sin saltos (18 oct y v6).** Entre secciones de luminosidad parecida, un degradado:
   el token `--fundido` (48px en celular, hasta 88px) es su alto, y cada borde lleva en el fondo de la sección un
   degradado del color de su vecina: la cuenta regresiva arriba (navy, viene de la ruta) y Aliados arriba
-  (blanco). El fondo de la ruta se desvanece arriba y abajo con `mask-image`. **Del hero a Entradas el paso casi no se nota**:
-  los velos solo llegan al 90% en el borde que comparten, y cada video se desvanece ahí con
+  (blanco). El fondo de la ruta se desvanece arriba y abajo con `mask-image`. **Del hero a Entradas el paso casi no se nota**: los velos solo llegan al 90% en el borde que comparten, y cada video se desvanece ahí con
   `mask-image`, así las dos imágenes se cruzan sin franja oscura ni línea recta. Abajo, Entradas sí termina en
   navy puro, y el video de la ruta se funde ahí.
-  **Entre una sección oscura y una clara, una línea recta** (18 oct): en Cuenta regresiva →
+  **Entre una sección oscura y una clara, una línea recta** (desde el 18 oct): en Cuenta regresiva →
   Ubicación y Aliados → Pie. Un degradado entre navy y blanco pasa por un gris de neblina, y la v6 lo había cambiado por un
   arco (un degradado elíptico en un `::before` encima de la sección), que también se descartó. Si alguna
-  vez vuelve el arco: está en el commit `52b7a4b`, y **no con un pseudo-elemento más ancho que la pantalla y
+  vez vuelve el arco: está en el commit `b74adc2`, y **no con un pseudo-elemento más ancho que la pantalla y
   `border-radius`**, que da scroll horizontal. **Si cambia el orden o el color de una sección, hay que revisar
   las uniones de sus vecinas.**
 - **Sin agenda (18 oct) ni "Quiero vivir la ruta" (19 oct):** se quitó la agenda a pantalla completa (v4) con
@@ -446,6 +446,61 @@ npx playwright@1.63.0 screenshot --channel chrome --viewport-size="1200,630" --w
 sips -s format jpeg -s formatOptions 82 assets/og/og-aprueba-4.png --out assets/og/og-aprueba-4.jpg
 rm assets/og/og-aprueba-4.png
 ```
+
+**Para regenerar los videos** (con `ffmpeg`, que aquí no está instalado: se usa `ffmpeg-static` de npm en una
+carpeta temporal). Desde `assets/video/`, **nunca sobre el mismo archivo de entrada** (si hace falta, primero se
+renombra el original). Después: que el loop dé la vuelta limpio en Chrome y en WebKit, y el peso con Lighthouse en móvil.
+
+*Campus* (el hero), desde `videoplayback.mp4`: a la resolución del original (640×360 en escritorio y la franja
+central de 256×360 en celular), con un denoise suave y recortado a 20.4 s (el corte cae en un barrido borroso del
+dron). Los nombres no cambian, así que `index.html` y `js/video.js` no se tocan.
+
+```bash
+O=videoplayback.mp4
+T=20.4                    # el tramo: de 0:00 a 0:20.4
+DN="hqdn3d=1.5:1.5:6:6"   # denoise suave
+
+# Escritorio, VP9 en dos pasadas
+ffmpeg -y -i "$O" -t $T -an -vf "$DN" -c:v libvpx-vp9 -crf 36 -b:v 520k -row-mt 1 -deadline good -cpu-used 1 -g 48 -pass 1 -passlogfile vp9-escritorio -f null /dev/null
+ffmpeg -y -i "$O" -t $T -an -vf "$DN" -c:v libvpx-vp9 -crf 36 -b:v 520k -row-mt 1 -deadline good -cpu-used 1 -g 48 -pass 2 -passlogfile vp9-escritorio campus.webm
+
+# Celular, VP9: la franja central de 256x360
+ffmpeg -y -i "$O" -t $T -an -vf "crop=256:360,$DN" -c:v libvpx-vp9 -crf 37 -b:v 230k -row-mt 1 -deadline good -cpu-used 1 -g 48 -pass 1 -passlogfile vp9-movil -f null /dev/null
+ffmpeg -y -i "$O" -t $T -an -vf "crop=256:360,$DN" -c:v libvpx-vp9 -crf 37 -b:v 230k -row-mt 1 -deadline good -cpu-used 1 -g 48 -pass 2 -passlogfile vp9-movil campus-movil.webm
+
+# Respaldo H.264 (Safari, iPhone)
+ffmpeg -y -i "$O" -t $T -an -vf "$DN" -c:v libx264 -preset slow -crf 26 -maxrate 700k -bufsize 1400k -profile:v high -level 4.0 -pix_fmt yuv420p -g 48 -movflags +faststart campus.mp4
+ffmpeg -y -i "$O" -t $T -an -vf "crop=256:360,$DN" -c:v libx264 -preset slow -crf 26 -maxrate 320k -bufsize 640k -profile:v high -level 4.0 -pix_fmt yuv420p -g 48 -movflags +faststart campus-movil.mp4
+
+# Poster: el primer cuadro, a la resolución del original
+ffmpeg -y -i "$O" -frames:v 1 -vf "$DN" -q:v 3 campus-poster.jpg
+
+rm -f vp9-*.log
+```
+
+Si llega el original en 1080p, va con otro nombre (por ejemplo `campus-1080.mp4`, sin pisar `videoplayback.mp4`):
+en escritorio `scale=1280:720` y topes de ~1100 kbps en VP9 y ~1500 kbps en H.264; en celular
+`crop=ih*256/360:ih,scale=-2:540` y topes de ~400 kbps en VP9 y ~550 kbps en H.264. En celular quedaría cerca de 1 MB
+y se pasaría del presupuesto: antes de bajar la calidad, acortar el tramo es la otra palanca.
+
+*Auditorio* (Entradas), desde `auditorio-original.webm`: el mismo criterio que el campus, a la resolución del
+original pero **sin pasar de 640×360** (va desenfocado y bajo un velo: más detalle no se ve), el mismo denoise y topes
+proporcionales a los píxeles (520 kbps para 640×360 en VP9). En celular, la franja central de 256×360. Se mantiene su
+duración, salvo que el peso en celular se pase del presupuesto.
+
+*Fondo de la ruta*, desde el original 4K (`117606-712421887.mp4`, fuera de git y de Vercel): `-t 2` tiene que quedar
+en 2 s exactos (60 cuadros, 5 vueltas de 12), si no el loop salta. `NAVY` mezcla el negro con `#0B1040` en modo
+"screen" (si cambia el navy, se recalcula):
+
+```bash
+O=117606-712421887.mp4
+NAVY="lutrgb=r='255-(255-val)*244/255':g='255-(255-val)*239/255':b='255-(255-val)*191/255'"
+ffmpeg -y -i "$O" -t 2 -an -vf "scale=1920:1080:flags=lanczos,$NAVY" -c:v libx264 -preset slow -crf 24 -profile:v high -level 5.0 -x264-params ref=12 -pix_fmt yuv420p -g 120 -movflags +faststart fondo-ruta.mp4
+ffmpeg -y -i "$O" -t 2 -an -vf "crop=1215:2160,scale=540:960:flags=lanczos,$NAVY" -c:v libx264 -preset slow -crf 22 -profile:v high -level 4.0 -x264-params ref=12 -pix_fmt yuv420p -g 120 -movflags +faststart fondo-ruta-movil.mp4
+ffmpeg -y -i "$O" -frames:v 1 -vf "scale=1920:1080:flags=lanczos,$NAVY" -c:v libwebp -quality 80 fondo-ruta-poster.webp
+```
+
+*Sala virtual*: el comando está en "Archivos de video" (decisiones).
 
 **No uses `python3 -m http.server` para probar esto.** Con todos los módulos pidiéndose a la vez deja caer
 peticiones cada tantas cargas: el grafo de módulos falla entero y la página se queda estática, sin ningún
@@ -541,14 +596,7 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   └── og/             og-aprueba-3.jpg (la imagen para compartir); og-aprueba.jpg y og-aprueba-2.jpg, las anteriores
 └── docs/
     ├── PROYECTO.md                 textos, datos y pendientes (fuente de verdad)
-    ├── CAMBIOS-INTERACCION.md      v2: entradas, aliados, ruta y nav
-    ├── CAMBIOS-RUTA-HERO.md        v3: ruta, hero, textos y ubicación
-    ├── CAMBIOS-VIDEO-AGENDA.md     v4: video en Entradas y agenda (la agenda se quitó)
-    ├── CAMBIOS-CARRUSEL-VIDEO.md   v5: carrusel en la ruta, video del hero y Entradas
-    ├── CAMBIOS-PORTAL-FONDO.md     v6: portal de las estaciones, fondo de la ruta y uniones
-    ├── CAMBIOS-CARTAS-CONTADOR.md  v7: imagen para compartir, cartas que se voltean y contador que rueda
-    ├── og/og.html                  la plantilla de la imagen para compartir
-    └── referencia/                 el CircularCarousel original, las conexiones probadas y capturas
+    └── og/og.html                  la plantilla de la imagen para compartir
 ```
 
 ### js/config.js
@@ -760,7 +808,7 @@ vuelve al boleto.
 
 ### 3. La ruta (`#ruta`): cartas que se voltean
 
-> **v5, v6 y v7** (`CAMBIOS-CARRUSEL-VIDEO.md`, `CAMBIOS-PORTAL-FONDO.md` y `CAMBIOS-CARTAS-CONTADOR.md`). Ya no hay
+> **v5, v6 y v7.** Ya no hay
 > trazo, cometa, nodos, modo enfoque, pestañas, panel, portal ni "Quiero vivir la ruta": el carrusel de cartas es
 > la navegación. Va antes de la cuenta regresiva. Las decisiones están en "Estado actual".
 
@@ -778,7 +826,7 @@ vuelve al boleto.
   `flipStiffness: 170` y `flipDamping: 20`. Celular: 4 cartas de 240×320 a velocidad 17 y `minFit: 1`; desde
   768px, 8 cartas de 260×347 a 8.5.
   - **Cada carta** lleva su número "sin color" (blanco, sin círculo, Fredoka 44px con una sombra suave para que se
-    lea sobre fotos claras) arriba a la izquierda, en el `overlay` de la foto. Si lo quieren hueco, es
+    lea sobre fotos claras) arriba a la izquierda, en el `overlay` de la foto. Para que sea hueco:
     `color: transparent; -webkit-text-stroke: 2px #fff`.
   - **Al tocarla** viene al frente (si no lo estaba) y se voltea con el resorte de FlipCard; a mitad del giro se
     acerca un poco. **En el reverso** (`.ruta__dorso`): "Estación N", el título, la pregunta en itálica de su
@@ -820,7 +868,7 @@ vuelve al boleto.
 ### 5. Ubicación (`#ubicacion`)
 
 > **Actualizado:** desde la v3 la dirección va en cuatro líneas (con la referencia) y hay una foto de la sede
-> tipo polaroid que se abre en grande. Ver `docs/CAMBIOS-RUTA-HERO.md`. Arriba corta con la cuenta regresiva en
+> tipo polaroid que se abre en grande. Arriba corta con la cuenta regresiva en
 > línea recta.
 
 - **Fondo y encabezado:** fondo blanco. Overline "Cómo llegar" en `--verde-600` y h2 "¿Dónde nos vemos?".
@@ -846,7 +894,7 @@ vuelve al boleto.
 
 ### 6. Aliados (`#aliados`)
 
-> **Actualizado el 19 de octubre**: cada logo lleva directo a la red de su aliado
+> **Actualizado el 19 de octubre:** cada logo lleva directo a la red de su aliado
 > (`CONFIG.aliados`, hoy su Instagram), en una pestaña nueva. Ya no hay panel con descripción ni "qué ofrece"
 > (el de la v2). Sin red, el logo sale como `<span>` deshabilitado ("Próximamente"), como los demás enlaces
 > que dependen de CONFIG. El nombre accesible es "Face to Face en Instagram": empieza con el del logo.
@@ -920,7 +968,7 @@ El registro se abre como overlay de Luma en la misma página, así que no se sal
 
 Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace importa.
 
-- `<title>`: "A+PRUEBA | La Ruta del Estudiante, 14 de noviembre" (sin "·": CAMBIOS-RUTA-HERO §4)
+- `<title>`: "A+PRUEBA | La Ruta del Estudiante, 14 de noviembre" (sin "·")
 - Meta description: "Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial el sábado 14 de noviembre en UCSUR Sede Norte, a las 9:00 a.m. La fecha virtual, próximamente."
 - Open Graph y Twitter: `og:title`, `og:description`, `og:url` y `og:image` (`assets/og/og-aprueba-3.jpg`, 1200×630, 109 KB, con URL absoluta, su tipo, su tamaño y un texto alternativo), `twitter:card=summary_large_image`, `og:locale=es_PE` y `og:type=website`.
 - `<meta name="theme-color" content="#0B1040">`.
@@ -933,7 +981,7 @@ Gran parte del tráfico llega por WhatsApp, así que la vista previa del enlace 
 3. **Movimiento:** `motion.css`, el patrón "crecer y menear", el flotar de los botones de entrada, la ruta, las animaciones de entrada y `prefers-reduced-motion`.
 4. **QA:** Lighthouse, recorrido completo con teclado, Safari iOS, Android con throttling, comparación de textos contra PROYECTO.md y revisión de que no quede ningún enlace roto ni texto inventado.
 
-Los documentos de cambios (v2 a v7) traen sus propias fases; la regla de detenerse al final de cada una vale igual.
+Cada tanda de cambios se trabaja también por fases, y la regla de detenerse al final de cada una vale igual.
 
 ## Definición de terminado
 

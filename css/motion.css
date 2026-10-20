@@ -154,7 +154,7 @@
 }
 
 /* ===========================================================
-   Nav (CAMBIOS-INTERACCION §4)
+   Nav
    Enlaces: línea de 2px que crece desde el centro y texto a 1.06.
    Botón "Regístrate gratis": crece y menea en hover; late al clic
    (js/main.js agrega .late y baja a #entradas al terminar).
@@ -198,7 +198,7 @@
 }
 
 /* ===========================================================
-   Hero (CAMBIOS-RUTA-HERO §3, js/hero.js)
+   Hero (js/hero.js)
    Las palabras entran una vez. "futuro profesional" queda en celeste
    fijo: la ola y el brillo de colores se quitaron (18 oct).
    =========================================================== */
@@ -222,7 +222,7 @@
 }
 
 /* ===========================================================
-   Polaroid de la sede (CAMBIOS-RUTA-HERO §5)
+   Polaroid de la sede (Ubicación)
    En hover crece a 1.08, se endereza y menea una vez. El meneo
    arranca desde su giro de reposo (-4°), así no salta.
    =========================================================== */

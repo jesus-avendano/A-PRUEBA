@@ -8,7 +8,7 @@ Fuente de verdad del contenido de la landing. Si algo cambia, se cambia aquí pr
 |---|---|
 | Nombre | A+PRUEBA — La Ruta del Estudiante |
 | Lema del logo | "Descubre tu potencial antes de elegir tu camino" |
-| Fechas | **Presencial: sábado 14 de noviembre de 2026. Virtual: próximamente** (20 oct; el 19 se había puesto el martes 17 de noviembre, y antes las dos eran el martes 17) |
+| Fechas | **Presencial: sábado 14 de noviembre de 2026. Virtual: próximamente** (desde el 20 oct; el 19 se había puesto el martes 17 de noviembre, y antes las dos eran el martes 17) |
 | Horario | 9:00 a.m. – 1:00 p.m. (hora de Lima, UTC-5), en las dos fechas. **Por confirmar:** si el sábado 14 mantiene ese horario |
 | Lugar presencial | UCSUR Sede Norte, Auditorio Norte y Explanada |
 | Dirección | Cruce de Av. Alfredo Mendiola y Av. 2 de Octubre, Los Olivos. Referencia: Óvalo Infantas. (Fuente: página oficial del Campus Norte; da un cruce de avenidas, sin número.) |
@@ -176,7 +176,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 | 3 | naranja | micrófono | Escucha y conecta | ¿Cómo es realmente estudiar y ejercer estas carreras? | Paneles en vivo con estudiantes y profesionales, sin filtros ni discursos armados. Descubre los mitos, las sorpresas, las dificultades reales y el impacto de la inteligencia artificial en cada profesión. |
 | 4 | blanco | diana | Valida y consolida | Después de todo lo vivido, ¿qué tan seguro estás? | Evalúa tu evolución antes y después del evento. Descubre si confirmas tu carrera, encuentras una nueva vocación o decides explorar más. ¡Conecta directo con organizaciones que potenciarán tu futuro! |
 
-- Pista debajo del carrusel (texto propuesto en `CAMBIOS-CARTAS-CONTADOR.md`; falta aprobarlo): **Toca una carta para voltearla**
+- Pista debajo del carrusel (texto propuesto en la v7; falta aprobarlo): **Toca una carta para voltearla**
 - Al pie del reverso de cada carta (texto propuesto en la v7): **Toca para volver**
 - ~~Botón "Quiero vivir la ruta"~~: se quitó (19 oct). No volver a ponerlo.
 
@@ -260,7 +260,7 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - **Sin botón de pausa en los videos de fondo (18 de octubre).** Con movimiento reducido o ahorro de datos se ve solo la imagen fija.
 - **Uniones rectas entre lo oscuro y lo claro (18 de octubre):** de la ruta a Ubicación y de Aliados al pie, el cambio de sección es una línea recta (ni degradado ni arco). Las demás uniones siguen con su fundido.
 - **Sin agenda (18 de octubre):** se quitó la agenda a pantalla completa que abría "Quiero vivir la ruta". El botón vuelve a bajar a Entradas y los boletos saludan, como los otros CTA. No volver a ponerla.
-- **Sin "Quiero vivir la ruta" y la cuenta regresiva después de la ruta (19 de octubre):** cambios de la v7 (`CAMBIOS-CARTAS-CONTADOR.md`). La cuenta regresiva se funde arriba con el navy de la ruta y abajo corta con Ubicación en línea recta.
+- **Sin "Quiero vivir la ruta" y la cuenta regresiva después de la ruta (19 de octubre):** cambios de la v7. La cuenta regresiva se funde arriba con el navy de la ruta y abajo corta con Ubicación en línea recta.
 - **Correcciones al texto original:** "¿Sentir la presión…?" pasó a "¿Sientes la presión…?". Los títulos "Inmersión física" y "Alcance escalable" pasaron a "Vívelo en el campus" y "Vívelo desde donde estés", más cercanos a un escolar.
 - **Grupo de WhatsApp (19 de octubre):** el botón del pie lleva al grupo. Antes estaba fuera de alcance.
 - **Aliados sin panel (19 de octubre):** cada logo lleva directo a su red.
