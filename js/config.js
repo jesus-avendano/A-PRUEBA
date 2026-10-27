@@ -39,6 +39,12 @@ export const CONFIG = {
     mensaje: 'Hola, tengo una consulta sobre A+PRUEBA',
   },
 
+  // Chatbot de la página (js/chatbot.js, 20 oct): responde las dudas frecuentes en el navegador.
+  // "Hablar con el equipo" lleva a whatsapp.grupo y el formulario es `inscripcion`.
+  // numero → el del bot de WhatsApp, 51 y 9 dígitos (51XXXXXXXXX). Sin él, el chat
+  // no muestra "Seguir por WhatsApp". PENDIENTE: todavía no hay número.
+  chatbot: { numero: '' },
+
   redes: { instagram: '', tiktok: '', facebook: '' },
 
   // Fuente: página oficial del Campus Norte (da un cruce de avenidas, sin número).

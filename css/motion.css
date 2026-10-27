@@ -243,3 +243,30 @@
   .polaroid { transition: none; }
   .polaroid:hover { transform: rotate(-4deg); animation: none; }
 }
+
+/* ===========================================================
+   Chatbot: la burbuja crece y menea en hover, como los aliados.
+   La entrada y salida de la burbuja, del globito y de los mensajes
+   están en styles.css; con movimiento reducido, todo sin animar.
+   =========================================================== */
+
+.chatbot__burbuja { transform: scale(var(--escala, 1)); }
+
+@media (hover: hover) and (pointer: fine) {
+  .chatbot__burbuja:hover {
+    --escala: 1.08;
+    animation: crecer-menear 600ms var(--ease-out);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot,
+  .chatbot--fuera { transform: none; transition: opacity 150ms linear, visibility 0s; }
+  .chatbot--fuera { transition: opacity 150ms linear, visibility 0s linear 150ms; }
+  .chatbot__burbuja,
+  .chatbot__burbuja:hover { --escala: 1; animation: none; }
+  .chatbot__globito,
+  .chatbot-panel[open],
+  .chatbot-msg,
+  .chatbot-opciones { animation: none; }
+}

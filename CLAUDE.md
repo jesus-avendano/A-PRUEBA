@@ -57,7 +57,8 @@ Objetivo único: que entiendan el evento en 30 segundos y se inscriban en **Pres
 depende de datos, de decisiones pendientes o de aparatos reales (abajo).
 Archivos: `index.html`, `favicon.svg`, `css/` (`tokens.css`, `styles.css`, `motion.css`), `js/`
 (`config.js`, `main.js`, `dialog.js`, `enlaces.js`, `nav.js`, `hero.js`, `video.js`, `entradas.js`,
-`countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`, `brillo.js`), `assets/img/`
+`countdown.js`, `rodillo.js`, `ruta.js`, `carrusel.js`, `tabs.js`, `aliados.js`, `brillo.js`, `chatbot.js`,
+`chatbot-panel.js`, `chatbot-respuestas.js`), `assets/img/`
 (`sede-norte.{webp,jpg}` y `ruta/`), `assets/video/` y `assets/og/og-aprueba-3.jpg` (la imagen para compartir;
 `og-aprueba.jpg` y `og-aprueba-2.jpg` son las anteriores).
 
@@ -125,6 +126,11 @@ publicar y verificar: "Comandos".
   en 390 y en 1440 (medido en la v6; la v7 suma el volteo, que solo anima mientras se voltea).
 
 **Lo que queda pendiente de verdad:**
+
+- **El número del bot de WhatsApp para el chatbot** (`CONFIG.chatbot.numero`, `51` y 9 dígitos): sin él, el panel
+  no muestra "Seguir por WhatsApp". Con un número que no tenga ese formato, tampoco. Los textos del chatbot están por
+  aprobar (`PROYECTO.md`, "Chatbot"), y el bot de WhatsApp (`a-mas-chatbot`) quedó con otros datos (horario 10 a 2,
+  estaciones del dossier, menores y lista de espera): se decidió no tocarlo por ahora.
 
 - **El formulario de Google pide iniciar sesión.** Google responde 401 y la pestaña nueva termina en la pantalla
   de acceso de Google (`accounts.google.com`): un escolar sin cuenta, o sin cuenta de UCSUR si está restringido a
@@ -327,6 +333,31 @@ Decisiones que conviene no deshacer sin querer:
     cambiar solo el nodo de texto, o volver a crear su brillo.
   - **No va en los boletos** (su forma con muescas no es la caja redondeada del shader), **ni en los aliados ni en
     las redes** (no son `.boton`).
+- **El chatbot de la página (20 oct)** (`js/chatbot.js`, `chatbot-panel.js` y `chatbot-respuestas.js`):
+  - **La lógica del bot de WhatsApp (`a-mas-chatbot`, `src/bot/`) portada a JS, sin servidor:** normaliza el texto,
+    busca la intención con palabras clave (gana la primera regla) y responde con textos fijos. Nada sale del navegador
+    ni se guarda (los que escriben son menores; Ley 29733). Se descartó que la página le pregunte al servidor del bot:
+    habría que exponerlo, y si se cae, se cae el chat.
+  - **Datos de la landing, no del bot:** el horario de 9 a 1, `CONFIG` (dirección, mapa, cupos, formulario, grupo,
+    aliados) y **las estaciones se leen de los `<article>` de `#ruta`**, como el reverso de las cartas: no hay textos
+    duplicados. **Sin "Soy menor de edad" ni lista de espera** (datos sin confirmar): "menor" o "mamá" dan "No entendí".
+  - Menú en botones (sin números). Sin el límite por minuto, el saludo a las 12 h ni el "solo leo texto" del de WhatsApp.
+  - **La burbuja** (azul, 60px, abajo a la derecha, z-index 45: debajo de la nav y del menú) aparece cuando el hero
+    sale de la pantalla y se va al volver a él, salvo con el chat abierto. Oculta con `visibility`: fuera del Tab.
+    Sin JS no se ve (`hidden` en el HTML). En celular, el pie lleva 80px más abajo para que no tape la fila legal.
+  - **El globito** "¿Tienes dudas? Pregúntame" sale al llegar al pie, una vez por visita (`sessionStorage`, con
+    try/catch). Se va al abrir el chat o con su ✕.
+  - **El panel:** en celular, `<dialog>` modal a pantalla completa con `bloquearScroll`; desde 768px, `show()` no
+    modal, una ventana de 380px encima de la burbuja (la página sigue usable). Esc y la ✕ cierran y el foco vuelve a
+    la burbuja. Con el dedo el foco va a la ✕ (el teclado taparía las opciones); con mouse, al campo de texto.
+    La conversación se conserva al cerrar y abrir, no al recargar. Los mensajes van en un `role="log"`.
+  - Las respuestas se arman con nodos (`textContent`), nunca con HTML en cadenas: lo escrito se muestra tal cual.
+  - **La barra del panel lleva el isotipo** (`assets/logos/isotipo.webp`, 83×96 y 3.4 KB, `loading="lazy"`: se pide
+    al abrir el chat) sobre un círculo blanco. Es provisional: viene de `a-mas-project`
+    (`docs/graphics/extracted/isotipo-a-mas.png`, sacado del PDF del dossier, sin SVG). Su morado es el único de la
+    página. La burbuja conserva el ícono de chat: se entiende al vuelo que abre una conversación.
+  - "Seguir por WhatsApp" es un `<span role="link">` hasta que haya número (con `<a>` sin `href` Lighthouse baja SEO).
+  - Peso: 1.5 KB con la página (`chatbot.js`); el panel y las respuestas, solo al tocar la burbuja.
 - **Videos de fondo** (`js/video.js`, `<video class="video-fondo" data-fondo>`): el campus en el hero, el
   auditorio en Entradas, las partículas en la ruta y la conferencia de la sala virtual (este, sin la clase
   `.video-fondo`, que le pondría desenfoque y escala; ver "Archivos de video"). Cada uno trae sus fuentes en atributos: en celular (menos
@@ -547,6 +578,9 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 - **Las cuentas regresivas son dos:** `[data-sesion="presencial"]` y `[data-sesion="virtual"]`; un `querySelector`
   suelto toma solo la primera. Mientras la virtual no tenga fecha, sus cajas están ocultas y sin rodillos.
 - **La sala virtual no pide nada hasta que se abre su pestaña:** para probar el video, abrir Virtual primero.
+- **El chatbot aparece después del hero:** para probar la burbuja, bajar con `scrollTo({ top, behavior: 'instant' })`
+  (el `scroll-behavior: smooth` de la página deja la burbuja oculta si se mide enseguida). El globito sale una vez
+  por visita: en una prueba nueva, contexto nuevo.
 
 - `cwebp` **no está instalado**. Si se quieren versiones .webp de los logos: `brew install webp`, y si no se instala, se dejan los PNG (pesan 120 KB en total, muy por debajo del presupuesto de 1.5 MB).
 - `ffmpeg` tampoco está instalado (ni Homebrew). Para los videos se usó `ffmpeg-static` de npm en una carpeta temporal.
@@ -588,9 +622,12 @@ error visible. Cuesta horas de depuración. `npx serve` (o cualquier servidor de
 │   ├── ruta.js         la ruta: arma el carrusel de cartas y su reverso
 │   ├── carrusel.js     carrusel 3D con volteo (CircularCarousel + FlipCard de React Bits); se importa al acercarse
 │   ├── tabs.js         pestañas Presencial/Virtual de Ubicación
-│   └── aliados.js      cada logo de aliado, enlace a su red
+│   ├── aliados.js      cada logo de aliado, enlace a su red
+│   ├── chatbot.js      burbuja del chatbot y su globito (con la página)
+│   ├── chatbot-panel.js      el panel de la conversación (se importa al tocar la burbuja)
+│   └── chatbot-respuestas.js intenciones y respuestas (portadas del bot de WhatsApp)
 ├── assets/
-│   ├── logos/          aprueba.png + 6 aliados (ya recortados en círculo)
+│   ├── logos/          aprueba.png, isotipo.webp (el del chatbot) + 6 aliados (ya recortados en círculo)
 │   ├── img/            sede-norte.webp y .jpg (la foto de Ubicación); ruta/ con las 4 fotos de las estaciones
 │   ├── video/          campus (hero), auditorio (Entradas), fondo-ruta (ruta) y sala (Ubicación): originales y versiones livianas
 │   └── og/             og-aprueba-3.jpg (la imagen para compartir); og-aprueba.jpg y og-aprueba-2.jpg, las anteriores
@@ -621,6 +658,7 @@ export const CONFIG = {
   mapa: { embedUrl: '', linkUrl: '', direccion: '[POR CONFIRMAR]' },
   virtual: { plataforma: '[POR CONFIRMAR]' },
   legal: { privacidadUrl: '', terminosUrl: '' },
+  chatbot: { numero: '' }, // el bot de WhatsApp, 51XXXXXXXXX: con él, "Seguir por WhatsApp"
 };
 ```
 
@@ -999,3 +1037,5 @@ Cada tanda de cambios se trabaja también por fases, y la regla de detenerse al 
 - [x] La sala virtual de Ubicación muestra la animación de la conferencia, y con movimiento reducido queda quieta.
 - [x] Ningún texto dice "17 de noviembre": la fecha virtual está en "próximamente".
 - [x] Lighthouse móvil cumple el presupuesto.
+- [x] Chatbot: burbuja después del hero, globito al llegar al pie, respuestas con los datos de la landing, sin
+  menores ni lista de espera, y "Seguir por WhatsApp" solo con número.

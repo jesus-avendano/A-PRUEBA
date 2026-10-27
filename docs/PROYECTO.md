@@ -221,6 +221,24 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - Legal: © 2026 A+PRUEBA, La Ruta del Estudiante
 - Enlaces legales: "Política de privacidad" y "Términos y condiciones", separados solo por espacio, sin ningún carácter entre ellos
 
+### Chatbot (20 oct)
+
+Una burbuja abajo a la derecha abre un asistente que responde las dudas frecuentes en la misma página. La lógica
+viene del bot de WhatsApp (`a-mas-chatbot`), pero con los datos de esta landing: horario de 9:00 a.m. a 1:00 p.m. y
+las estaciones de la ruta. **Sin "Soy menor de edad" ni la lista de espera** (datos sin confirmar; no volver a
+ponerlos sin confirmación). Funciona solo en el navegador: lo que se escribe no se envía ni se guarda.
+
+- Opciones: ¿Qué es A+PRUEBA?, Fecha, hora y lugar, Las 4 estaciones, ¿Cómo me inscribo?, ¿Tiene costo?, Cupos,
+  Edición virtual, Aliados, Hablar con el equipo (lleva al grupo de WhatsApp).
+- Las respuestas reutilizan los textos de esta página (secciones de arriba).
+- **Textos por aprobar** (propuestos el 20 oct): el nombre "Asistente de A+PRUEBA"; el saludo "¡Hola! Soy el asistente
+  de A+PRUEBA. ¿Sobre qué tienes dudas?"; el globito "¿Tienes dudas? Pregúntame"; "No entendí tu mensaje. Elige una
+  de estas opciones:"; "¡Con gusto! Si tienes otra duda, elige una opción."; "Toca una estación para saber más.";
+  "No, la inscripción es gratis, en las dos modalidades."; "Escribe tu pregunta"; "Seguir por WhatsApp"; los
+  enlaces "Abrir el formulario de inscripción" y "Unirme al grupo de WhatsApp"; y en "¿Cómo me inscribo?" el
+  paso 3: "Preséntalo el sábado 14 de noviembre en UCSUR Sede Norte. Si eliges la modalidad virtual, recibes tu
+  enlace privado en tu correo."
+
 ### SEO
 - Título de pestaña: A+PRUEBA | La Ruta del Estudiante, 14 de noviembre
 - Descripción: Descubre, experimenta y define tu futuro profesional. Evento gratuito para escolares: presencial el sábado 14 de noviembre en UCSUR Sede Norte, a las 9:00 a.m. La fecha virtual, próximamente.
@@ -242,8 +260,11 @@ su red** (en `CONFIG.aliados`), en una pestaña nueva: ya no hay panel con descr
 - [ ] Texto de consentimiento de datos y autorización del apoderado (lo valida UCSUR)
 - [ ] URLs de política de privacidad y términos
 - [ ] Lista de carreras para el desplegable del registro
+- [ ] Número del bot de WhatsApp (`CONFIG.chatbot.numero`, 51 y 9 dígitos): con él, el chat de la página muestra "Seguir por WhatsApp"
+- [ ] El bot de WhatsApp (`a-mas-chatbot`) todavía dice 10:00 a.m. – 2:00 p.m., usa las estaciones del dossier y tiene "Soy menor de edad" y la lista de espera: no coincide con la landing (decidido el 20 oct no tocarlo por ahora)
 - [x] Imagen para compartir (`assets/og/og-aprueba-3.jpg`, 1200×630, 109 KB), como el hero de ahora: el campus bajo el velo navy, la pastilla, el logo, "Sábado 14 de noviembre, 9:00 a.m." y "Gratis, presencial en UCSUR Sede Norte. Virtual: próximamente". Se genera con `docs/og/og.html` (20 oct; las anteriores, `og-aprueba.jpg` con el martes 17 y `og-aprueba-2.jpg` con el 14 y el 17, quedan en la carpeta para las vistas previas ya guardadas). Reemplazarla si llega una oficial, con otro nombre para saltar la caché de WhatsApp
 - [ ] Favicon oficial (el actual es provisional: círculo navy con "A+")
+- [ ] Isotipo oficial en SVG: el del chatbot (`assets/logos/isotipo.webp`) es provisional, sacado del PDF del dossier
 - [x] Aliados: cada logo lleva a su Instagram (19 oct). Sin panel, ya no hacen falta su descripción ni "qué ofrece"
 - [ ] Dominio: ¿subdominio de UCSUR (hay que pedírselo a TI) o URL gratuita del hosting? Con él, `og:image` y `twitter:image` pasan a URL absolutas y se agrega `og:url` (WhatsApp y Facebook las piden)
 

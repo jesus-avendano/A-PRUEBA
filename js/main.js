@@ -12,6 +12,7 @@ import { iniciarAliados } from './aliados.js';
 import { openDialog } from './dialog.js';
 import { enlazar } from './enlaces.js';
 import { crearBrillo } from './brillo.js';
+import { iniciarChatbot } from './chatbot.js';
 
 const PROXIMAMENTE = 'Próximamente';
 
@@ -26,6 +27,7 @@ iniciarRuta(document.getElementById('ruta'));
 iniciarAliados();
 conectarFoto();
 conectarCTAs();
+iniciarChatbot();
 iniciarBrillos(); // al final: aplicarConfig y las entradas pueden reemplazar botones
 
 /* ---------------------------------------------------------
